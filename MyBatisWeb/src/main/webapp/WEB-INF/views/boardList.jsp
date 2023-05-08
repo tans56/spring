@@ -71,6 +71,10 @@
 			margin-right: 10px;
 		}
 		
+		.search-container {
+			color: rgb(165, 165, 165);
+		}
+		
     </style>
 </head>
 <body>
@@ -91,12 +95,15 @@
     	let msg = "${msg}"
     	if(msg == "DEL_OK") alert("성공적으로 삭제 되었습니다.")
     	if(msg == "DEL_ERR") alert("삭제되었거나 없는 게시물입니다.")
+    	if(msg == "WRT_OK") alert("성공적으로 등록 되었습니다.")
     </script>
     
     <div style="text-align: center;">
     	<div class="board-container">
     		<div class="search-container">
-    		
+    			<button id="writeBtn" class="btn-write"
+    					onclick="location.href='<c:url value="/board/write" />'">
+    			<i class="fa-regular fa-pencil"></i>글쓰기</button>
     		</div>
     		
     		<table>

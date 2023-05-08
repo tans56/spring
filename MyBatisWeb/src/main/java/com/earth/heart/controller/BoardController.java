@@ -18,6 +18,9 @@ import com.earth.heart.domain.PageResolver;
 import com.earth.heart.domain.SearchItem;
 import com.earth.heart.service.BoardService;
 
+
+
+
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -91,6 +94,35 @@ public class BoardController {
 		return "redirect:/board/list"; 
 	}
 	
+	@GetMapping("/write")
+	public String write(Model m) {
+		m.addAttribute("mode", "new");
+		
+		return "board";		// board.jsp 읽기와 쓰기에 사용. 글쓰기에 사용할때는 mode=new
+	}
+	
+	@PostMapping("/write")
+	public String write(BoardDTO boardDTO, RedirectAttributes rattr,
+							Model m, HttpSession session) {
+		String writer = (String) session.getAttribute("id");
+		boardDTO.setWriter(writer);
+		
+		try {
+			if(boardService.write(boardDTO) != 1) {
+				throw new Exception("Write failed");
+			}
+			rattr.addFlashAttribute("msg", "WRT_OK");
+			return "redirect:/board/list";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			m.addAttribute("mode", "new");			//글쓰기 모드
+			m.addAttribute("boardDTO", boardDTO);	//등록하려던 내용을 보여줘야함
+			m.addAttribute("msg", "WRT_ERR");
+			return "board";
+		}
+			
+	}
 	
 	
 	private boolean loginCheck(HttpServletRequest request) {

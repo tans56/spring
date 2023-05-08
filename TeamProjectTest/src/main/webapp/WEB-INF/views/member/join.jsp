@@ -168,8 +168,7 @@
             	//회원가입 버튼(회원가입 기능 작동)
         if(idValue&&passwordValue&&passwordCheckValue&&passwordRegex&&nameValue&&nameRegex){        	
         	$("#membership").attr("action", "/member/join");
-    		$("#membership").submit();
-        	}       		        	
+    		$("#membership").submit();      		        	
         }
         return false;
         
