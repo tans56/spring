@@ -129,6 +129,26 @@
 				}
 				return true
 			}
+		
+			$("#modifyBtn").on("click", function(){
+				let form = $("#form")
+				let isReadonly = $("input[name=title]").attr('readonly')
+				
+				
+				//읽기 상태이면 수정상태로 변경
+				if(isReadonly == 'readonly'){
+					$(".writing-header").html("게시판 수정")
+					$("input[name=title]").attr('readonly',false)
+					$("textarea").attr('readonly', false)
+					$('#modifyBtn').html("<i class='fa-regular fa-pencil'></i> 등록")
+					return;
+				}
+				//수정 상태로 수정된 내용을 서버로 전송
+				form.attr("action", "<c:url value='/board/modify${searchItem.queryString}' />")
+				form.attr("method", "post")
+				if(formCheck()) 
+					form.submit()
+			})
 			
 		})
 	</script>    
@@ -136,6 +156,7 @@
 	<script type="text/javascript">
 		let msg = "${msg}"
 		if(msg == "WRT_ERR") alert("게시물 등록에 실패 하였습니다. 다시 시도해 주세요.")
+		if(msg == "MOD_ERR") alert("게시물 수정에 실패 하였습니다. 다시 시도해 주세요.")
 	</script>
     
     <div class="container">
@@ -148,7 +169,7 @@
     		<c:if test="${mode eq 'new'  }">
     			<button type="button" id="writeBtn" class="btn btn-write"><i class="fas fa-edit"></i>등록</button>
     		</c:if>
-    		<c:if test="${mode eq 'new'  }">
+    		<c:if test="${mode ne 'new'  }">
     			<button type="button" id="writeNewBtn" class="btn btn-writeNew"><i class="fas fa-edit"></i>글쓰기</button>
     		</c:if>
     		<c:if test="${boardDTO.writer eq loginId }">

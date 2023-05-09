@@ -41,7 +41,18 @@
 	  </select>
 	  
 	  <sql id="searchCondition">
-	  
+	  	<choose>
+	  		<when test='option=="T"'>
+	  			and title like concat('%', #{keyword}, '%')
+	  		</when>
+	  		<when test='option=="W"'>
+	  			and writer like concat('%', #{keyword}, '%')
+	  		</when>
+	  		<otherwise>
+	  			and (title like concat('%', #{keyword}, '%')
+	  			or content like concat('%', #{keyword}, '%'))
+	  		</otherwise>
+	  	</choose>
 	  </sql>
 	  
 	  <delete id="deleteAll">

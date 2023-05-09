@@ -124,6 +124,31 @@ public class BoardController {
 			
 	}
 	
+	@PostMapping("/modify")
+	public String modify(BoardDTO boardDTO, Integer page, Integer pageSize,
+						 RedirectAttributes rattr, Model m, HttpSession session) {
+		String writer = (String) session.getAttribute("id");
+		boardDTO.setWriter(writer);
+		
+		try {
+			if(boardService.modify(boardDTO) != 1)
+				throw new Exception("Modify failed");
+			
+			rattr.addAttribute("page", page);
+			rattr.addAttribute("pageSize", pageSize);
+			rattr.addFlashAttribute("msg", "MOD_OK");			
+			return "redirect:/board/list";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			m.addAttribute("boardDTO", boardDTO);
+			m.addAttribute("page", page);
+			m.addAttribute("pageSize", pageSize);
+			m.addAttribute("msg", "MOD_ERR");
+			return "board";				//수정 등록하려던 내용을 보여줌
+		}
+	}
+	
 	
 	private boolean loginCheck(HttpServletRequest request) {
 		// 1. 세션을 얻어서 (false는 session이 없어도 새로 생성하지 않음, 반환값은 null)

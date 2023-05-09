@@ -71,8 +71,64 @@
 			margin-right: 10px;
 		}
 		
+		button, input{
+			border: none;
+			outline: none;
+		}
+		
 		.search-container {
-			color: rgb(165, 165, 165);
+			background-color: rgb(253, 253, 250);
+			width: 100%;
+			height: 110px;
+			border: 1px solid #ddd;
+			margin-top: 10px;
+			margin-bottom: 30px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		.search-form {
+			height: 37px;
+			display: flex;
+		}
+		
+		.search-option {
+			color: gray;
+			width: 100px;
+			height: 100%;
+			outline: none;
+			margin-right: 5px;
+			border: 1px solid #ccc;
+		}
+		
+		.search-input {
+			color: black;
+			background-color: white;
+			border: 1px solid #ccc;
+			height: 100%;
+			width: 300px;
+			font-size: 15px;
+			padding: 5px 7px;
+		}
+		
+		.search-input::placeholder {
+			color: gray;
+		}
+		
+		.search-btn {
+			width: 20%;
+			height: 100%;
+			background-color: rgb(22,22,22);
+			color: rgb(209,209,209);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 15px;	
+		}
+		
+		.search-btn::hover {
+			color: rgb(165,165,165);
 		}
 		
     </style>
@@ -96,11 +152,22 @@
     	if(msg == "DEL_OK") alert("성공적으로 삭제 되었습니다.")
     	if(msg == "DEL_ERR") alert("삭제되었거나 없는 게시물입니다.")
     	if(msg == "WRT_OK") alert("성공적으로 등록 되었습니다.")
+    	if(msg == "MOD_OK") alert("성공적으로 수정 되었습니다.")
     </script>
     
     <div style="text-align: center;">
     	<div class="board-container">
     		<div class="search-container">
+    			<form action="<c:url value='/board/list' />" class="search-form" method="get">
+    				<select class="search-option" name="option">
+    					<option value="A" ${pr.sc.option=='A' || pr.sc.option=='' ? "selected" : ""}>제목+내용</option>
+    					<option value="T" ${pr.sc.option=='T' ? "selected" : ""}>제목</option>
+    					<option value="W" ${pr.sc.option=='W' ? "selected" : ""}>작성자</option>
+    				</select>
+    				<input type="text" name="keyword" class="search-input"
+    						value="${param.keyword }" placeholder="검색어를 입력해주세요."/>
+    				<input type="submit" value="검색" class="search-btn">		
+    			</form>
     			<button id="writeBtn" class="btn-write"
     					onclick="location.href='<c:url value="/board/write" />'">
     			<i class="fa-regular fa-pencil"></i>글쓰기</button>
