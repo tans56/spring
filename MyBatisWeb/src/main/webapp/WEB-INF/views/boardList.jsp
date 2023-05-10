@@ -131,6 +131,17 @@
 			color: rgb(165,165,165);
 		}
 		
+		.btn-write {
+			background-color: rgb(236,236,236);
+			border: none;
+			color: black;
+			padding: 6px 12px;
+			font-size: 16px;
+			cursor: pointer;
+			border-radius: 5px;
+			margin-left: 30px;
+		}
+		
     </style>
 </head>
 <body>

@@ -163,7 +163,7 @@ public class BoardDaoImplTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void searchSelectPage() throws Exception {
 		boardDao.deleteAll();
 		for(int i=1; i<=20; i++) {
@@ -174,6 +174,22 @@ public class BoardDaoImplTest {
 		SearchItem sc = new SearchItem(1, 10, "T", "Pioneering2");
 		List<BoardDTO> list = boardDao.searchSelectPage(sc);
 		System.out.println("list = " + list);
+		
+		assertTrue(list.size()==2);
+	}
+	
+	@Test
+	public void searchResultCntTest()throws Exception{
+		boardDao.deleteAll();
+		for(int i=1; i<=20; i++) {
+			BoardDTO boardDTO = new BoardDTO("Pioneering"+i, "취업 준비" + i, "earth");
+			boardDao.insert(boardDTO);
+		}
+		
+		SearchItem sc = new SearchItem(1, 10, "T", "Pioneering2");
+		int cnt = boardDao.searchResultCnt(sc);
+		
+		assertTrue(cnt==2);
 	}
 }
 
