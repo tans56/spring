@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.earth.heart.domain.Person;
 
-@RestController
-//@Controller
+//@RestController
+@Controller
 public class RestfulController {
 	
 //	@GetMapping("/ajax")
@@ -27,5 +27,10 @@ public class RestfulController {
 		p.setAge(p.getAge() + 2023);
 		
 		return p;
+	}
+	
+	@GetMapping("/test")
+	public String test() {
+		return "test";
 	}
 }

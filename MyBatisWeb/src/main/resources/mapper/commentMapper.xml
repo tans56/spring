@@ -19,7 +19,7 @@
   	
   	<delete id="delete" parameterType="map">
   		delete from t_comment 
-		where cno = #{cno} and commenter = #{commenter}
+		where cno = #{cno} and commenter = #{commenter} and bno = #{bno}
   	</delete>
   	
   	<insert id="insert" parameterType="CommentDTO">
@@ -33,5 +33,10 @@
 		SET comment = #{comment}, up_date = now()
 		WHERE cno= #{cno} and commenter = #{commenter}
   	</update>
+  	
+  	<select id="count" parameterType="int" resultType="int" >
+  		select count(*) from t_comment 
+		where bno = #{bno}
+  	</select>
   	
   </mapper>

@@ -3,8 +3,8 @@
 <aop-project name="AnnotationWeb"/>
 <aop-project name="ClientServerWeb"/>
 <aop-project name="SpringDBWeb"/>
-<aop-project name="TDDWeb"/>
 <aop-project name="SessionWeb"/>
+<aop-project name="TDDWeb"/>
 <aop-project name="ExceptionWeb"/>
 <aop-project name="DIWeb"/>
 <aop-project name="ScopeWeb"/>
