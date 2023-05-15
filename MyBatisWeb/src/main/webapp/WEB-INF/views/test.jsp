@@ -21,6 +21,24 @@
 			$("#sendBtn").click(function() {
 				showList(bno)
 			})
+			
+			//$(".delBtn").click(function() {	// [send] 버튼 클릭하고 나서 [삭제] 버튼이 보임(이벤트 비활성화됨)
+			$("#commentList").on("click",".delBtn", function() {
+				//alert("삭제 버튼 클릭됨")
+				let cno = $(this).parent().attr("data-cno")		//<li>태그는 <button>의 부모임.
+				let bno = $(this).parent().attr("data-bno")	
+				
+				$.ajax({
+					type: 'DELETE'
+					,url: '/heart/'+cno+'?bno='+ bno
+					,success: function(result) {	//result = 서버가 전송한 데이터
+						alert(result)
+						showList(bno)
+						}
+					,error: function() { alert("error")	}	
+					}
+				})				
+			})				
 		})
     
 		    	let showList = function(bno) {
@@ -44,6 +62,7 @@
 				tmp += ' data-bno=' +comment.bno + '>'
 				tmp += ' data-comment=<span class="comment">' +comment.comment + '</span>'
 				tmp += ' data-commenter=<span class="commenter">' +comment.commenter + '</span>'
+				tmp += ' <button class="delBtn">삭제</button>'
 				tmp += '</li>'
 			})				
 			

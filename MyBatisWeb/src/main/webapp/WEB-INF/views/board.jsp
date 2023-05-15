@@ -150,6 +150,36 @@
 					form.submit()
 			})
 			
+				let showList = function(bno) {
+			
+	    		$.ajax({
+	    			type: 'GET'								//요청 메서드
+	    			,url: '/heart/comments?bno='+bno		//요청uri
+	    			,success: function(result) {
+						$("#commentList").html(toHtml(result))		//result는 서버가 전송한 데이터
+					}
+					,error: function() {alert("error")}				// 에러가 발생할때,
+	    		})    		
+		}
+			
+			let toHtml = function(comments) {
+				let tmp = "<ul style= 'display: block;'>"
+				
+				comments.forEach(function(comment) {
+					tmp += '<li data-cno=' +comment.cno 
+					tmp += ' data-pcon=' +comment.pcon
+					tmp += ' data-bno=' +comment.bno + '>'
+					tmp += ' comment=<span class="comment">' +comment.comment + '</span>'
+					tmp += ' commenter=<span class="commenter">' +comment.commenter + '</span>'
+					tmp += ' <button class="delBtn">삭제</button>'
+					tmp += '</li>'
+				})				
+				
+				return tmp + "</ul>"
+			}			
+			
+			showList(bno)
+			
 		})
 	</script>    
 	
@@ -182,6 +212,7 @@
     	
     	<button type="button" id="sendBtn" class="">SEND</button>
     	<button type="button" id="modBtn" class="">수정하기</button>
+    	<div id="commentList"></div>
     </div>
 </body>
 </html>
