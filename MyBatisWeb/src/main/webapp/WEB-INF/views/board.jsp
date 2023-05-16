@@ -150,6 +150,22 @@
 					form.submit()
 			})
 			
+				$("#commentList").on("click",".delBtn", function() {
+				//alert("삭제 버튼 클릭됨")
+				let cno = $(this).parent().attr("data-cno")		//<li>태그는 <button>의 부모임.
+				let bno = $(this).parent().attr("data-bno")	
+				
+				$.ajax({
+					type: 'DELETE'
+					,url: '/heart/comments/'+cno+'?bno='+ bno
+					,success: function(result) {	//result = 서버가 전송한 데이터
+						alert(result)
+						showList(bno)
+						}
+					,error: function() { alert("error")	}	
+					})
+				})	
+			
 				let showList = function(bno) {
 			
 	    		$.ajax({
@@ -166,7 +182,8 @@
 				let tmp = "<ul style= 'display: block;'>"
 				
 				comments.forEach(function(comment) {
-					tmp += '<li data-cno=' +comment.cno 
+					tmp += '<li style="background-color: #f9f9fa; border-bottom: 1px solid rgb(235,236,239); color:black; "' 
+					tmp += ' data-cno=' +comment.cno 
 					tmp += ' data-pcon=' +comment.pcon
 					tmp += ' data-bno=' +comment.bno + '>'
 					tmp += ' comment=<span class="comment">' +comment.comment + '</span>'

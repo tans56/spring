@@ -11,6 +11,7 @@
 </head>
 <body>
     <h2>CommentTest</h2>
+    comment : <input type="text" name="comment">
     <button id="sendBtn">SEND</button>
     <div id="commentList"></div>
     
@@ -18,11 +19,32 @@
     	let bno = 330    	
     
     	$(document).ready(function() {
+    		showList(bno)
+    		
 			$("#sendBtn").click(function() {
-				showList(bno)
+				let cno = $(this).attr("data-cno")
+				let comment = $("input[name=comment]").val()
+				
+				if(comment.trim() == '') {
+					alert("댓글을 입력해 주세요.")
+					$("input[name=comment]").focus()
+					return
+				}
+				
+				$.ajax({
+					type: 'POST'
+					,url: '/heart/comments?bno='+bno
+					,headers: {"content-type" : "application/json"} //요청헤더
+					,data: json.stringify({bno:bno, comment:comment}) //서버로 전송할 데이터, stringify()로 직렬화 필요
+					,success: function(result) {
+						alert(result)
+						showList(bno)
+					},error: function() {alert("error")}
+				})
+				
 			})
 			
-			//$(".delBtn").click(function() {	// [send] 버튼 클릭하고 나서 [삭제] 버튼이 보임(이벤트 비활성화됨)
+			// [send] 버튼 클릭하고 나서 [삭제] 버튼이 보임(이벤트 비활성화됨)
 			$("#commentList").on("click",".delBtn", function() {
 				//alert("삭제 버튼 클릭됨")
 				let cno = $(this).parent().attr("data-cno")		//<li>태그는 <button>의 부모임.
@@ -30,15 +52,14 @@
 				
 				$.ajax({
 					type: 'DELETE'
-					,url: '/heart/'+cno+'?bno='+ bno
+					,url: '/heart/comments/'+cno+'?bno='+ bno
 					,success: function(result) {	//result = 서버가 전송한 데이터
 						alert(result)
 						showList(bno)
 						}
 					,error: function() { alert("error")	}	
-					}
-				})				
-			})				
+					})
+				})											
 		})
     
 		    	let showList = function(bno) {
@@ -54,7 +75,7 @@
 		}
     	
 		let toHtml = function(comments) {
-			let tmp = "<ul>"
+			let tmp = "<ul style= 'display: block;'>"
 			
 			comments.forEach(function(comment) {
 				tmp += '<li data-cno=' +comment.cno 
@@ -68,6 +89,7 @@
 			
 			return tmp + "</ul>"
 		}
+		
 		
     </script>
 </body>
