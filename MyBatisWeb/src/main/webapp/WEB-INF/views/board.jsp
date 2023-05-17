@@ -165,6 +165,62 @@
 					,error: function() { alert("error")	}	
 					})
 				})	
+				
+				$("#insertBtn").click(function() {
+				let cno = $(this).attr("data-cno")
+				let comment = $("input[name=comment]").val()
+				
+				if(comment.trim() == '') {
+					alert("댓글을 입력해 주세요.")
+					$("input[name=comment]").focus()
+					return
+				}
+				
+				$.ajax({
+					type: 'post'
+					,url: '/heart/comments?bno='+bno
+					,headers: {"content-type" : "application/json"} //요청헤더
+					,data: JSON.stringify({bno:bno, comment:comment}) //서버로 전송할 데이터, stringify()로 직렬화 필요
+					,success: function(result) {
+						alert(result)
+						showList(bno)
+					},error: function() {alert("error")}
+				})
+				
+			})
+			
+				$("#commentList").on("click",".modBtn", function() {
+				//alert("수정 버튼 클릭됨")
+				let cno = $(this).parent().attr("data-cno")
+				let comment = $("span.comment",$(this).parent()).text()	//클릭된 수정버튼의 부모는(li)의 span태그의 텍스트만 가져옴
+				
+				//comment의 내용을 input에 출력하기
+				$("input[name=comment]").val(comment)
+				//cno 전달하기
+				$("#modBtn").attr("data-cno",cno)
+			})	
+			$("#modBtn").click(function() {
+				let cno = $(this).attr("data-cno")
+				let comment = $("input[name=comment]").val()
+				
+				if(comment.trim() == '') {
+					alert("댓글을 입력해 주세요.")
+					$("input[name=comment]").focus()
+					return
+				}
+				
+				$.ajax({
+					type: 'PATCH'
+					,url: '/heart/comments/'+cno
+					,headers: {"content-type" : "application/json"}
+					,data: JSON.stringify({cno:cno, comment:comment}) //서버로 전송할 데이터, stringify()로 직렬화 필요
+					,success: function(result) {
+						$("input[name=comment]").val("")
+						alert(result)
+						showList(bno)
+					},error: function() {alert("error")}
+				})
+			})
 			
 				let showList = function(bno) {
 			
@@ -176,7 +232,7 @@
 					}
 					,error: function() {alert("error")}				// 에러가 발생할때,
 	    		})    		
-		}
+		}	
 			
 			let toHtml = function(comments) {
 				let tmp = "<ul style= 'display: block;'>"
@@ -189,6 +245,7 @@
 					tmp += ' comment=<span class="comment">' +comment.comment + '</span>'
 					tmp += ' commenter=<span class="commenter">' +comment.commenter + '</span>'
 					tmp += ' <button class="delBtn">삭제</button>'
+						tmp += ' <button class="modBtn">수정</button>'
 					tmp += '</li>'
 				})				
 				
@@ -230,6 +287,8 @@
     	<button type="button" id="sendBtn" class="">SEND</button>
     	<button type="button" id="modBtn" class="">수정하기</button>
     	<div id="commentList"></div>
+    	comment : <input type="text" name="comment"><br/>
+    	<button id="insertBtn" type="button">댓글작성</button>
     </div>
 </body>
 </html>

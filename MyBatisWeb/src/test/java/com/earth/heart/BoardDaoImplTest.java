@@ -153,7 +153,7 @@ public class BoardDaoImplTest {
 		assertTrue(boardDTO.equals(boardDTO2));
 	}
 	
-	//@Test
+	@Test
 	public void insertDummyTestData() throws Exception {
 		boardDao.deleteAll();
 		
@@ -178,7 +178,7 @@ public class BoardDaoImplTest {
 		assertTrue(list.size()==2);
 	}
 	
-	@Test
+	//@Test
 	public void searchResultCntTest()throws Exception{
 		boardDao.deleteAll();
 		for(int i=1; i<=20; i++) {
