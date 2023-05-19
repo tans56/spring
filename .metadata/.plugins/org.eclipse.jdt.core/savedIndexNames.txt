@@ -33,7 +33,6 @@ INDEX VERSION 1.131+C:\workspace-spring\.metadata\.plugins\org.eclipse.jdt.core
 2030378217.index
 3295614918.index
 2520088212.index
-2672065910.index
 1923456643.index
 1494196922.index
 514878173.index
