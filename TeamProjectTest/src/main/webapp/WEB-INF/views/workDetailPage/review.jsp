@@ -26,11 +26,11 @@
       <header>
         <div class="logo">
           <a href="<c:url value="/" />">
-				  <img src="${path}/resources/images/logo/OTTT.png" alt="로고">
-				</a>
-			</div>
-			<nav class="gnb">
-				<ul>
+              <img src="${path}/resources/images/logo/OTTT.png" alt="로고">
+            </a>
+         </div>
+         <nav class="gnb">
+            <ul>
             <li>
               <a href="<c:url value="/genre/movie" />">영화</a>
             </li>
@@ -127,11 +127,11 @@
         </ul>
       </div>
     </section>
-	<section class="myReview">
-	
-	        <div class="left-score">
+   <section class="myReview">
+   
+           <div class="left-score">
           <h2>이 영화의 평균 별점</h2>
-                          	
+                             
         <p class="mytextReview" style="font-style: oblique; font-size: 20px;">내가 작성한 리뷰</p>
         <div class="asdasd" style="border-top: 3px solid #33ff33;">
         </div>
@@ -207,36 +207,36 @@
           <p>광고</p>
         </div>
 
-		         <div class="review-box1">      
+               <div class="review-box1">      
           <div class="review-box-header">
             <div class="user-icon"> 
               <img src="${path}/resources/images/icon/user.png" alt="유저 이미지파일">
             </div>
             <div class="user-name">
               <a href="../ottt박소율/mypageshow.html">
-                <p class="user_nicknm"> ${ReviewDTO.user_nicknm} </p>
+                <p class="user_nicknm"> ${myReview.user_nicknm} </p>
               </a>
-             <input type="text" name="review_no" value="${ReviewDTO.review_no }"> 
+             <input type="text" name="review_no" value="${myReview.review_no }"> 
             </div>
             <ul>
               <li class="rating">
-              	<img src="${path}/resources/images/img/starone.PNG" alt="별점">
-                ${ReviewDTO.rating}0.5
+                 <img src="${path}/resources/images/img/starone.PNG" alt="별점">
+                ${myReview.rating}
               </li>
               <li>
                 <div class="heart">        
                     <div>
-					  <button onclick="changeImage()">
-                      	<img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
-                      </button>					
+                 <button onclick="changeImage()">
+                         <img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
+                      </button>               
                     </div>             
                 </div>
               </li>
             </ul>
           </div>
           <a href="<c:url value='/detailPage/reply' />">
-          <div class="review-box-body">				
-            <p class="review-box-text review_content">${ReviewDTO.review_content }</p>
+          <div class="review-box-body">            
+            <p class="review-box-text review_content">${myReview.review_content }</p>
           </div>
         </a>
           <div class="review-box-footer">
@@ -264,16 +264,16 @@
                 </li>
               </ul>
             </div>
-            	<div class="modify" >
-            		<button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)">수정</button>
-            	</div>
+               <div class="modify" >
+                  <button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)">수정</button>
+               </div>
                   <div class="report">
                   <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
                       <button>신고</button>
                   </div>
           </div>
         </div>
-	</section>
+   </section>
     <section class="sec02">
       <div class="review">
 
@@ -297,22 +297,22 @@
             </div>
             <ul>
               <li class="rating">
-              	<img src="${path}/resources/images/img/starone.PNG" alt="별점">
+                 <img src="${path}/resources/images/img/starone.PNG" alt="별점">
                 ${ReviewDTO.rating}
               </li>
               <li>
                 <div class="heart">        
                     <div>
-					  <button onclick="changeImage()">
-                      	<img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
-                      </button>					
+                 <button onclick="changeImage()">
+                         <img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
+                      </button>               
                     </div>             
                 </div>
               </li>
             </ul>
           </div>
           <a href="<c:url value='/detailPage/reply' />">
-          <div class="review-box-body">				
+          <div class="review-box-body">            
             <p class="review-box-text review_content">${ReviewDTO.review_content }</p>
           </div>
         </a>
@@ -341,9 +341,9 @@
                 </li>
               </ul>
             </div>
-            	<div class="modify" >
-            		<button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)">수정</button>
-            	</div>
+               <div class="modify" >
+                  <button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)">수정</button>
+               </div>
                   <div class="report">
                   <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
                       <button>신고</button>
@@ -354,7 +354,7 @@
         
         </c:forEach>
       </div>
-       <form id="mod-form" class="mod-form">	
+       <form id="mod-form" class="mod-form">   
           <div class="popup12 mod-popup">     
               <label for="mod-text" style="background-color: #202020;">리뷰를 작성해주세요</label>
               <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
@@ -414,79 +414,79 @@
     
     
      <script type="text/javascript">
-		 function changeImage() {
-		  var image = document.getElementById('myImage');
-		  if (image.src.includes('${path}/resources/images/img/likeoff.png')) {
-		    image.src = '${path}/resources/images/img/likeon.png'; 
-		  } else {
-		    image.src = '${path}/resources/images/img/likeoff.png';
-		  }
-		}
-		 
-		 
-	 </script>	
-	 
-	<script type="text/javascript">
-	$(document).ready(function() {	
-		$('#submit-review').on("click", function(){
-			let form = $("#review-form")
-			form.attr("action", "<c:url value='/detailPage/review/write'/>")
-			form.attr("method", "post")
-			
-			if(formCheck()){
-				form.submit()
-			}
-			alert("리뷰가 정상적으로 등록되었습니다.")
-		})
-		
-		let formCheck = function() {
-			let form = document.getElementById("review-form")
-			if(form.user_no.value==""){
-				alert("로그인 후 리뷰를 등록해주세요.")
-				form.content.focus()
-				return false
-			}			
-			if(form.review_content.value=="") {
-				alert("내용을 입력해 주세요.")
-				form.content.focus()
-				return false
-			}
-			return true
-		}	
-		
-		
-		
-		
-		
-		$(".submitMod-review").on("click", function(){
-			let form = $("#mod-form")
-			
-			form.attr("action", "<c:url value='/detailPage/review/modify'/>")
-			form.attr("method", "post")
-			  if(modformCheck())  
-				form.submit()
-				
-				alert("수정이 정상적으로 완료되었습니다.")
-		})
-		
-		let modformCheck = function() {
-			let form = document.getElementById("mod-form")
-			if(form.user_no.value==""){
-				alert("로그인 후 리뷰를 등록해주세요.")
-				form.content.focus()
-				return false
-			}			
-			if(form.review_content.value=="") {
-				alert("내용을 입력해 주세요.")
-				form.content.focus()
-				return false
-			}
-			return true
-		}	
-	})
-	</script>
-	
-	<script>
+       function changeImage() {
+        var image = document.getElementById('myImage');
+        if (image.src.includes('${path}/resources/images/img/likeoff.png')) {
+          image.src = '${path}/resources/images/img/likeon.png'; 
+        } else {
+          image.src = '${path}/resources/images/img/likeoff.png';
+        }
+      }
+       
+       
+    </script>   
+    
+   <script type="text/javascript">
+   $(document).ready(function() {   
+      $('#submit-review').on("click", function(){
+         let form = $("#review-form")
+         form.attr("action", "<c:url value='/detailPage/review/write'/>")
+         form.attr("method", "post")
+         
+         if(formCheck()){
+            form.submit()
+         }
+         alert("리뷰가 정상적으로 등록되었습니다.")
+      })
+      
+      let formCheck = function() {
+         let form = document.getElementById("review-form")
+         if(form.user_no.value==""){
+            alert("로그인 후 리뷰를 등록해주세요.")
+            form.content.focus()
+            return false
+         }         
+         if(form.review_content.value=="") {
+            alert("내용을 입력해 주세요.")
+            form.content.focus()
+            return false
+         }
+         return true
+      }   
+      
+      
+      
+      
+      
+      $(".submitMod-review").on("click", function(){
+         let form = $("#mod-form")
+         
+         form.attr("action", "<c:url value='/detailPage/review/modify'/>")
+         form.attr("method", "post")
+           if(modformCheck())  
+            form.submit()
+            
+            alert("수정이 정상적으로 완료되었습니다.")
+      })
+      
+      let modformCheck = function() {
+         let form = document.getElementById("mod-form")
+         if(form.user_no.value==""){
+            alert("로그인 후 리뷰를 등록해주세요.")
+            form.content.focus()
+            return false
+         }         
+         if(form.review_content.value=="") {
+            alert("내용을 입력해 주세요.")
+            form.content.focus()
+            return false
+         }
+         return true
+      }   
+   })
+   </script>
+   
+   <script>
 function getReviewNo(element) {
   var reviewNo = element.parentNode.parentNode.querySelector('.review_no').val();
   console.log(reviewNo); // reviewno 값을 출력하거나 원하는 처리를 수행합니다.

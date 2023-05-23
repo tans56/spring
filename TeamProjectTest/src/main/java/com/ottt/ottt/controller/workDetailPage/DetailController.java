@@ -28,12 +28,18 @@ public class DetailController {
 	
 	
 	@GetMapping(value = "/detailPage")
-	public String workDetailPage(Model m, HttpServletRequest request, HttpSession session) {         //, Integer content_no) 
+	public String workDetailPage(Model m, HttpServletRequest request, HttpSession session, Integer review_no, Integer user_no) {         //, Integer content_no) 
 
 		
 		
 		
-		Integer user_no = (Integer) session.getAttribute("user_no");
+		ReviewLikeDTO like = new ReviewLikeDTO();
+		
+		like.setReview_no(review_no);
+		like.setUser_no(user_no);
+		
+		
+		user_no = (Integer) session.getAttribute("user_no");
 			
 		try {
 			
@@ -46,7 +52,8 @@ public class DetailController {
 			
 			m.addAttribute("list", list);
 			m.addAttribute("count", count);
-			
+			m.addAttribute("like", reviewLikeService.getReviewLikeYN(review_no, user_no));
+			m.addAttribute("getLike", reviewLikeService.getReviewCount(review_no));
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -111,25 +118,40 @@ public class DetailController {
 	}
 	
 	
-	@GetMapping("/detailPage/like")
+	@GetMapping("/like")
 	public String getReviewLikeCnt(Integer review_no, Integer user_no, Model m) {
-		int reviewYN = reviewLikeService.getReviewLikeYN(review_no, user_no);
+		reviewLikeService.getReviewLikeYN(review_no, user_no);
+
 		
+
 		
-		m.addAttribute("Detail", reviewLikeService.getReviewLikeYN(review_no, user_no));
-		m.addAttribute("getLike", reviewLikeService.getReviewCount(review_no));
-		
-		ReviewLikeDTO like = new ReviewLikeDTO();
-		like.setUser_no(user_no);
-		like.setReview_no(review_no);
 		
 	        
-	        m.addAttribute("review_no", review_no);
-	        m.addAttribute("user_no", user_no);
+			m.addAttribute("Detail", reviewLikeService.getReviewLikeYN(review_no, user_no));
+			m.addAttribute("getLike", reviewLikeService.getReviewCount(review_no));
 
+			
+			
 		return "/detailPage";
 	}
 	
+	
+	
+	@PostMapping("/detailPage/likeUp")
+	public void likeUp(Integer review_no, Integer user_no, Model m) {
+		reviewLikeService.addLike(review_no, user_no);
+		m.addAttribute("likeUp", reviewLikeService.addLike(review_no, user_no));
+		
+		
+	}
+	
+	
+	@PostMapping("/detailPage/likeDown")
+	public void likeDown(Integer review_no, Integer user_no, Model m) {
+		reviewLikeService.removeLike(review_no, user_no);
+		m.addAttribute("likeDown", reviewLikeService.removeLike(review_no, user_no));
+		
+	}
 	
 	
 	

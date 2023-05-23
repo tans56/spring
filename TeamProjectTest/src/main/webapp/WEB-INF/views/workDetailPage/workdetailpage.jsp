@@ -446,6 +446,7 @@
         </div>
         <div class="tesat">
         <form action=""  class="frm" method="post">
+        	<input type="hidden" name="user_no" value="${ReviewDTO.user_no }">
     		<input type="hidden" name="review_no" value="${ReviewDTO.review_no }"  />
         <div class="review-box">      
           <div class="review-box-header">
@@ -468,8 +469,8 @@
               <li>
                 <div class="heart1">        
                     <div>
-					  <button onclick="changeImage()">
-                      	<img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
+					   <button class="LikeBtn">
+                      	 <img id="myImage-${ReviewDTO.review_no}" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
                       </button>					
                     </div>             
                 </div>
@@ -576,7 +577,7 @@
               <li>
                 <div class="heart">        
                     <div>
-					  <button onclick="changeImage()">
+					  <button  class="LikeBtn">
                       	<img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
                       </button>					
                     </div>             
@@ -726,18 +727,52 @@
 	</script>
 	
 
-	     <script type="text/javascript">
-		 function changeImage() {
-		  var image = document.getElementById('myImage');
-		  if (image.src.includes('${path}/resources/images/img/likeoff.png')) {
-		    image.src = '${path}/resources/images/img/likeon.png'; 
-		  } else {
-		    image.src = '${path}/resources/images/img/likeoff.png';
-		  }
-		}
-		 
-	 </script>	
+
+	<script type="text/javascript">
+	var likeval = ${like};
 	
+	let review_no = ${Detail.review_no};
+	let user_no = '${login.user_id}';
+	if(likeval > 0){
+		console.log(likeval + "좋아요 누름");
+		$('.LikeBtn img').attr('src', '${path}/resources/images/img/likeon.png');
+		$('.LikeBtn').click(function() {
+			$.ajax({
+				type :'post',
+				url : '<c:url value ="/detailPage/likeDown"/>',
+				contentType: 'application/json',
+				data : JSON.stringify(
+						{
+							"review_no" : review_no,
+							"user_no" : user_no
+						}		
+					),
+				success : function(data) {
+					alert('취소 성공');
+				}
+			})
+		})
+
+	}else{
+		console.log(likeval + "좋아요 안누름")
+		console.log(user_no);
+		$('.LikeBtn').click(function() {
+			$.ajax({
+				type :'post',
+				url : '<c:url value ="/detailPage/likeUp"/>',
+				contentType: 'application/json',
+				data : JSON.stringify(
+						{
+							"review_no" : review_no,
+							"user_no" : user_no
+						}		
+					),
+				success : function(data) {
+					alert('성공염');
+				}
+			})
+		})
+	</script>
 	
     
     <script

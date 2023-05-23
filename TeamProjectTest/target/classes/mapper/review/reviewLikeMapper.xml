@@ -14,6 +14,15 @@
 	<select id="getLike" resultType="int">
 	  SELECT COUNT(review_no) FROM tb_review_like
 	</select>
+	
+	<insert id="likeUp" parameterType="map">
+  	INSERT INTO tb_review_like (review_no, user_no)
+  	VALUES (#{review_no}, #{user_no})
+ 	 </insert>
+  <delete id="likeDown" parameterType="map">
+ 	DELETE FROM tb_review_like
+  	WHERE review_no = #{review_no} AND user_no = #{user_no}
+	</delete>
   
   </mapper>
   

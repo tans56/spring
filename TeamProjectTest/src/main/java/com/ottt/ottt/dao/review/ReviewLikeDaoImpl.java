@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ottt.ottt.dto.ReviewLikeDTO;
+
 public class ReviewLikeDaoImpl implements ReviewLikeDao {
 	@Autowired
 	private SqlSession session;
@@ -24,6 +26,22 @@ public class ReviewLikeDaoImpl implements ReviewLikeDao {
 		
         
         return session.selectOne(namespace + "getLike", review_no);
+	}
+
+	@Override
+	public int addLike(Integer review_no, Integer user_no) {
+		Map map = new HashMap();
+		map.put(user_no, map);
+		map.put(review_no, map);
+		return session.insert(namespace+ "likeUp", map);
+	}
+
+	@Override
+	public int removeLike(Integer review_no, Integer user_no) {
+		Map map = new HashMap();
+		map.put(user_no, map);
+		map.put(review_no, map);
+		return session.delete(namespace+ "likeDown", map);
 	}
 
 }

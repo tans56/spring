@@ -20,89 +20,91 @@ import com.ottt.ottt.service.review.ReviewService;
 @Controller
 public class DetailReviewController {
 
-	@Autowired
-	ReviewService reviewService;
-	
-	@GetMapping(value = "/detailPage/review")
-	public String workReview(Model m, HttpServletRequest request) {
-		
-		try {
-			List<ReviewDTO> list = reviewService.getReview();
-			int count = reviewService.getCount();
-			m.addAttribute("list", list);
-			m.addAttribute("count", count);
-			ReviewDTO dto = new ReviewDTO();
-			Integer reviewno = dto.getReview_no();
-			m.addAttribute("reviewno", reviewno);
-		} catch (Exception e) {	e.printStackTrace();}
-		
-			return "/workDetailPage/review";		
-	}
-	
-	@PostMapping("/detailPage/review/write")
-	public String writeReview(ReviewDTO reviewDTO, RedirectAttributes rattr,
-							Model m, HttpSession session) {		
-		try {
-			if(reviewService.writeReview(reviewDTO) != 1) {
-				throw new Exception("Write failed");
-			}
-			return "redirect:/detailPage/review";
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "workDetailPagereview";
-		}
-	
-	
-	}
-	
-	@PostMapping("/detailPage/review/remove")
-	public String remove(Integer review_no,RedirectAttributes rattr, HttpSession session, Model m) {
-		int user_no = (int) session.getAttribute("user_no");
-		
-		
-		String msg = "DEL_OK";
-		
-		try {
-			if(reviewService.removeReview(review_no, user_no) !=1)
-			throw new Exception("Delete failed.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			msg = "DEL_ERR";
-		}
+   @Autowired
+   ReviewService reviewService;
+   
+   @GetMapping(value = "/detailPage/review")
+   public String workReview(Model m, HttpServletRequest request, HttpSession session) {
+      
+      Integer user_no = (Integer) session.getAttribute("user_no");
+      
+      try {
+         List<ReviewDTO> list = reviewService.getReview();
+         int count = reviewService.getCount();
+         m.addAttribute("list", list);
+         m.addAttribute("count", count);
+         ReviewDTO myReview = reviewService.getReviewNo(1, user_no);
 
-		rattr.addFlashAttribute("msg", msg);
-		
-		
-		
-		return "redirect:/detailPage/review/";
-	}
-	
-	@PostMapping("/detailPage/review/modify")
-	public String modifyReview(ReviewDTO reviewDTO, RedirectAttributes rattr, Model m, HttpSession session) {
-		Integer user_no = (Integer) session.getAttribute("user_no");
-		
-		
-		
-		
-		try {
-			Integer review_no = reviewDTO.getReview_no();
-					//reviewService.getReviewNo(reviewDTO);
-			//Integer review_no = reviewno.getReview_no();
-			m.addAttribute("review_no", review_no);
-			
-			if(reviewService.modifyReview(reviewDTO) != 1)
-				throw new Exception("Modify failed");
-			
-			System.out.println("컨트롤러 실행");
-			rattr.addFlashAttribute("msg", "MOD_OK");
-			return "redirect:/detailPage/review";
-		} catch (Exception e) {
-			e.printStackTrace();
-			m.addAttribute("reviewDTO", reviewDTO);
-			m.addAttribute("msg", "MOD_ERR");
-			return "redirect:/detailPage/review/";
-		}
-	}
-	
+         m.addAttribute("myReview", myReview);
+      } catch (Exception e) {   e.printStackTrace();}
+      
+         return "/workDetailPage/review";      
+   }
+   
+   @PostMapping("/detailPage/review/write")
+   public String writeReview(ReviewDTO reviewDTO, RedirectAttributes rattr,
+                     Model m, HttpSession session) {      
+      try {
+         if(reviewService.writeReview(reviewDTO) != 1) {
+            throw new Exception("Write failed");
+         }
+         return "redirect:/detailPage/review";
+         
+      } catch (Exception e) {
+         e.printStackTrace();
+         return "workDetailPagereview";
+      }
+   
+   
+   }
+   
+   @PostMapping("/detailPage/review/remove")
+   public String remove(Integer review_no,RedirectAttributes rattr, HttpSession session, Model m) {
+      int user_no = (int) session.getAttribute("user_no");
+      
+      
+      String msg = "DEL_OK";
+      
+      try {
+         if(reviewService.removeReview(review_no, user_no) !=1)
+         throw new Exception("Delete failed.");
+      } catch (Exception e) {
+         e.printStackTrace();
+         msg = "DEL_ERR";
+      }
+
+      rattr.addFlashAttribute("msg", msg);
+      
+      
+      
+      return "redirect:/detailPage/review/";
+   }
+   
+   @PostMapping("/detailPage/review/modify")
+   public String modifyReview(ReviewDTO reviewDTO, RedirectAttributes rattr, Model m, HttpSession session) {
+      Integer user_no = (Integer) session.getAttribute("user_no");
+      
+      
+      
+      
+      try {
+         Integer review_no = reviewDTO.getReview_no();
+               //reviewService.getReviewNo(reviewDTO);
+         //Integer review_no = reviewno.getReview_no();
+         m.addAttribute("review_no", review_no);
+         
+         if(reviewService.modifyReview(reviewDTO) != 1)
+            throw new Exception("Modify failed");
+         
+         System.out.println("컨트롤러 실행");
+         rattr.addFlashAttribute("msg", "MOD_OK");
+         return "redirect:/detailPage/review";
+      } catch (Exception e) {
+         e.printStackTrace();
+         m.addAttribute("reviewDTO", reviewDTO);
+         m.addAttribute("msg", "MOD_ERR");
+         return "redirect:/detailPage/review/";
+      }
+   }
+   
 }
