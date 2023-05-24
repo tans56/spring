@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="loginId" value="${sessionScope.id }"/>
 <c:set var="loginout" value="${sessionScope.id == null ? 'logout' : 'login'}" />
@@ -206,7 +206,10 @@
         <div class="advertisement">
           <p>광고</p>
         </div>
-
+			<c:if test="${myReview == null || myReview.user_nicknm == null}">
+				<p class="noReview">등록 된 리뷰가 없습니다.</p>
+			</c:if>
+			<c:if test="${myReview != null || myReview.user_nicknm != null}">
                <div class="review-box1">      
           <div class="review-box-header">
             <div class="user-icon"> 
@@ -216,7 +219,8 @@
               <a href="../ottt박소율/mypageshow.html">
                 <p class="user_nicknm"> ${myReview.user_nicknm} </p>
               </a>
-             <input type="text" name="review_no" value="${myReview.review_no }"> 
+              <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${myReview.review_create_dt}"/></p>
+             <input type="hidden" name="review_no" value="${myReview.review_no }"> 
             </div>
             <ul>
               <li class="rating">
@@ -267,12 +271,67 @@
                <div class="modify" >
                   <button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)">수정</button>
                </div>
+            
+   			 <button class="removeBtn">삭제</button>
+ 		  
                   <div class="report">
                   <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
                       <button>신고</button>
                   </div>
           </div>
         </div>
+        </c:if>
+        <form id="mod-form" class="mod-form">   
+          <div class="popup12 mod-popup">     
+              <label for="mod-text" style="background-color: #202020;">리뷰를 작성해주세요</label>
+              <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
+              <input type="hidden" name="review_no" class="review_no" value="${myReview.review_no}">            
+              <textarea id="review-text" name="review_content" >${ReviewDTO.review_content}</textarea>
+              <div class="reveiw-star-footer">
+                <div class="review-star" >별점을 매겨주세요:
+                  <div class="starpoint_wrap2">
+                    <div class="starpoint_box2">
+                      <label for="starpoint_11" class="label_star2" title="0.5"><span class="blind">0.5점</span></label>
+                      <label for="starpoint_12" class="label_star2" title="1"><span class="blind">1점</span></label>
+                      <label for="starpoint_13" class="label_star2" title="1.5"><span class="blind">1.5점</span></label>
+                      <label for="starpoint_14" class="label_star2" title="2"><span class="blind">2점</span></label>
+                      <label for="starpoint_15" class="label_star2" title="2.5"><span class="blind">2.5점</span></label>
+                      <label for="starpoint_16" class="label_star2" title="3"><span class="blind">3점</span></label>
+                      <label for="starpoint_17" class="label_star2" title="3.5"><span class="blind">3.5점</span></label>
+                      <label for="starpoint_18" class="label_star2" title="4"><span class="blind">4점</span></label>
+                      <label for="starpoint_19" class="label_star2" title="4.5"><span class="blind">4.5점</span></label>
+                      <label for="starpoint_20" class="label_star2" title="5"><span class="blind">5점</span></label>
+                      <input type="radio" name="rating" id="starpoint_11" class="star_radio2" value="0.5" >
+                      <input type="radio" name="rating" id="starpoint_12" class="star_radio2" value="1">
+                      <input type="radio" name="rating" id="starpoint_13" class="star_radio2" value="1.5">
+                      <input type="radio" name="rating" id="starpoint_14" class="star_radio2" value="2">
+                      <input type="radio" name="rating" id="starpoint_15" class="star_radio2" value="2.5">
+                      <input type="radio" name="rating" id="starpoint_16" class="star_radio2" value="3">
+                      <input type="radio" name="rating" id="starpoint_17" class="star_radio2" value="3.5">
+                      <input type="radio" name="rating" id="starpoint_18" class="star_radio2" value="4">
+                      <input type="radio" name="rating" id="starpoint_19" class="star_radio2" value="4.5">
+                      <input type="radio" name="rating" id="starpoint_20" class="star_radio2" value="5">
+                      <span class="starpoint_bg2"></span>
+                    </div>
+                  </div>
+                </div>
+   
+                <div class="review-bottom">
+                  <div class="checkedblur"><input type="checkbox" id="checkbox-blur"/>스포일러 포함 여부</div>
+                <button type="button" class="submitMod-review" id="submit-Mod">     
+                  리뷰 수정
+                </button>
+                </div>
+              </div>
+              <button type="button" class="modcancel-review">
+              
+                <ul>
+                  <li></li>
+                  <li></li>
+                </ul>
+              </button>                        
+          </div>
+          </form>
    </section>
     <section class="sec02">
       <div class="review">
@@ -293,7 +352,8 @@
               <a href="../ottt박소율/mypageshow.html">
                 <p class="user_nicknm"> ${ReviewDTO.user_nicknm} </p>
               </a>
-             <input type="text" name="review_no" value="${ReviewDTO.review_no }"> 
+              <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${myReview.review_create_dt}"/></p>
+             <input type="hidden" name="review_no" value="${ReviewDTO.review_no }"> 
             </div>
             <ul>
               <li class="rating">
@@ -354,57 +414,7 @@
         
         </c:forEach>
       </div>
-       <form id="mod-form" class="mod-form">   
-          <div class="popup12 mod-popup">     
-              <label for="mod-text" style="background-color: #202020;">리뷰를 작성해주세요</label>
-              <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
-              <input type="text" name="review_no" class="review_no" value="${ReviewDTO.review_no}">            
-              <textarea id="review-text" name="review_content" >${ReviewDTO.review_content}</textarea>
-              <div class="reveiw-star-footer">
-                <div class="review-star" >별점을 매겨주세요:
-                  <div class="starpoint_wrap2">
-                    <div class="starpoint_box2">
-                      <label for="starpoint_11" class="label_star2" title="0.5"><span class="blind">0.5점</span></label>
-                      <label for="starpoint_12" class="label_star2" title="1"><span class="blind">1점</span></label>
-                      <label for="starpoint_13" class="label_star2" title="1.5"><span class="blind">1.5점</span></label>
-                      <label for="starpoint_14" class="label_star2" title="2"><span class="blind">2점</span></label>
-                      <label for="starpoint_15" class="label_star2" title="2.5"><span class="blind">2.5점</span></label>
-                      <label for="starpoint_16" class="label_star2" title="3"><span class="blind">3점</span></label>
-                      <label for="starpoint_17" class="label_star2" title="3.5"><span class="blind">3.5점</span></label>
-                      <label for="starpoint_18" class="label_star2" title="4"><span class="blind">4점</span></label>
-                      <label for="starpoint_19" class="label_star2" title="4.5"><span class="blind">4.5점</span></label>
-                      <label for="starpoint_20" class="label_star2" title="5"><span class="blind">5점</span></label>
-                      <input type="radio" name="rating" id="starpoint_11" class="star_radio2" value="0.5" >
-                      <input type="radio" name="rating" id="starpoint_12" class="star_radio2" value="1">
-                      <input type="radio" name="rating" id="starpoint_13" class="star_radio2" value="1.5">
-                      <input type="radio" name="rating" id="starpoint_14" class="star_radio2" value="2">
-                      <input type="radio" name="rating" id="starpoint_15" class="star_radio2" value="2.5">
-                      <input type="radio" name="rating" id="starpoint_16" class="star_radio2" value="3">
-                      <input type="radio" name="rating" id="starpoint_17" class="star_radio2" value="3.5">
-                      <input type="radio" name="rating" id="starpoint_18" class="star_radio2" value="4">
-                      <input type="radio" name="rating" id="starpoint_19" class="star_radio2" value="4.5">
-                      <input type="radio" name="rating" id="starpoint_20" class="star_radio2" value="5">
-                      <span class="starpoint_bg2"></span>
-                    </div>
-                  </div>
-                </div>
-   
-                <div class="review-bottom">
-                  <div class="checkedblur"><input type="checkbox" id="checkbox-blur"/>스포일러 포함 여부</div>
-                <button type="button" class="submitMod-review" id="submit-Mod">     
-                  리뷰 수정
-                </button>
-                </div>
-              </div>
-              <button type="button" class="modcancel-review">
-              
-                <ul>
-                  <li></li>
-                  <li></li>
-                </ul>
-              </button>                        
-          </div>
-          </form>    
+           
     </section>
     
     <footer>
@@ -452,7 +462,17 @@
             return false
          }
          return true
-      }   
+      }
+      
+      $(".removeBtn").on("click", function() {
+          if (!confirm("리뷰를 삭제하시겠습니까?"))
+          	return;
+          
+          let form = $("form")
+          form.attr("action", "<c:url value='/remove' />")
+          form.attr("method", "post")
+          form.submit()   
+       })
       
       
       
@@ -481,8 +501,15 @@
             form.content.focus()
             return false
          }
+         if(form.rating.value==""){
+        	 alert("별점을 입력해 주세요.")
+        	 form.content.focus()
+        	 return false
+         }
          return true
-      }   
+      }
+      
+      
    })
    </script>
    
