@@ -28,32 +28,22 @@ public class DetailController {
 	
 	
 	@GetMapping(value = "/detailPage")
-	public String workDetailPage(Model m, HttpServletRequest request, HttpSession session, Integer review_no, Integer user_no) {         //, Integer content_no) 
+	public String workDetailPage(Model m, HttpServletRequest request, HttpSession session) {         //, Integer content_no) 
 
-		
-		
-		
-		ReviewLikeDTO like = new ReviewLikeDTO();
-		
-		like.setReview_no(review_no);
-		like.setUser_no(user_no);
-		
-		
-		user_no = (Integer) session.getAttribute("user_no");
+		Integer user_no = (Integer) session.getAttribute("user_no");			
 			
 		try {
 			
 			List<ReviewDTO> list = reviewService.getReview();
 
 			int count = reviewService.getCount();
-			
+			ReviewDTO myReview = reviewService.getReviewNo(1, user_no);
 			
 			
 			
 			m.addAttribute("list", list);
 			m.addAttribute("count", count);
-			m.addAttribute("like", reviewLikeService.getReviewLikeYN(review_no, user_no));
-			m.addAttribute("getLike", reviewLikeService.getReviewCount(review_no));
+			m.addAttribute("myReview", myReview);
 		} catch (Exception e) {
 			
 			e.printStackTrace();

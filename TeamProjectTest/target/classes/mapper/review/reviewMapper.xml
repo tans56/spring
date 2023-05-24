@@ -11,7 +11,7 @@
    </delete>
      
      <update id="update" parameterType="ReviewDTO" >
-           update tb_review set review_content=#{review_content}
+           update tb_review set review_content=#{review_content}, rating=#{rating}
          where review_no=#{review_no} and user_no=#{user_no}
     </update>
     

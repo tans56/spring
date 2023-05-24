@@ -60,7 +60,7 @@ public class DetailReviewController {
    
    @PostMapping("/detailPage/review/remove")
    public String remove(Integer review_no,RedirectAttributes rattr, HttpSession session, Model m) {
-      int user_no = (int) session.getAttribute("user_no");
+      Integer user_no = (Integer) session.getAttribute("user_no");
       
       
       String msg = "DEL_OK";
@@ -92,11 +92,11 @@ public class DetailReviewController {
                //reviewService.getReviewNo(reviewDTO);
          //Integer review_no = reviewno.getReview_no();
          m.addAttribute("review_no", review_no);
-         
+         m.addAttribute("user_no",user_no);
          if(reviewService.modifyReview(reviewDTO) != 1)
             throw new Exception("Modify failed");
          
-         System.out.println("컨트롤러 실행");
+         
          rattr.addFlashAttribute("msg", "MOD_OK");
          return "redirect:/detailPage/review";
       } catch (Exception e) {

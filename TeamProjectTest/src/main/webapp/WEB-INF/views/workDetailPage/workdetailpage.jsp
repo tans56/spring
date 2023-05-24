@@ -440,14 +440,18 @@
             <span>주연 : 펠릭스 카머러, 알브레히트 슈흐, 아론 힐머, 에딘 하사노비치</span>
               <br/>
             <span>조연 : 데비트 슈트리조, 아드리안 그뤼네발트, 안드레아스 돌러</span>
-        	<section class="myReview" style="font-size: 15px;">
+      <section class="myReview" style="font-size: 15px;">
         	<div class="asdasd" style="border-top: 3px solid #33ff33;">
         <p class="mytextReview" style="font-style: oblique; font-size: 20px;">내가 작성한 리뷰</p>
         </div>
         <div class="tesat">
         <form action=""  class="frm" method="post">
-        	<input type="hidden" name="user_no" value="${ReviewDTO.user_no }">
-    		<input type="hidden" name="review_no" value="${ReviewDTO.review_no }"  />
+        	<c:if test="${myReview == null || myReview.user_nicknm == null}">
+				<p class="noReview">등록 된 리뷰가 없습니다.</p>
+			</c:if>
+			<c:if test="${myReview != null || myReview.user_nicknm != null}">
+        	<input type="hidden" name="user_no" value="${myReview.user_no }">
+    		<input type="hidden" name="review_no" value="${myReview.review_no }"  />
         <div class="review-box">      
           <div class="review-box-header">
             <div class="user-icon">
@@ -455,22 +459,22 @@
             </div>
             <div class="user-name">
               <a href="../ottt박소율/mypageshow.html">
-                <p class="user_nicknm"> ${ReviewDTO.user_nicknm} </p></a>
-                <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${ReviewDTO.review_create_dt}"/></p>
+                <p class="user_nicknm"> ${myReview.user_nicknm} </p></a>
+                <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${myReview.review_create_dt}"/></p>
               
             </div>
             <ul>
               <li class="rating1">
               <div class="bbb">
               	<img src="${path}/resources/images/img/starone.PNG" alt="별점">
-                ${ReviewDTO.rating}0.5
+                ${myReview.rating}
                 </div>
               </li>
               <li>
                 <div class="heart1">        
                     <div>
 					   <button class="LikeBtn">
-                      	 <img id="myImage-${ReviewDTO.review_no}" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
+                      	 <img id="myImage-${myReview.review_no}" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
                       </button>					
                     </div>             
                 </div>
@@ -479,7 +483,7 @@
           </div>
           <a href="<c:url value='/detailPage/reply' />">
           <div class="review-box-body">				
-            <p class="review-box-text review_content">${ReviewDTO.review_content }</p>
+            <p class="review-box-text review_content">${myReview.review_content }</p>
           </div>
         </a>
           <div class="review-box-footer">
@@ -506,10 +510,8 @@
                   </div>
                 </li>
               </ul>
-            </div>
-                         <c:if test="${loginId != null && sessionScope.user_no eq ReviewDTO.user_no}">
+            </div>                       
    			 <button  class="removeBtn">삭제</button>
- 		    </c:if>
                   <div class="report">
                   <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
                       <button class="report-text" >신고</button>
@@ -517,7 +519,7 @@
           </div>
           
         </div>
-    		
+    	</c:if>	
     		</form>
         </div>
     		
