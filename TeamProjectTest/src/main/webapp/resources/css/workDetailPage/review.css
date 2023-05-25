@@ -16,7 +16,14 @@ button{
 .date-insert{
 	position: absolute;
 	right: 140px;
-	top: 10px;
+	top: 6.7px;
+	border: 1px solid gray;
+	border-radius: 5px;
+	background-color: gray;
+	height: 37.5px;
+	padding-top: 5px;
+	width: 120px;
+	padding-left: 5px;
 }
 
 
@@ -285,8 +292,9 @@ header{
 .mytextReview{
 	left: 320px;
 	position: absolute;
-	top: 10px;
+	top: 15px;
 	width: 200px;
+	font-size: 25px;
 }
 
 
@@ -323,7 +331,7 @@ header{
      
 }
 .left-box{
-    width: 360px;
+    width: 300px;
     height: 500px;
 	margin-left: 0px;
     position: absolute;
@@ -343,8 +351,10 @@ header{
 
 
 .left-box h3{
-    top: 4px;
-    font-size: 25px;
+	position: absolute;
+    font-size: 22px;
+	right: 4px;
+	top: 1px;
 }
 
 .left-score{
@@ -364,8 +374,12 @@ header{
 
 
 .left-score h2{
+	position: absolute;
     font-size: 30px;
-    margin-left: 20px;
+    top:120px;
+    border-top: 4px solid #33ff33;
+    width: 300px;
+    padding-top: 15px;
 }
 
 .star{
@@ -374,9 +388,17 @@ header{
 
 }
 
+#review-button{
+	margin-left: 20px;
+}
+
+#mark-button {
+	margin-left: 10px;
+}
+
 .left-box > h3{
     position: absolute;
-    right: 90px;
+    right: 160px;
 }
 
 .star{
@@ -389,7 +411,7 @@ header{
     width: 360px;
     margin: 60px 0 0 0;
     display: flex;
-        
+    height: 150px;    
 }
 
 .smr button:nth-child(2){
@@ -731,10 +753,10 @@ form label{
 }
 
 .review-count{
-    margin-top: 40px;
     margin-left: 330px;
     border-bottom: 2px solid #33ff33;
     font-style: oblique;
+    margin-bottom: 0px;
 }
 
 .blur {
@@ -749,9 +771,9 @@ form label{
     background-color: #3F3B3B; 
     border: 2px solid rgba(255, 255, 255, 0.493);
     border-radius: 10px;
-    margin-top: 10px;
     margin-left: 330px;
     position: relative;
+    margin-bottom: 15px;
 }
 
 .review-box-header{
@@ -994,9 +1016,9 @@ form label{
 
 
 .removeBtn{
-	position: relative;
-	left: 640px;
-	bottom: 10px;
+	position: absolute;
+	right: 20px;
+	bottom: 8px;
 	font-size: 16.3px;
 }
 
@@ -1157,7 +1179,7 @@ form label{
 
 .modify {
 	position: absolute;
-    right: 80px;
+    right: 90px;
     bottom: 9px;
 }
 
@@ -1167,4 +1189,22 @@ form label{
 	margin-top: 30px;
 	left: 620px;
 	font-size: large;
+}
+
+.avgStar {
+	position: absolute;
+	left: 4px;
+	top: 6px;
+	
+}
+
+.avgStar_wrap {
+	position: relative;
+	left: 0px;
+	top: 30px;
+	border: 1px solid gray;
+	border-radius: 5px;
+	background-color: gray;
+	height: 35px;
+	width: 245px;
 }

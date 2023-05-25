@@ -32,6 +32,9 @@
       select count(*) from tb_review
    </select>
    
+   <select id="ratingAvg" resultType="double">
+    select round(AVG(rating),1) from tb_review
+   </select>
    
    <select id="selectReview" parameterType="map" resultType="ReviewDTO">
       SELECT review_no, content_no, a.rating, review_content, review_create_dt, b.user_nicknm, b.user_no  

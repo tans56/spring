@@ -49,6 +49,12 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.selectReview(content_no, user_no);
 	}
 
+	@Override
+	public double getRatingAvg() throws Exception {
+		
+		return reviewDao.ratingAvg();
+	}
+
 	
 
 	

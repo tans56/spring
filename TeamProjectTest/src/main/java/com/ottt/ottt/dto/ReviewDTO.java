@@ -20,7 +20,7 @@ public class ReviewDTO {
 
 	private Integer review_no;
 	private int content_no;			//이건 작품 번호임
-	private float rating;
+	private double rating;
 	private Integer user_no;
 	private String review_content;
 	private Date review_create_dt;
@@ -42,10 +42,10 @@ public class ReviewDTO {
 	public void setContent_no(int content_no) {
 		this.content_no = content_no;
 	}
-	public float getRating() {
+	public double getRating() {
 		return rating;
 	}
-	public void setRating(float rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 	public Integer getUser_no() {
@@ -85,27 +85,5 @@ public class ReviewDTO {
 				+ ", user_nicknm=" + user_nicknm + ", userDTO=" + userDTO + "]";
 	}
 	
-	@Override
-	public int hashCode() {
-		return Objects.hash(content_no, rating, review_content, review_create_dt, review_no, userDTO, user_nicknm,
-				user_no);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ReviewDTO other = (ReviewDTO) obj;
-		return content_no == other.content_no && Float.floatToIntBits(rating) == Float.floatToIntBits(other.rating)
-				&& Objects.equals(review_content, other.review_content)
-				&& Objects.equals(review_create_dt, other.review_create_dt)
-				&& Objects.equals(review_no, other.review_no) && Objects.equals(userDTO, other.userDTO)
-				&& Objects.equals(user_nicknm, other.user_nicknm) && Objects.equals(user_no, other.user_no);
-	}
-
 	
 }

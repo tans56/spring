@@ -64,7 +64,7 @@
         </div>
       </header>
     </div>
-    <section class="sec01">      
+    <section class="sec01" id="sec01">      
       <div class="banner">
         <div class="banner-header">
             <p>
@@ -127,7 +127,7 @@
         </ul>
       </div>
     </section>
-   <section class="myReview">
+   <section class="myReview" id="myReview">
    
            <div class="left-score">
           <h2>이 영화의 평균 별점</h2>
@@ -135,13 +135,12 @@
         <p class="mytextReview" style="font-style: oblique; font-size: 20px;">내가 작성한 리뷰</p>
         <div class="asdasd" style="border-top: 3px solid #33ff33;">
         </div>
-              <div class="left-box">
-        <img class="star" src="${path}/resources/images/img/star.png" alt="별점">
-        <h3>4.9/5</h3>
-        <div class="smr">
-          <button id="saw-button"><img class="saw" src="${path}/resources/images/img/saw.png" alt="봣어요"></button>
+     <div class="left-box">
+            <button id="saw-button" ><img class="saw" src="${path}/resources/images/img/saw.png" alt="봣어요" ></button>
           <button id="mark-button"><img class="mark" src="${path}/resources/images/img/mark.png" alt="봣어요"></button>
           <button id="review-button"><img class="review-icon" src="${path}/resources/images/img/review.png" alt="봣어요"></button>
+        <div class="smr">
+
           <div class="review-back">1</div>
           <form id="review-form">
           <div id="review-popup" class="popup11">         
@@ -194,13 +193,33 @@
           </div>
           </form>
 
-          
+    <div class="starpoint_wrap avgStar_wrap">
+  <div class="starpoint_box avgStar">
+  		<%double ratingAvg = (double) request.getAttribute("rating");  // Mapper에서 전달받은 평균 별점 값		
+		// 별점의 평균을 0.5 단위로 반올림
+		double roundedRating = (double) (Math.round(ratingAvg * 2)) / 2;%>
+    <% for (double i = 0.5; i <= 5; i += 0.5) {
+        String label = String.valueOf(i);
+        String radioId = "starpoint_" + (int) (i * 2);
+        // 만약 평균 별점이 현재 별점과 일치하거나, 평균 별점이 현재 별점 범위 내에 있다면 선택된 라디오 버튼으로 지정
+        boolean isChecked = (roundedRating == i) || (roundedRating >= (i - 0.25) && roundedRating < (i + 0.25)); %>
+    <label for="<%= radioId %>" class="label_star" title="<%= label %>"><span class="blind"><%= label %>점</span></label>
+    <input type="radio" name="rating" id="<%= radioId %>" class="star_radio" value="<%= label %>" <%= isChecked ? "checked" : "" %>>
+    <% } %>
+    <span class="starpoint_bg"></span>
+  </div>
+  		<h3 class="ratingAvg">
+		  <%= roundedRating %>/5
+		</h3>
+	</div>          
 
 
 
         </div>
         
       </div>
+      
+      
       </div>
       
         <div class="advertisement">
@@ -273,11 +292,6 @@
                </div>
             
    			 <button class="removeBtn">삭제</button>
- 		  
-                  <div class="report">
-                  <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
-                      <button>신고</button>
-                  </div>
           </div>
         </div>
         </c:if>
@@ -333,7 +347,7 @@
           </div>
           </form>
    </section>
-    <section class="sec02">
+    <section class="sec02" id="sec02">
       <div class="review">
 
         
@@ -401,9 +415,6 @@
                 </li>
               </ul>
             </div>
-               <div class="modify" >
-                  <button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)">수정</button>
-               </div>
                   <div class="report">
                   <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
                       <button>신고</button>

@@ -31,8 +31,12 @@ public class DetailReviewController {
       try {
          List<ReviewDTO> list = reviewService.getReview();
          int count = reviewService.getCount();
+         double rating = reviewService.getRatingAvg();
          m.addAttribute("list", list);
          m.addAttribute("count", count);
+         m.addAttribute("rating", rating);
+         request.setAttribute("rating", rating);
+         System.out.println(rating);
          ReviewDTO myReview = reviewService.getReviewNo(1, user_no);
 
          m.addAttribute("myReview", myReview);
