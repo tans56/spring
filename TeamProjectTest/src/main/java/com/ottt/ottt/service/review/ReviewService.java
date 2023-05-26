@@ -10,8 +10,10 @@ public interface ReviewService {
     int writeReview(ReviewDTO dto) throws Exception;
     double getRatingAvg()throws Exception;
     
+    
     int getCount()throws Exception;
     ReviewDTO getReviewNo(Integer content_no,Integer user_no ) throws Exception; 
+    ReviewDTO getReplyReview(Integer content_no, Integer review_no)throws Exception;
     List<ReviewDTO> getReview() throws Exception;
     
 }

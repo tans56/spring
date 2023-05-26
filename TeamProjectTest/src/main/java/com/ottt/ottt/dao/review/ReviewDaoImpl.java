@@ -55,6 +55,13 @@ public class ReviewDaoImpl implements ReviewDao {
 		// TODO Auto-generated method stub
 		return session.selectOne(namespace + "ratingAvg");
 	}
+	@Override
+	public ReviewDTO replyReview(Integer content_no,  Integer review_no) throws Exception {
+		Map map = new HashMap();
+		map.put("content_no", content_no );
+		map.put("review_no", review_no);
+		return session.selectOne(namespace + "replyReview", map);
+	}
 	
 	
 	

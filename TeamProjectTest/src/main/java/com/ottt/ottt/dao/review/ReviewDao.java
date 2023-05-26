@@ -12,6 +12,7 @@ public interface ReviewDao {
 	
 	
 	ReviewDTO selectReview(Integer content_no, Integer user_no)throws Exception;
+	ReviewDTO replyReview(Integer content_no, Integer review_no) throws Exception;
 	
 	int count() throws Exception;
 	

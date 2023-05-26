@@ -206,7 +206,6 @@
         </p>
         <br>
         
-        <c:forEach var="ReviewDTO" items="${list}">
         <div class="review-box">      
           <div class="review-box-header">
             <div class="user-icon">
@@ -214,13 +213,13 @@
             </div>
             <div class="user-name">
               <a href="../ottt박소율/mypageshow.html">
-                <p class="user_nicknm"> ${ReviewDTO.user_nicknm} </p>
+                <p class="user_nicknm"> ${Review.user_nicknm} </p>
               </a>
             </div>
             <ul>
               <li class="rating">
               	<img src="${path}/resources/images/img/starone.PNG" alt="별점">
-                ${ReviewDTO.rating}
+                ${Review.rating}
               </li>
               <li>
                 <div class="heart">        
@@ -235,7 +234,7 @@
           </div>
           <a href="<c:url value='/detailPage/reply' />">
           <div class="review-box-body">				
-            <p class="review-box-text review_content">${ReviewDTO.review_content }</p>
+            <p class="review-box-text review_content">${Review.review_content }</p>
           </div>
         </a>
           <div class="review-box-footer">
@@ -270,7 +269,6 @@
           </div>
           
         </div>
-        </c:forEach>
       </div>
     </section>
     

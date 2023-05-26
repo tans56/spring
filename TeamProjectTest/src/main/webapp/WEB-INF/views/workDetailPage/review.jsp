@@ -385,7 +385,7 @@
               </li>
             </ul>
           </div>
-          <a href="<c:url value='/detailPage/reply' />">
+          <a href="<c:url value='/detailPage/reply' />?content_no=${ReviewDTO.content_no}&review_no=${ReviewDTO.review_no}">
           <div class="review-box-body">            
             <p class="review-box-text review_content">${ReviewDTO.review_content }</p>
           </div>

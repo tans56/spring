@@ -55,6 +55,12 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.ratingAvg();
 	}
 
+	@Override
+	public ReviewDTO getReplyReview(Integer content_no, Integer review_no) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.replyReview(content_no, review_no);
+	}
+
 	
 
 	

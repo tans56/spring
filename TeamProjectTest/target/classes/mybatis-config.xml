@@ -10,5 +10,6 @@
   		<typeAlias type="com.ottt.ottt.domain.SearchItem" alias="SearchItem"/>
   		<typeAlias type="com.ottt.ottt.dto.ArticleDTO" alias="ArticleDTO"/>
   		<typeAlias type="com.ottt.ottt.dto.ReviewDTO" alias="ReviewDTO"/>
+  		<typeAlias type="com.ottt.ottt.dto.CommentDTO" alias="CommentDTO"/>
   	</typeAliases>
-  </configuration>
+</configuration>

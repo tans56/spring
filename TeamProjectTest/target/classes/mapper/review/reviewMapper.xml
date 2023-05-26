@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
   <mapper namespace="com.ottt.ottt.dao.review.reviewMapper">
 
    <delete id="delete" parameterType="map">
@@ -22,7 +22,7 @@
     </insert>
     
    <select id="selectAll" resultType="ReviewDTO">
-      select user_nicknm, rating, review_content, review_no, tb_review.user_no, review_no, review_create_dt
+      select user_nicknm, rating, review_content, review_no, tb_review.user_no, review_no, review_create_dt, content_no
       from tb_review, tb_user
       where tb_review.user_no = tb_user.user_no
       order by review_no DESC
@@ -43,7 +43,11 @@
    </select>       
      
    
-   <select id="myReview"></select>
+   <select id="replyReview" parameterType="map" resultType="ReviewDTO">
+   	  SELECT review_no, content_no, tb_review.rating, review_content, review_create_dt, tb_user.user_nicknm, tb_user.user_no  
+      FROM tb_review, tb_user
+      where tb_review.review_no =#{review_no} and tb_review.content_no = #{content_no}
+   </select>
    
    
 
