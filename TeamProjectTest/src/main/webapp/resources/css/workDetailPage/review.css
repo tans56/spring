@@ -753,11 +753,21 @@ form label{
 }
 
 .review-count{
-    margin-left: 330px;
-    border-bottom: 2px solid #33ff33;
-    font-style: oblique;
-    margin-bottom: 0px;
+	position: relative;
+    border-bottom: 3px solid #33ff33;
+    display: block;
+    width: 806px;
+    height: 30px;
+    left: 330px;
+    display: flex;
+    justify-content: space-between;
+    
 }
+
+.review-count > p{
+    font-style: oblique;
+}
+
 
 .blur {
     backdrop-filter:blur(0.5rem);
@@ -1177,10 +1187,24 @@ form label{
 	
 }
 
+  .removeBtn img{
+  	width: 20px;
+  	height: 20px;
+  	margin-right: 3px;
+  	
+  }
+
 .modify {
 	position: absolute;
     right: 90px;
     bottom: 9px;
+}
+
+#modify img{
+	width: 20px;
+	height: 20px;
+	margin-right: 3px;
+  	
 }
 
 .noReview{

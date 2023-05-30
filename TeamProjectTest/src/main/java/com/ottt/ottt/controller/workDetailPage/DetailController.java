@@ -37,6 +37,12 @@ public class DetailController {
 			List<ReviewDTO> list = reviewService.getReview();
 
 			int count = reviewService.getCount();
+			 double rating = reviewService.getRatingAvg();
+			
+			 m.addAttribute("rating", rating);
+
+	         request.setAttribute("rating", rating);
+	         System.out.println(rating);
 			ReviewDTO myReview = reviewService.getReviewNo(1, user_no);
 			
 			
@@ -107,6 +113,33 @@ public class DetailController {
 		return "redirect:/detailPage";
 	}
 	
+	
+	@PostMapping("/modify")
+	   public String modifyReview(ReviewDTO reviewDTO, RedirectAttributes rattr, Model m, HttpSession session) {
+	      Integer user_no = (Integer) session.getAttribute("user_no");
+	      
+	      
+	      
+	      
+	      try {
+	         Integer review_no = reviewDTO.getReview_no();
+	               //reviewService.getReviewNo(reviewDTO);
+	         //Integer review_no = reviewno.getReview_no();
+	         m.addAttribute("review_no", review_no);
+	         m.addAttribute("user_no",user_no);
+	         if(reviewService.modifyReview(reviewDTO) != 1)
+	            throw new Exception("Modify failed");
+	         
+	         
+	         rattr.addFlashAttribute("msg", "MOD_OK");
+	         return "redirect:/detailPage";
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	         m.addAttribute("reviewDTO", reviewDTO);
+	         m.addAttribute("msg", "MOD_ERR");
+	         return "redirect:/detailPage";
+	      }
+	   }
 	
 	@GetMapping("/like")
 	public String getReviewLikeCnt(Integer review_no, Integer user_no, Model m) {

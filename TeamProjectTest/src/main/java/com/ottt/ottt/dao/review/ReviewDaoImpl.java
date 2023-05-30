@@ -52,8 +52,8 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 	@Override
 	public double ratingAvg() throws Exception {
-		// TODO Auto-generated method stub
-		return session.selectOne(namespace + "ratingAvg");
+		Double average = session.selectOne(namespace + "ratingAvg");
+		return (average != null) ? average : 0.0;
 	}
 	@Override
 	public ReviewDTO replyReview(Integer content_no,  Integer review_no) throws Exception {

@@ -46,7 +46,7 @@
    <select id="replyReview" parameterType="map" resultType="ReviewDTO">
    	  SELECT review_no, content_no, tb_review.rating, review_content, review_create_dt, tb_user.user_nicknm, tb_user.user_no  
       FROM tb_review, tb_user
-      where tb_review.review_no =#{review_no} and tb_review.content_no = #{content_no}
+      where tb_review.review_no =#{review_no} and tb_review.user_no = tb_user.user_no
    </select>
    
    

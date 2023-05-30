@@ -28,7 +28,10 @@ public class DetailReplyController {
 			System.out.println(review_no);
 			System.out.println(content_no);
 			System.out.println(user_no);
+			 Double rating = reviewService.getRatingAvg();
+			m.addAttribute("rating", rating);
 			m.addAttribute("Review", Review);
+			request.setAttribute("rating", rating);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -178,7 +178,7 @@
    
                 <div class="review-bottom">
                   <div class="checkedblur"><input type="checkbox" id="checkbox-blur"/>스포일러 포함 여부</div>
-                <button type="button" id="submit-review">             
+                <button type="submit" id="submit-review">             
                   리뷰 등록
                 </button>
                 </div>
@@ -197,12 +197,16 @@
   <div class="starpoint_box avgStar">
   		<%double ratingAvg = (double) request.getAttribute("rating");  // Mapper에서 전달받은 평균 별점 값		
 		// 별점의 평균을 0.5 단위로 반올림
+
 		double roundedRating = (double) (Math.round(ratingAvg * 2)) / 2;%>
     <% for (double i = 0.5; i <= 5; i += 0.5) {
         String label = String.valueOf(i);
         String radioId = "starpoint_" + (int) (i * 2);
         // 만약 평균 별점이 현재 별점과 일치하거나, 평균 별점이 현재 별점 범위 내에 있다면 선택된 라디오 버튼으로 지정
         boolean isChecked = (roundedRating == i) || (roundedRating >= (i - 0.25) && roundedRating < (i + 0.25)); %>
+        <c:if test="ifnull">
+        
+        </c:if>
     <label for="<%= radioId %>" class="label_star" title="<%= label %>"><span class="blind"><%= label %>점</span></label>
     <input type="radio" name="rating" id="<%= radioId %>" class="star_radio" value="<%= label %>" <%= isChecked ? "checked" : "" %>>
     <% } %>
@@ -288,10 +292,10 @@
               </ul>
             </div>
                <div class="modify" >
-                  <button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)">수정</button>
+                  <button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)"><img src="${path }/resources/images/img/review.png">수정</button>
                </div>
             
-   			 <button class="removeBtn">삭제</button>
+   			 <button  class="removeBtn"><img src="${path}/resources/images/img/delete.png">삭제</button>
           </div>
         </div>
         </c:if>
@@ -350,10 +354,11 @@
     <section class="sec02" id="sec02">
       <div class="review">
 
-        
-        <p class="review-count">
+        <div class="review-count">
+        <p>
           총 ${count}개의 리뷰가 있습니다.
         </p>
+        </div>
         <br>
         
         <c:forEach var="ReviewDTO" items="${list}">
