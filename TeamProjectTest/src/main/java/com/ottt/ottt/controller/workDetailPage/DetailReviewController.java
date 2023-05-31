@@ -47,19 +47,21 @@ public class DetailReviewController {
    }
    
    @PostMapping("/detailPage/review/write")
-   public String writeReview(ReviewDTO reviewDTO, RedirectAttributes rattr,
+   public String writeReview(ReviewDTO reviewDTO, RedirectAttributes attr,
                      Model m, HttpSession session) {      
       try {
          if(reviewService.writeReview(reviewDTO) != 1) {
             throw new Exception("Write failed");
+            
          }
+         attr.addFlashAttribute("msg", "fail");
          return "redirect:/detailPage/review";
-         
       } catch (Exception e) {
          e.printStackTrace();
-         return "workDetailPagereview";
+         m.addAttribute("msg", "ok");
+         return "redirect:/detailPage/review";
       }
-   
+      
    
    }
    
@@ -108,7 +110,7 @@ public class DetailReviewController {
          e.printStackTrace();
          m.addAttribute("reviewDTO", reviewDTO);
          m.addAttribute("msg", "MOD_ERR");
-         return "redirect:/detailPage/review/";
+         return "redirect:/detailPage/review";
       }
    }
    

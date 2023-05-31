@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ottt.ottt.dto.CommentDTO;
 import com.ottt.ottt.dto.ReviewDTO;
 
 @Repository
@@ -61,6 +62,16 @@ public class ReviewDaoImpl implements ReviewDao {
 		map.put("content_no", content_no );
 		map.put("review_no", review_no);
 		return session.selectOne(namespace + "replyReview", map);
+	}
+	@Override
+	public List<CommentDTO> allreply(Integer review_no) throws Exception {
+		
+		return session.selectList(namespace+"allreply", review_no);
+	}
+	@Override
+	public int replyCount(Integer review_no) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace + "replyCount", review_no);
 	}
 	
 	

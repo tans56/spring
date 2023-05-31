@@ -2,6 +2,7 @@ package com.ottt.ottt.dao.review;
 
 import java.util.List;
 
+import com.ottt.ottt.dto.CommentDTO;
 import com.ottt.ottt.dto.ReviewDTO;
 
 public interface ReviewDao {
@@ -15,9 +16,10 @@ public interface ReviewDao {
 	ReviewDTO replyReview(Integer content_no, Integer review_no) throws Exception;
 	
 	int count() throws Exception;
+	int replyCount(Integer review_no) throws Exception;
 	
 	List<ReviewDTO> selectAll() throws Exception;
-	
+	List<CommentDTO> allreply(Integer review_no) throws Exception;
 	
 //	List<CommentDTO> selectCommentsByBoard(??) throws Exception;
 }

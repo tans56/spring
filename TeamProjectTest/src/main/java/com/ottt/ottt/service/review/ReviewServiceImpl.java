@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ottt.ottt.dao.review.ReviewDao;
+import com.ottt.ottt.dto.CommentDTO;
 import com.ottt.ottt.dto.ReviewDTO;
 
 @Service
@@ -59,6 +60,18 @@ public class ReviewServiceImpl implements ReviewService {
 	public ReviewDTO getReplyReview(Integer content_no, Integer review_no) throws Exception {
 		// TODO Auto-generated method stub
 		return reviewDao.replyReview(content_no, review_no);
+	}
+
+	@Override
+	public List<CommentDTO> getreply(Integer review_no) throws Exception {
+		
+		return reviewDao.allreply(review_no);
+	}
+
+	@Override
+	public int getReplyCount(Integer review_no) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.replyCount(review_no);
 	}
 
 	

@@ -49,7 +49,17 @@
       where tb_review.review_no =#{review_no} and tb_review.user_no = tb_user.user_no
    </select>
    
-   
-
+   <select id="allreply" parameterType="Integer" resultType="CommentDTO">
+	select user_nicknm, tb_comment.user_no, tb_comment.review_no, cmt_no, cmt_dt, cmt_content
+	from tb_comment, tb_user, tb_review 
+	where tb_comment.review_no = tb_review.review_no and tb_comment.user_no = tb_user.user_no and tb_comment.review_no = #{review_no} 
+	order by cmt_no DESC  
+   </select>
+	
+	<select id="replyCount" resultType="int" parameterType="Integer">
+	select count(*) 
+	from tb_comment 
+	where tb_comment.review_no = #{review_no} 	
+	</select>
      
 </mapper>

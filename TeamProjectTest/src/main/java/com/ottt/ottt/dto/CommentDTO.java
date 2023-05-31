@@ -22,14 +22,25 @@ public class CommentDTO {
 	private Integer	user_no;
 	private Integer	article_no;
 	private Integer	review_no;
-	private String	cmm_content;
-	private String	cmm_writer;
+	private String	cmt_content;
+	private String	cmt_writer;
 	private Date	cmt_dt;
 	private Date	cmt_mod_dt;
 	private Integer	cmt_like_count;
 	private Integer	report_cnt;
 	
+	private String user_nicknm;
 	
+	public String getUser_nicknm() {
+		return user_nicknm;
+	}
+
+
+	public void setUser_nicknm(String user_nicknm) {
+		this.user_nicknm = user_nicknm;
+	}
+
+
 	public CommentDTO() {}
 
 
@@ -73,23 +84,23 @@ public class CommentDTO {
 	}
 
 
-	public String getCmm_content() {
-		return cmm_content;
+	public String getCmt_content() {
+		return cmt_content;
 	}
 
 
-	public void setCmm_content(String cmm_content) {
-		this.cmm_content = cmm_content;
+	public void setCmt_content(String cmm_content) {
+		this.cmt_content = cmm_content;
 	}
 
 
-	public String getCmm_writer() {
-		return cmm_writer;
+	public String getCmt_writer() {
+		return cmt_writer;
 	}
 
 
-	public void setCmm_writer(String cmm_writer) {
-		this.cmm_writer = cmm_writer;
+	public void setCmt_writer(String cmm_writer) {
+		this.cmt_writer = cmm_writer;
 	}
 
 
@@ -136,9 +147,9 @@ public class CommentDTO {
 	@Override
 	public String toString() {
 		return "CommentDTO [cmt_no=" + cmt_no + ", user_no=" + user_no + ", article_no=" + article_no + ", review_no="
-				+ review_no + ", cmm_content=" + cmm_content + ", cmm_writer=" + cmm_writer + ", cmt_dt=" + cmt_dt
+				+ review_no + ", cmm_content=" + cmt_content + ", cmm_writer=" + cmt_writer + ", cmt_dt=" + cmt_dt
 				+ ", cmt_mod_dt=" + cmt_mod_dt + ", cmt_like_count=" + cmt_like_count + ", report_cnt=" + report_cnt
-				+ "]";
+				+ ", user_nicknm=" + user_nicknm + "]";
 	}
 	
 	

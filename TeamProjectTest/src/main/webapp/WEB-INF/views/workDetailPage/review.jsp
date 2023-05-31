@@ -178,7 +178,7 @@
    
                 <div class="review-bottom">
                   <div class="checkedblur"><input type="checkbox" id="checkbox-blur"/>스포일러 포함 여부</div>
-                <button type="submit" id="submit-review">             
+                <button type="submit" class="submit-review">             
                   리뷰 등록
                 </button>
                 </div>
@@ -454,14 +454,17 @@
     
    <script type="text/javascript">
    $(document).ready(function() {   
-      $('#submit-review').on("click", function(){
+      $('.submit-review').on("click", function(){
          let form = $("#review-form")
-         form.attr("action", "<c:url value='/detailPage/review/write'/>")
-         form.attr("method", "post")
-         
+             form.attr("action", "<c:url value='/detailPage/review/write'/>")
+             form.attr("method", "post")
+                 
          if(formCheck()){
             form.submit()
+         }else{
+        	 return false
          }
+         
          alert("리뷰가 정상적으로 등록되었습니다.")
       })
       
@@ -469,15 +472,20 @@
          let form = document.getElementById("review-form")
          if(form.user_no.value==""){
             alert("로그인 후 리뷰를 등록해주세요.")
-            form.content.focus()
-            return false
+            document.getElementById("review-text").focus();
+            return false;
          }         
          if(form.review_content.value=="") {
             alert("내용을 입력해 주세요.")
-            form.content.focus()
-            return false
+            document.getElementById("review-text").focus();
+            return false;
          }
-         return true
+         if(form.rating.value==""){
+        	 alert("별점을 입력해 주세요.")
+        	 document.getElementById("review-text").focus();
+        	 return false
+         }
+         return true;
       }
       
       $(".removeBtn").on("click", function() {

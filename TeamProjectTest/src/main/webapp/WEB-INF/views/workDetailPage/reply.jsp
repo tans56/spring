@@ -19,7 +19,7 @@
     rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
     crossorigin="anonymous">
-    <link rel="stylesheet" href="${path}/resources/css/workDetailPage/review.css" >  
+    <link rel="stylesheet" href="${path}/resources/css/workDetailPage/reply.css" >  
   </head>
   <body style="background-color: #202020; color: #fff;">
     <div class="wrap">
@@ -365,41 +365,31 @@
         </div>
         <br>
         
-        <c:forEach var="ReviewDTO" items="${list}">
-         <div class="review-box">      
-          <div class="review-box-header">
+        <c:forEach var="CommentDTO" items="${list}">
+         <div class="reply-box">      
+          <div class="reply-box-header">
             <div class="user-icon"> 
               <img src="${path}/resources/images/icon/user.png" alt="유저 이미지파일">
             </div>
             <div class="user-name">
               <a href="../ottt박소율/mypageshow.html">
-                <p class="user_nicknm"> ${ReviewDTO.user_nicknm} </p>
+                <p class="user_nicknm"> ${CommentDTO.user_nicknm} </p>
               </a>
-              <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${myReview.review_create_dt}"/></p>
-             <input type="hidden" name="review_no" value="${ReviewDTO.review_no }"> 
-            </div>
-            <ul>
-              <li class="rating">
-                 <img src="${path}/resources/images/img/starone.PNG" alt="별점">
-                ${ReviewDTO.rating}
-              </li>
-              <li>
+              <p class="reply-date-insert" name="cmt_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${CommentDTO.cmt_dt}"/></p>
+             <input type="hidden" name="review_no" value="${CommentDTO.review_no }"> 
+            </div>           
                 <div class="heart">        
                     <div>
                  <button onclick="changeImage()">
                          <img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
                       </button>               
                     </div>             
-                </div>
-              </li>
-            </ul>
+                </div>                       
+          </div>          
+          <div class="reply-box-body">            
+            <p class="reply-box-text review_content">${CommentDTO.cmt_content }</p>
           </div>
-          <a href="<c:url value='/detailPage/reply' />?content_no=${ReviewDTO.content_no}&review_no=${ReviewDTO.review_no}">
-          <div class="review-box-body">            
-            <p class="review-box-text review_content">${ReviewDTO.review_content }</p>
-          </div>
-        </a>
-          <div class="review-box-footer">
+          <div class="reply-box-footer">
             <div>
               <ul>
                 <li>
@@ -428,6 +418,13 @@
                   <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
                       <button>신고</button>
                   </div>
+               <c:if test="${CommentDTO.user_no == sessionScope.user_no}">
+               <div class="replymodify" >
+                  <button type="button" name="modBtn" id="replymodify" class="modOnBtn" onclick="getReviewNo(this)"><img src="${path }/resources/images/img/review.png">수정</button>
+               </div>
+            
+   			 <button  class="replyremoveBtn"><img src="${path}/resources/images/img/delete.png">삭제</button>
+   			 </c:if>
           </div>
         </div>
        
