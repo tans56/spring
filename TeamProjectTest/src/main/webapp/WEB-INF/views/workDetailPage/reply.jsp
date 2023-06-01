@@ -138,52 +138,27 @@
      <div class="left-box">
             <button id="saw-button" ><img class="saw" src="${path}/resources/images/img/saw.png" alt="봣어요" ></button>
           <button id="mark-button"><img class="mark" src="${path}/resources/images/img/mark.png" alt="봣어요"></button>
-          <button id="review-button"><img class="review-icon" src="${path}/resources/images/img/review.png" alt="봣어요"></button>
+          <button id="reply-button"><img class="review-icon" src="${path}/resources/images/img/review.png" alt="봣어요"></button>
         <div class="smr">
 
-          <div class="review-back">1</div>
-          <form id="review-form">
-          <div id="review-popup" class="popup11">         
-              <label for="review-text" style="background-color: #202020;">댓글을 작성해주세요</label>
-              <input type="hidden" name="user_no" value="${sessionScope.user_no}" >             
-              <textarea id="review-text" name="review_content"></textarea>
-              <div class="reveiw-star-footer">
-                <div class="review-star" >별점을 매겨주세요:
-                  <div class="starpoint_wrap">
-                    <div class="starpoint_box">
-                      <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
-                      <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>
-                      <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>
-                      <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>
-                      <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>
-                      <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>
-                      <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>
-                      <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>
-                      <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>
-                      <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>
-                      <input type="radio" name="rating" id="starpoint_1" class="star_radio" value="0.5" >
-                      <input type="radio" name="rating" id="starpoint_2" class="star_radio" value="1">
-                      <input type="radio" name="rating" id="starpoint_3" class="star_radio" value="1.5">
-                      <input type="radio" name="rating" id="starpoint_4" class="star_radio" value="2">
-                      <input type="radio" name="rating" id="starpoint_5" class="star_radio" value="2.5">
-                      <input type="radio" name="rating" id="starpoint_6" class="star_radio" value="3">
-                      <input type="radio" name="rating" id="starpoint_7" class="star_radio" value="3.5">
-                      <input type="radio" name="rating" id="starpoint_8" class="star_radio" value="4">
-                      <input type="radio" name="rating" id="starpoint_9" class="star_radio" value="4.5">
-                      <input type="radio" name="rating" id="starpoint_10" class="star_radio" value="5">
-                      <span class="starpoint_bg"></span>
-                    </div>
-                  </div>
-                </div>
-   
-                <div class="review-bottom">
+          <div class="reply-back">1</div>
+          <form id="reply-form">
+          <div id="reply-popup" class="popup11">         
+              <label for="reply-text" style="background-color: #202020;">댓글을 작성해주세요</label>
+              <input type="hidden" name="user_no" value="${sessionScope.user_no}" >
+              <input type="hidden" name="user_nicknm" value="${userDTO.user_nicknm }">
+              <input type="hidden" name="content_no" value="${Review.content_no}">
+   			  <input type="hidden" name="review_no" value="${Review.review_no}">             
+              <textarea id="reply-text" name="cmt_content"></textarea>
+              <div class="reply-star-footer">   
+                <div class="reply-bottom">
                   <div class="checkedblur"><input type="checkbox" id="checkbox-blur"/>스포일러 포함 여부</div>
-                <button type="submit" id="submit-review">             
+                <button type="submit" class="submit-reply">             
                   댓글 등록
                 </button>
                 </div>
               </div>
-              <button type="button" id="cancel-review">
+              <button type="button" id="cancel-reply">
               
                 <ul>
                   <li></li>
@@ -256,12 +231,10 @@
                 </div>
               </li>
             </ul>
-          </div>
-          <a href="<c:url value='/detailPage/reply' />">
+          </div>         
           <div class="review-box-body">            
             <p class="review-box-text review_content">${Review.review_content }</p>
           </div>
-        </a>
           <div class="review-box-footer">
             <div>
               <ul>
@@ -281,7 +254,7 @@
                   </div>
                   <div class="comment-count">
                     <p>
-                      9999개
+                      ${Review.comment_cnt}개
                     </p>
                   </div>
                 </li>
@@ -298,7 +271,7 @@
                   <button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)"><img src="${path }/resources/images/img/review.png">수정</button>
                </div>
             
-   			 <button  class="removeBtn"><img src="${path}/resources/images/img/delete.png">삭제</button>
+   			 <button class="removeBtn"><img src="${path}/resources/images/img/delete.png">삭제</button>
    			 </c:if>
           </div>
         </div>
@@ -377,6 +350,7 @@
               </a>
               <p class="reply-date-insert" name="cmt_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${CommentDTO.cmt_dt}"/></p>
              <input type="hidden" name="review_no" value="${CommentDTO.review_no }"> 
+             <input type="text" name="cmt_no" value ="${CommentDTO.cmt_no }">
             </div>           
                 <div class="heart">        
                     <div>
@@ -402,16 +376,6 @@
                     </p>
                   </div>
                 </li>
-                <li>
-                  <div class="footer-comment">
-                    <img src="${path}/resources/images/img/댓글.png" alt="댓글아이콘">
-                  </div>
-                  <div class="comment-count">
-                    <p>
-                      9999개
-                    </p>
-                  </div>
-                </li>
               </ul>
             </div>
                   <div class="report">
@@ -422,8 +386,8 @@
                <div class="replymodify" >
                   <button type="button" name="modBtn" id="replymodify" class="modOnBtn" onclick="getReviewNo(this)"><img src="${path }/resources/images/img/review.png">수정</button>
                </div>
-            
    			 <button  class="replyremoveBtn"><img src="${path}/resources/images/img/delete.png">삭제</button>
+   			
    			 </c:if>
           </div>
         </div>
@@ -455,41 +419,50 @@
     
    <script type="text/javascript">
    $(document).ready(function() {   
-      $('#submit-review').on("click", function(){
-         let form = $("#review-form")
-         form.attr("action", "<c:url value='/detailPage/review/write'/>")
+	      
+      $('.submit-reply').on("click", function(){
+         let form = $("#reply-form")
+         form.attr("action", "<c:url value='/detailPage/reply/write'/>")
          form.attr("method", "post")
          
          if(formCheck()){
-            form.submit()
-         }
-         alert("리뷰가 정상적으로 등록되었습니다.")
+             form.submit()
+          }else{
+         	 return false
+          }
+         alert("댓글이 정상적으로 등록되었습니다.")
       })
       
-      let formCheck = function() {
-         let form = document.getElementById("review-form")
-         if(form.user_no.value==""){
-            alert("로그인 후 리뷰를 등록해주세요.")
-            form.content.focus()
-            return false
-         }         
-         if(form.review_content.value=="") {
-            alert("내용을 입력해 주세요.")
-            form.content.focus()
-            return false
-         }
-         return true
-      }
-      
-      $(".removeBtn").on("click", function() {
+          $(".replyremoveBtn").on("click", function() {
           if (!confirm("리뷰를 삭제하시겠습니까?"))
           	return;
           
           let form = $("form")
-          form.attr("action", "<c:url value='/remove' />")
+          form.attr("action", "<c:url value='/detailPage/reply/remove' />")
           form.attr("method", "post")
           form.submit()   
        })
+       
+       
+      
+      let formCheck = function() {
+         let form = document.getElementById("reply-form")
+         if(form.user_no.value==""){
+            alert("로그인 후 댓글을 등록해주세요.")
+            document.getElementById("reply-text").focus();
+            return false
+         }         
+         if(form.cmt_content.value=="") {
+            alert("내용을 입력해 주세요.")
+            console.log("reply-text 포커스 설정 직전"); 
+            document.getElementById("reply-text").focus();
+            console.log("reply-text 포커스 설정 후");
+            return false
+         }
+         return true
+      }
+
+  
       
       
       
@@ -510,17 +483,17 @@
          let form = document.getElementById("mod-form")
          if(form.user_no.value==""){
             alert("로그인 후 리뷰를 등록해주세요.")
-            form.content.focus()
+            /* form.content.focus() */
             return false
          }         
          if(form.review_content.value=="") {
             alert("내용을 입력해 주세요.")
-            form.content.focus()
+            /* form.content.focus() */
             return false
          }
          if(form.rating.value==""){
         	 alert("별점을 입력해 주세요.")
-        	 form.content.focus()
+        	 /* form.content.focus() */
         	 return false
          }
          return true
@@ -539,10 +512,10 @@ function getReviewNo(element) {
 
 <script type="text/javascript">
     $(document).ready(function() {
-         const reviewButton = $('#review-button');
-         const reviewPopup = $('#review-popup');
-         const cancelButton = $('#cancel-review');
-         const submitButton = $('#submit-review');
+         const reviewButton = $('#reply-button');
+         const reviewPopup = $('#reply-popup');
+         const cancelButton = $('#cancel-reply');
+         const submitButton = $('#submit-reply');
          
          const modButton = $('.modOnBtn');
          const modPopup = $('.mod-popup');
@@ -552,18 +525,18 @@ function getReviewNo(element) {
          
          reviewButton.on('click', function() {
            reviewPopup.css('display', 'block');
-           $('.review-back').fadeIn();
+           $('.reply-back').fadeIn();
            $('.popup11').fadeIn();
          });
 
          submitButton.on('click', function() {
            reviewPopup.css('display', 'none');
-           $('.review-back').fadeOut();
+           $('.reply-back').fadeOut();
          });
 
          cancelButton.on('click', function() {
            reviewPopup.css('display', 'none');
-           $('.review-back').fadeOut();
+           $('.reply-back').fadeOut();
          });
          
          modButton.on('click', function() {           

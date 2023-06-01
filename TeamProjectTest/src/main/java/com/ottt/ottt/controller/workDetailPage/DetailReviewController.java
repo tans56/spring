@@ -27,15 +27,14 @@ public class DetailReviewController {
    public String workReview(Model m, HttpServletRequest request, HttpSession session) {
       
       Integer user_no = (Integer) session.getAttribute("user_no");
-      
       try {
          List<ReviewDTO> list = reviewService.getReview();
          int count = reviewService.getCount();
          Double rating = reviewService.getRatingAvg();
+         
          m.addAttribute("list", list);
          m.addAttribute("count", count);
          m.addAttribute("rating", rating);
-
          request.setAttribute("rating", rating);
          System.out.println(rating);
          ReviewDTO myReview = reviewService.getReviewNo(1, user_no);

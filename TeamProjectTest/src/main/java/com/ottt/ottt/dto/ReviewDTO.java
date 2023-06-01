@@ -24,11 +24,18 @@ public class ReviewDTO {
 	private Integer user_no;
 	private String review_content;
 	private Date review_create_dt;
+	private int comment_cnt;
 	
 	private String user_nicknm;
 	
 	
 	
+	public int getComment_cnt() {
+		return comment_cnt;
+	}
+	public void setComment_cnt(int comment_cnt) {
+		this.comment_cnt = comment_cnt;
+	}
 	private UserDTO userDTO;
 	public Integer getReview_no() {
 		return review_no;
@@ -82,7 +89,7 @@ public class ReviewDTO {
 	public String toString() {
 		return "ReviewDTO [review_no=" + review_no + ", content_no=" + content_no + ", rating=" + rating + ", user_no="
 				+ user_no + ", review_content=" + review_content + ", review_create_dt=" + review_create_dt
-				+ ", user_nicknm=" + user_nicknm + ", userDTO=" + userDTO + "]";
+				+ ", comment_cnt=" + comment_cnt + ", user_nicknm=" + user_nicknm + ", userDTO=" + userDTO + "]";
 	}
 	
 	

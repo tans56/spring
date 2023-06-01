@@ -261,7 +261,7 @@
               </li>
             </ul>
           </div>
-          <a href="<c:url value='/detailPage/reply' />">
+          <a href="<c:url value='/detailPage/reply' />?content_no=${myReview.content_no}&review_no=${myReview.review_no}">
           <div class="review-box-body">            
             <p class="review-box-text review_content">${myReview.review_content }</p>
           </div>
@@ -285,7 +285,7 @@
                   </div>
                   <div class="comment-count">
                     <p>
-                      9999개
+                      ${myReview.comment_cnt }개
                     </p>
                   </div>
                 </li>
@@ -414,7 +414,7 @@
                   </div>
                   <div class="comment-count">
                     <p>
-                      9999개
+                      ${ReviewDTO.comment_cnt}개
                     </p>
                   </div>
                 </li>

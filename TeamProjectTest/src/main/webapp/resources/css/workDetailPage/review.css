@@ -508,7 +508,7 @@ header{
   }
 
 
-  #submit-review{
+  .submit-review{
     width: 100px;
     height: 40px;
     line-height: 40px;

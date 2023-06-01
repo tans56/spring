@@ -508,7 +508,7 @@
               </li>
             </ul>
           </div>
-          <a href="<c:url value='/detailPage/reply' />">
+          <a href="<c:url value='/detailPage/reply' />?content_no=${myReview.content_no}&review_no=${myReview.review_no}">
           <div class="review-box-body">				
             <p class="review-box-text review_content">${myReview.review_content }</p>
           </div>
@@ -629,7 +629,7 @@
         <div class="review-count">
           <p>총 ${count }개의 리뷰가 있습니다.</p>           
           <div class="more-see">
-            <a href="<c:url value='/detailPage/review' />">
+            <a href="<c:url value='/detailPage/review' />?content_no=${content_no}">
               <p>더보기</p>
             </a>
   			
@@ -665,7 +665,7 @@
               </li>
             </ul>
           </div>
-          <a href="<c:url value='/detailPage/reply' />">
+          <a href="<c:url value='/detailPage/reply' />?content_no=${ReviewDTO.content_no}&review_no=${ReviewDTO.review_no}">
           <div class="review-box-body">				
             <p class="review-box-text review_content">${ReviewDTO.review_content }</p>
           </div>
@@ -792,7 +792,7 @@
             if (!confirm("리뷰를 삭제하시겠습니까?"))
             	return;
             
-            let form = $("form")
+            let form = $("button")
             form.attr("action", "<c:url value='/remove' />")
             form.attr("method", "post")
             form.submit()   

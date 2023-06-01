@@ -31,6 +31,20 @@ public class CommentDTO {
 	
 	private String user_nicknm;
 	
+	private UserDTO userDTO;
+	
+	
+	
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+
+
 	public String getUser_nicknm() {
 		return user_nicknm;
 	}
@@ -147,9 +161,9 @@ public class CommentDTO {
 	@Override
 	public String toString() {
 		return "CommentDTO [cmt_no=" + cmt_no + ", user_no=" + user_no + ", article_no=" + article_no + ", review_no="
-				+ review_no + ", cmm_content=" + cmt_content + ", cmm_writer=" + cmt_writer + ", cmt_dt=" + cmt_dt
+				+ review_no + ", cmt_content=" + cmt_content + ", cmt_writer=" + cmt_writer + ", cmt_dt=" + cmt_dt
 				+ ", cmt_mod_dt=" + cmt_mod_dt + ", cmt_like_count=" + cmt_like_count + ", report_cnt=" + report_cnt
-				+ ", user_nicknm=" + user_nicknm + "]";
+				+ ", user_nicknm=" + user_nicknm + ", userDTO=" + userDTO + "]";
 	}
 	
 	

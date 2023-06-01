@@ -15,28 +15,28 @@
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="review-box-body"/>
+		<item key="selection" value="cmt_no"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="review-box-body"/>
-			<item value="review-body"/>
+			<item value="cmt_no"/>
+			<item value="replyremoveBtn"/>
+			<item value="reply-form"/>
+			<item value="삭제"/>
+			<item value="form"/>
+			<item value="submit-reply"/>
+			<item value="reply-text"/>
+			<item value=".reply-bottom"/>
+			<item value="button"/>
+			<item value="ㅠㅕㅅ새ㅜ"/>
+			<item value="review-back"/>
+			<item value="더보기"/>
+			<item value="submit-review"/>
 			<item value="removeBtn"/>
-			<item value="modify"/>
-			<item value="review-box"/>
-			<item value="review-content"/>
-			<item value="reply-date"/>
-			<item value="re"/>
-			<item value="reply-box-body"/>
-			<item value="date-insert"/>
-			<item value="reply-date-insert"/>
-			<item value="date"/>
-			<item value="data"/>
-			<item value="신고"/>
-			<item value="신고\"/>
+			<item value="delete"/>
 		</list>
 		<list key="replacehistory">
 		</list>

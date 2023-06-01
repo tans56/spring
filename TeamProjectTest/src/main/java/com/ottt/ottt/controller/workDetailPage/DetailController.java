@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ottt.ottt.dto.ReviewDTO;
@@ -40,7 +41,6 @@ public class DetailController {
 			 double rating = reviewService.getRatingAvg();
 			
 			 m.addAttribute("rating", rating);
-
 	         request.setAttribute("rating", rating);
 	         System.out.println(rating);
 			ReviewDTO myReview = reviewService.getReviewNo(1, user_no);
