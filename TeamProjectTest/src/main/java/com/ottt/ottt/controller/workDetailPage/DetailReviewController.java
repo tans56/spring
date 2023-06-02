@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ottt.ottt.dao.login.LoginUserDao;
 import com.ottt.ottt.dao.review.ReviewDao;
 import com.ottt.ottt.dto.ReviewDTO;
+import com.ottt.ottt.dto.UserDTO;
 import com.ottt.ottt.service.review.ReviewService;
 
 @Controller
@@ -23,10 +25,20 @@ public class DetailReviewController {
    @Autowired
    ReviewService reviewService;
    
+   @Autowired
+	LoginUserDao loginUserDao;
+   
    @GetMapping(value = "/detailPage/review")
-   public String workReview(Model m, HttpServletRequest request, HttpSession session) {
+   public String workReview(Model m, HttpServletRequest request, HttpSession session, @RequestParam("content_no") int content_no) {
       
       Integer user_no = (Integer) session.getAttribute("user_no");
+      m.addAttribute("content_no", content_no);
+      
+      if(session.getAttribute("id") != null) {
+			UserDTO userDTO = loginUserDao.select((String) session.getAttribute("id"));
+			m.addAttribute(userDTO);
+      }
+      
       try {
          List<ReviewDTO> list = reviewService.getReview();
          int count = reviewService.getCount();
@@ -37,35 +49,35 @@ public class DetailReviewController {
          m.addAttribute("rating", rating);
          request.setAttribute("rating", rating);
          System.out.println(rating);
-         ReviewDTO myReview = reviewService.getReviewNo(1, user_no);
+         ReviewDTO myReview = reviewService.getReviewNo(4, user_no);
 
          m.addAttribute("myReview", myReview);
       } catch (Exception e) {   e.printStackTrace();}
       
-         return "/workDetailPage/review";      
+         return "/workDetailPage/review";   
    }
    
    @PostMapping("/detailPage/review/write")
    public String writeReview(ReviewDTO reviewDTO, RedirectAttributes attr,
-                     Model m, HttpSession session) {      
+                     Model m, HttpSession session ) {      
       try {
          if(reviewService.writeReview(reviewDTO) != 1) {
             throw new Exception("Write failed");
             
          }
          attr.addFlashAttribute("msg", "fail");
-         return "redirect:/detailPage/review";
+         return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
       } catch (Exception e) {
          e.printStackTrace();
          m.addAttribute("msg", "ok");
-         return "redirect:/detailPage/review";
+         return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
       }
       
    
    }
    
    @PostMapping("/detailPage/review/remove")
-   public String remove(Integer review_no,RedirectAttributes rattr, HttpSession session, Model m) {
+   public String remove(Integer review_no,RedirectAttributes rattr, HttpSession session, Model m,ReviewDTO reviewDTO) {
       Integer user_no = (Integer) session.getAttribute("user_no");
       
       
@@ -83,7 +95,7 @@ public class DetailReviewController {
       
       
       
-      return "redirect:/detailPage/review/";
+      return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
    }
    
    @PostMapping("/detailPage/review/modify")
@@ -104,12 +116,12 @@ public class DetailReviewController {
          
          
          rattr.addFlashAttribute("msg", "MOD_OK");
-         return "redirect:/detailPage/review";
+         return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
       } catch (Exception e) {
          e.printStackTrace();
          m.addAttribute("reviewDTO", reviewDTO);
          m.addAttribute("msg", "MOD_ERR");
-         return "redirect:/detailPage/review";
+         return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
       }
    }
    

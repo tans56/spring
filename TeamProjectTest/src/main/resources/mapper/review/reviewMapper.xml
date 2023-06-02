@@ -17,8 +17,8 @@
     
     
     <insert id="insert" parameterType="ReviewDTO">
-           insert into tb_review (user_no, rating , review_content)
-         values (#{user_no}, #{rating}, #{review_content})
+           insert into tb_review (user_no, rating , review_content, content_no)
+         values (#{user_no}, #{rating}, #{review_content}, #{content_no})
     </insert>
     
    <select id="selectAll" resultType="ReviewDTO">
@@ -87,6 +87,17 @@
 	FROM tb_user 
 	WHERE tb_user.user_no = #{user_no}
 	</insert> 
+	
+    <delete id="deleteReplyReview" parameterType="map">
+           delete from tb_review 
+           where review_no = #{review_no} and user_no = #{user_no} 
+    </delete>
+    
+    <update id="updateReplyReview" parameterType="ReviewDTO">           
+    update tb_review set review_content=#{review_content}, rating=#{rating}
+    where review_no=#{review_no} and user_no=#{user_no}
+    </update>
+	
 	
 	<delete id="deleteReply" parameterType="map">
     delete from tb_comment 

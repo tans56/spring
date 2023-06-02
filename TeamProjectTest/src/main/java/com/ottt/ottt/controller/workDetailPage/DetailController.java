@@ -1,6 +1,5 @@
 package com.ottt.ottt.controller.workDetailPage;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ottt.ottt.dao.login.LoginUserDao;
 import com.ottt.ottt.dto.ReviewDTO;
 import com.ottt.ottt.dto.ReviewLikeDTO;
 import com.ottt.ottt.dto.UserDTO;
@@ -25,13 +25,22 @@ import com.ottt.ottt.service.review.ReviewService;
 public class DetailController {
 	@Autowired
 	private ReviewService reviewService;
+	@Autowired
 	private ReviewLikeService reviewLikeService;
+	@Autowired
+	LoginUserDao loginUserDao;
 	
 	
 	@GetMapping(value = "/detailPage")
-	public String workDetailPage(Model m, HttpServletRequest request, HttpSession session) {         //, Integer content_no) 
-
-		Integer user_no = (Integer) session.getAttribute("user_no");			
+	public String workDetailPage(Model m, HttpServletRequest request, HttpSession session, @RequestParam("content_no") int content_no) {         //, Integer content_no) 
+		
+		Integer user_no = (Integer) session.getAttribute("user_no");
+		m.addAttribute("content_no", content_no);
+		
+		if(session.getAttribute("id") != null) {
+			UserDTO userDTO = loginUserDao.select((String) session.getAttribute("id"));
+			m.addAttribute(userDTO);
+		}
 			
 		try {
 			
@@ -68,7 +77,7 @@ public class DetailController {
 
 	@PostMapping(value = "/detailPage")
 	public String write(ReviewDTO reviewDTO, Model m, RedirectAttributes attr, HttpSession session) {
-	    
+		
 		try {
 			
 			if(reviewService.writeReview(reviewDTO)!=1) {

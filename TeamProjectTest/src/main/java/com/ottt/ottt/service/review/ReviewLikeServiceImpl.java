@@ -1,10 +1,11 @@
 package com.ottt.ottt.service.review;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ottt.ottt.dao.review.ReviewLikeDao;
-import com.ottt.ottt.dto.ReviewLikeDTO;
 
+@Service
 public class ReviewLikeServiceImpl implements ReviewLikeService {
 
 	@Autowired

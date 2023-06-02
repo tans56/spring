@@ -12,12 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ottt.ottt.dao.login.LoginUserDao;
+import com.ottt.ottt.dao.review.ReviewDao;
 import com.ottt.ottt.dto.CommentDTO;
 import com.ottt.ottt.dto.ReviewDTO;
 import com.ottt.ottt.dto.UserDTO;
@@ -32,12 +34,15 @@ public class DetailReplyController {
 	@Autowired
 	LoginUserDao loginUserDao;
 	
+	@Autowired
+	ReviewDao reviewDao;
+	
 	@GetMapping(value = "/detailPage/reply")
 	public String reviewReply(Model m, HttpServletRequest request, HttpSession session,
 			@RequestParam("content_no") int content_no, @RequestParam("review_no") int review_no) {
 		Integer user_no = (Integer) session.getAttribute("user_no");
 		UserDTO userDTO = loginUserDao.select((String)session.getAttribute("id"));
-		
+		m.addAttribute("content_no", content_no);
 		try {
 			ReviewDTO Review = reviewService.getReplyReview(content_no, review_no);
 			List<CommentDTO> list = reviewService.getreply(review_no);
@@ -76,18 +81,18 @@ public class DetailReplyController {
 	      }	   
 	   }
 	   
-	   @PostMapping("/detailPage/reply/remove")
-	   public String remove(Integer review_no, RedirectAttributes rattr, HttpSession session, Model m, 
-			   				@ModelAttribute("commentDTO") CommentDTO commentDTO, ReviewDTO reviewDTO) {
+	   @PostMapping("/detailPage/reply/reviewremove")
+	   public String replyremove(RedirectAttributes rattr, HttpSession session, Model m,ReviewDTO reviewDTO,
+			   @RequestParam("content_no") int content_no, @RequestParam("review_no") int review_no) {
 	      Integer user_no = (Integer) session.getAttribute("user_no");
-	      Integer cmt_no = commentDTO.getCmt_no();
-	      System.out.println(cmt_no);
 	      
 	      String msg = "DEL_OK";
 	      
 	      try {
-	         if(reviewService.removeReply(cmt_no, user_no) !=1)
+	    	
+	         if(reviewService.removeReplyReview(review_no, user_no) !=1)
 	         throw new Exception("Delete failed.");
+	         
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	         msg = "DEL_ERR";
@@ -97,7 +102,34 @@ public class DetailReplyController {
 	      
 	      
 	      
-	      return "redirect:/detailPage/reply?content_no=" + 1 + "&review_no=" + 1;
+	      return "redirect:/detailPage/review?content_no=" + content_no;
+	   }
+	   
+	   @PostMapping("/detailPage/reply/modify")
+	   public String modifyReview(ReviewDTO reviewDTO, RedirectAttributes rattr, Model m, HttpSession session,@RequestParam("content_no") int content_no) {
+	      Integer user_no = (Integer) session.getAttribute("user_no");
+	      
+	      
+	      
+	      
+	      try {
+	         Integer review_no = reviewDTO.getReview_no();
+	               //reviewService.getReviewNo(reviewDTO);
+	         //Integer review_no = reviewno.getReview_no();
+	         m.addAttribute("review_no", review_no);
+	         m.addAttribute("user_no",user_no);
+	         if(reviewService.modifyReplyReview(reviewDTO) != 1)
+	            throw new Exception("Modify failed");
+	         
+	         
+	         rattr.addFlashAttribute("msg", "MOD_OK");
+	         return "redirect:/detailPage/reply?content_no=" + content_no+ "&review_no=" + reviewDTO.getReview_no();
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	         m.addAttribute("reviewDTO", reviewDTO);
+	         m.addAttribute("msg", "MOD_ERR");
+	         return "redirect:/detailPage/reply?content_no=" + content_no+ "&review_no=" + reviewDTO.getReview_no();
+	      }
 	   }
 	   
 }

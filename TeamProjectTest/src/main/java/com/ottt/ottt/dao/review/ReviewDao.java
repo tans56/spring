@@ -23,9 +23,11 @@ public interface ReviewDao {
 	
 	//리플 페이지
 	CommentDTO selectReply(Integer cmt_no) throws Exception;
-	ReviewDTO replyReview(Integer content_no, Integer review_no) throws Exception;
+	ReviewDTO replyReview(Integer content_no, Integer review_no);
 	int replyCount(Integer review_no) throws Exception;
 	List<CommentDTO> allreply(Integer review_no) throws Exception;
 	int insertReply(CommentDTO commentDTO) throws Exception;
 	int deleteReply(Integer cmt_no, int user_no)throws Exception;
+	int deleteReplyReview(Integer review_no, int user_no) throws Exception;
+	int updateReplyReview(ReviewDTO reviewDTO)throws Exception;
 }

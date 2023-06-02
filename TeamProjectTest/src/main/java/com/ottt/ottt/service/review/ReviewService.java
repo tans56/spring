@@ -25,4 +25,6 @@ public interface ReviewService {
     List<CommentDTO> getreply(Integer review_no) throws Exception;
     int writeReply(CommentDTO commentDTO) throws Exception;
     int removeReply(Integer cmt_no, Integer user_no) throws Exception;
+    int removeReplyReview(Integer review_no, Integer user_no) throws Exception;
+    int modifyReplyReview(ReviewDTO reviewDTO)throws Exception;
 }

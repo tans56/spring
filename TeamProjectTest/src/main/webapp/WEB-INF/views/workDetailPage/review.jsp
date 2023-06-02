@@ -23,46 +23,9 @@
   </head>
   <body style="background-color: #202020; color: #fff;">
     <div class="wrap">
-      <header>
-        <div class="logo">
-          <a href="<c:url value="/" />">
-              <img src="${path}/resources/images/logo/OTTT.png" alt="로고">
-            </a>
-         </div>
-         <nav class="gnb">
-            <ul>
-            <li>
-              <a href="<c:url value="/genre/movie" />">영화</a>
-            </li>
-            <li>
-              <a href="<c:url value="/genre/drama" />">드라마</a>
-            </li>
-            <li>
-              <a href="<c:url value="/genre/interest" />">예능</a>
-            </li>
-            <li>
-              <a href="<c:url value="/genre/animation" />">애니</a>
-            </li>
-            <li>
-              <a href="<c:url value="/community" />">게시판</a>
-            </li>
-          </ul>
-        </nav>
-        <div class="h-icon">
-          <ul>
-            <li>
-              <a href="<c:url value='/search' />">
-                <!-- <img src="./images/icon/search02.png" alt="검색"> -->
-              </a>
-            </li>
-            <li>
-              <a href="<c:url value='${loginoutlink}' /> " class="${loginout}">
-                <!-- <img src="./images/icon/user01.png" alt="내 정보"> -->
-              </a>
-            </li>
-          </ul>
-        </div>
-      </header>
+    
+      <%@ include file="../fix/header.jsp" %>
+      
     </div>
     <section class="sec01" id="sec01">      
       <div class="banner">
@@ -145,7 +108,8 @@
           <form id="review-form">
           <div id="review-popup" class="popup11">         
               <label for="review-text" style="background-color: #202020;">리뷰를 작성해주세요</label>
-              <input type="hidden" name="user_no" value="${sessionScope.user_no}" >             
+              <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
+              <input type="hidden" name="content_no" value="${content_no }">            
               <textarea id="review-text" name="review_content"></textarea>
               <div class="reveiw-star-footer">
                 <div class="review-star" >별점을 매겨주세요:
@@ -244,6 +208,7 @@
               </a>
               <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${myReview.review_create_dt}"/></p>
              <input type="hidden" name="review_no" value="${myReview.review_no }"> 
+             <input type="hidden" name="content_no" value="${myReview.content_no }">
             </div>
             <ul>
               <li class="rating">
@@ -261,7 +226,7 @@
               </li>
             </ul>
           </div>
-          <a href="<c:url value='/detailPage/reply' />?content_no=${myReview.content_no}&review_no=${myReview.review_no}">
+          <a href="<c:url value='/detailPage/reply' />?content_no=${content_no}&review_no=${myReview.review_no}">
           <div class="review-box-body">            
             <p class="review-box-text review_content">${myReview.review_content }</p>
           </div>
@@ -303,7 +268,8 @@
           <div class="popup12 mod-popup">     
               <label for="mod-text" style="background-color: #202020;">리뷰를 작성해주세요</label>
               <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
-              <input type="hidden" name="review_no" class="review_no" value="${myReview.review_no}">            
+              <input type="hidden" name="review_no" class="review_no" value="${myReview.review_no}">   
+              <input type="hidden" name="content_no" value="${content_no }">          
               <textarea id="review-text" name="review_content" >${ReviewDTO.review_content}</textarea>
               <div class="reveiw-star-footer">
                 <div class="review-star" >별점을 매겨주세요:
@@ -371,8 +337,9 @@
               <a href="../ottt박소율/mypageshow.html">
                 <p class="user_nicknm"> ${ReviewDTO.user_nicknm} </p>
               </a>
-              <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${myReview.review_create_dt}"/></p>
-             <input type="hidden" name="review_no" value="${ReviewDTO.review_no }"> 
+              <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${ReviewDTO.review_create_dt}"/></p>
+             <input type="hidden" name="review_no" value="${ReviewDTO.review_no }">
+             <input type="hidden" name="content_no" value="${myReview.content_no }"> 
             </div>
             <ul>
               <li class="rating">
@@ -383,7 +350,7 @@
                 <div class="heart">        
                     <div>
                  <button onclick="changeImage()">
-                         <img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
+                         <img id="myImage" src="${path}/resources/images/img/heart_off.png" width="35" height="80%">
                       </button>               
                     </div>             
                 </div>
@@ -442,10 +409,10 @@
      <script type="text/javascript">
        function changeImage() {
         var image = document.getElementById('myImage');
-        if (image.src.includes('${path}/resources/images/img/likeoff.png')) {
-          image.src = '${path}/resources/images/img/likeon.png'; 
+        if (image.src.includes('${path}/resources/images/img/heart_off.png')) {
+          image.src = '${path}/resources/images/img/heart_on.png'; 
         } else {
-          image.src = '${path}/resources/images/img/likeoff.png';
+          image.src = '${path}/resources/images/img/heart_off.png';
         }
       }
        
@@ -493,7 +460,7 @@
           	return;
           
           let form = $("form")
-          form.attr("action", "<c:url value='/remove' />")
+          form.attr("action", "<c:url value='/detailPage/review/remove' />")
           form.attr("method", "post")
           form.submit()   
        })

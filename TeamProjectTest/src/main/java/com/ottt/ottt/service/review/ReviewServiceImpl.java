@@ -95,6 +95,18 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.selectReply(cmt_no);
 	}
 
+	@Override
+	public int removeReplyReview(Integer review_no, Integer user_no) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.deleteReplyReview(review_no, user_no);
+	}
+
+	@Override
+	public int modifyReplyReview(ReviewDTO reviewDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.updateReplyReview(reviewDTO);
+	}
+
 	
 
 	

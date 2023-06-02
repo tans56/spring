@@ -141,57 +141,6 @@ header{
     width: 50px;
 } */
 
-
-
-.h-icon > ul > li:first-child > a{
-    background:url("../../images/icon/search02.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
-    width: 32px;
-    height: 32px;
-}
-
-.h-icon > ul > li:first-child > a:hover{
-    background: url("../../images/icon/search-h.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
-    width: 32px;
-    height: 32px;
-}
-
-.h-icon > ul > li > .logout{
-    background:url("../../images/icon/user01.png");
-    background-repeat:no-repeat;
-    background-position: center;
-    background-size: 32px;
-    width: 32px;
-    height: 32px;
-}
-
-
-
-.h-icon > ul > li> .logout:hover{
-    background: url("../../images/icon/user-h.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
-    width: 32px;
-    height: 32px;
-}
-
-.h-icon > ul > li > .login{
-    background:url("../../images/img/profile.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
-    width: 32px;
-    height: 32px;
-}
-
-/* main */
-
 /* section01 */
 
 
@@ -530,8 +479,7 @@ header{
     text-align: center;
   }
   
-  
-    .submitMod-review{
+    .submit-review{
     width: 100px;
     height: 40px;
     line-height: 40px;
@@ -540,10 +488,33 @@ header{
     border-radius: 7px;
     text-align: center;
   }
+  
+    .submitMod-review{
+    position:absolute;
+    top:0px;
+	right:1px;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #202020;
+    color: #33ff33;
+    border-radius: 7px;
+    text-align: center;
+   
+  }
 
   #reply-text{
     width: 794px;
     height: 500px;
+    /* position:absolute;
+    top: 100px;
+    right: 0px; */
+    border-radius: 0;
+}
+
+  #review-text{
+    width: 794px;
+    height: 502px;
     /* position:absolute;
     top: 100px;
     right: 0px; */
@@ -739,6 +710,51 @@ form label{
 }
 
 .reply-bottom > div{
+    display: inline-block;
+}
+/**/
+
+.review-star-footer{
+    background-color: #202020;
+    width: 100%;
+    height: 40px;
+    /* left: 0px;
+    bottom: 0px;
+    position: absolute; */
+    border-radius: 5px;
+    line-height: 40px;
+    text-align: left;
+    transform: translateY(-4.5px);
+}
+
+.review-star-footer > div{
+    display: inline-block;
+    /* transform: translateY(-5px); */
+}
+
+.review-star{
+    width: 300px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 5px;
+}
+
+.star3{
+    width: 120px;
+    object-fit: cover;
+    margin-left: 15px;
+    margin-bottom: 5px;
+}
+
+.review-bottom{
+    width: 490px;
+    height: 40px;
+    text-align: right;
+    line-height: 40px;
+    margin-left: 300px;
+}
+
+.review-bottom > div{
     display: inline-block;
 }
 

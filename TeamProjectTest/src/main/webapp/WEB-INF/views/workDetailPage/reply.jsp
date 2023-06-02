@@ -23,46 +23,9 @@
   </head>
   <body style="background-color: #202020; color: #fff;">
     <div class="wrap">
-      <header>
-        <div class="logo">
-          <a href="<c:url value="/" />">
-              <img src="${path}/resources/images/logo/OTTT.png" alt="로고">
-            </a>
-         </div>
-         <nav class="gnb">
-            <ul>
-            <li>
-              <a href="<c:url value="/genre/movie" />">영화</a>
-            </li>
-            <li>
-              <a href="<c:url value="/genre/drama" />">드라마</a>
-            </li>
-            <li>
-              <a href="<c:url value="/genre/interest" />">예능</a>
-            </li>
-            <li>
-              <a href="<c:url value="/genre/animation" />">애니</a>
-            </li>
-            <li>
-              <a href="<c:url value="/community" />">게시판</a>
-            </li>
-          </ul>
-        </nav>
-        <div class="h-icon">
-          <ul>
-            <li>
-              <a href="<c:url value='/search' />">
-                <!-- <img src="./images/icon/search02.png" alt="검색"> -->
-              </a>
-            </li>
-            <li>
-              <a href="<c:url value='${loginoutlink}' /> " class="${loginout}">
-                <!-- <img src="./images/icon/user01.png" alt="내 정보"> -->
-              </a>
-            </li>
-          </ul>
-        </div>
-      </header>
+    
+      <%@ include file="../fix/header.jsp" %>
+      
     </div>
     <section class="sec01" id="sec01">      
       <div class="banner">
@@ -214,7 +177,8 @@
                 <p class="user_nicknm"> ${Review.user_nicknm} </p>
               </a>
               <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${Review.review_create_dt}"/></p>
-             <input type="hidden" name="review_no" value="${Review.review_no }"> 
+             <input type="hidden" name="review_no" value="${Review.review_no }">
+             <input type="hidden" name="content_no" value="${Review.content_no }"> 
             </div>
             <ul>
               <li class="rating">
@@ -280,9 +244,10 @@
           <div class="popup12 mod-popup">     
               <label for="mod-text" style="background-color: #202020;">리뷰를 작성해주세요</label>
               <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
-              <input type="hidden" name="review_no" class="review_no" value="${myReview.review_no}">            
-              <textarea id="review-text" name="review_content" >${ReviewDTO.review_content}</textarea>
-              <div class="reveiw-star-footer">
+              <input type="hidden" name="review_no" class="review_no" value="${Review.review_no}">  
+              <input type="hidden" name="content_no" value="${content_no }">          
+              <textarea id="review-text" name="review_content" class="text_review" >${Review.review_content}</textarea>
+              <div class="review-star-footer">
                 <div class="review-star" >별점을 매겨주세요:
                   <div class="starpoint_wrap2">
                     <div class="starpoint_box2">
@@ -433,19 +398,7 @@
          alert("댓글이 정상적으로 등록되었습니다.")
       })
       
-          $(".replyremoveBtn").on("click", function() {
-          if (!confirm("리뷰를 삭제하시겠습니까?"))
-          	return;
-          
-          let form = $("form")
-          form.attr("action", "<c:url value='/detailPage/reply/remove' />")
-          form.attr("method", "post")
-          form.submit()   
-       })
-       
-       
-      
-      let formCheck = function() {
+            let formCheck = function() {
          let form = document.getElementById("reply-form")
          if(form.user_no.value==""){
             alert("로그인 후 댓글을 등록해주세요.")
@@ -461,44 +414,72 @@
          }
          return true
       }
-
-  
-      
-      
       
       
       
       $(".submitMod-review").on("click", function(){
-         let form = $("#mod-form")
-         
-         form.attr("action", "<c:url value='/detailPage/review/modify'/>")
-         form.attr("method", "post")
-           if(modformCheck())  
-            form.submit()
-            
-            alert("수정이 정상적으로 완료되었습니다.")
-      })
+          let form = $("#mod-form")
+          
+          form.attr("action", "<c:url value='/detailPage/reply/modify'/>")
+          form.attr("method", "post")
+            if(modformCheck()){  
+             form.submit()
+            }else{
+            	 return false
+            }
+             alert("수정이 정상적으로 완료되었습니다.")
+       })
+       
+       let modformCheck = function() {    	  
+          let form = document.getElementById("mod-form")
+          if(form.user_no.value==""){
+             alert("로그인 후 리뷰를 등록해주세요.")
+             form.content.focus()
+             return false
+          }         
+          if(form.review_content.value=="") {
+             alert("내용을 입력해 주세요.")
+             console.log("reply-text 포커스 설정 직전"); 
+             form.content.focus()
+             console.log("reply-text 포커스 설정 후");
+             return false
+          }
+          if(form.rating.value==""){
+         	 alert("별점을 입력해 주세요.")
+         	 form.content.focus()
+         	 return false
+          }
+          return true
+       }
+
       
-      let modformCheck = function() {
-         let form = document.getElementById("mod-form")
-         if(form.user_no.value==""){
-            alert("로그인 후 리뷰를 등록해주세요.")
-            /* form.content.focus() */
-            return false
-         }         
-         if(form.review_content.value=="") {
-            alert("내용을 입력해 주세요.")
-            /* form.content.focus() */
-            return false
-         }
-         if(form.rating.value==""){
-        	 alert("별점을 입력해 주세요.")
-        	 /* form.content.focus() */
-        	 return false
-         }
-         return true
-      }
-      
+	$(".removeBtn").on("click", function() {
+	  if (!confirm("리뷰를 삭제하시겠습니까?"))
+	    return;
+	
+	  let form = $("<form>");
+	  form.attr("action", "<c:url value='/detailPage/reply/reviewremove'/>");
+	  form.attr("method", "post");
+	
+	  let content_no = getParameterValueFromURL('content_no'); // 'content_no' 값을 가져옴
+	  let review_no = getParameterValueFromURL('review_no'); // 'review_no' 값을 가져옴
+	
+	  // hidden input 필드를 생성하여 'content_no'와 'review_no' 값을 폼 데이터에 추가
+	  let input1 = $("<input>").attr("type", "hidden").attr("name", "content_no").val(content_no);
+	  let input2 = $("<input>").attr("type", "hidden").attr("name", "review_no").val(review_no);
+	
+	  form.append(input1);
+	  form.append(input2);
+	
+	  $("body").append(form);
+	  form.submit();
+	});
+	
+	// URL에서 파라미터 값을 가져오는 함수
+	function getParameterValueFromURL(param) {
+	  let urlParams = new URLSearchParams(window.location.search);
+	  return urlParams.get(param);
+	}         
       
    })
    </script>
@@ -541,7 +522,7 @@ function getReviewNo(element) {
          
          modButton.on('click', function() {           
            modPopup.css('display', 'block');
-           $('.review-back').fadeIn();
+           $('.reply-back').fadeIn();
            $('.popup12').fadeIn();
            
            
@@ -549,12 +530,12 @@ function getReviewNo(element) {
          
          submitModButton.on('click', function() {
            modPopup.css('display', 'none');
-           $('.review-back').fadeOut();
+           $('.reply-back').fadeOut();
          });
 
          modCancelButton.on('click', function() {
            modPopup.css('display', 'none');
-           $('.review-back').fadeOut();
+           $('.reply-back').fadeOut();
          });
        });
     </script>

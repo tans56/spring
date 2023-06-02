@@ -129,55 +129,6 @@ header{
     width: 50px;
 } */
 
-
-
-.h-icon > ul > li:first-child > a{
-    background:url("../../images/icon/search02.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
-    width: 32px;
-    height: 32px;
-}
-
-.h-icon > ul > li:first-child > a:hover{
-    background: url("../../images/icon/search-h.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
-    width: 32px;
-    height: 32px;
-}
-
-.h-icon > ul > li > .logout{
-    background:url("../../images/icon/user01.png");
-    background-repeat:no-repeat;
-    background-position: center;
-    background-size: 32px;
-    width: 32px;
-    height: 32px;
-}
-
-
-
-.h-icon > ul > li> .logout:hover{
-    background: url("../../images/icon/user-h.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
-    width: 32px;
-    height: 32px;
-}
-
-.h-icon > ul > li > .login{
-    background:url("../../images/img/profile.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
-    width: 32px;
-    height: 32px;
-}
-
 /* main */
 
 /* section01 */

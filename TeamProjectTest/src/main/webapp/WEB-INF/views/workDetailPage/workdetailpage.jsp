@@ -132,46 +132,8 @@
 
         </ul>
       </div>
-      <header>
-        <div class="logo">
-          <a href="<c:url value="/" />">
-				  <img src="${path}/resources/images/logo/OTTT.png" alt="로고">
-				</a>
-			</div>
-			<nav class="gnb">
-				<ul>
-            <li>
-              <a href="<c:url value="/genre/movie" />">영화</a>
-            </li>
-            <li>
-              <a href="<c:url value="/genre/drama" />">드라마</a>
-            </li>
-            <li>
-              <a href="<c:url value="/genre/interest" />">예능</a>
-            </li>
-            <li>
-              <a href="<c:url value="/genre/animation" />">애니</a>
-            </li>
-            <li>
-              <a href="<c:url value="/community" />">게시판</a>
-            </li>
-          </ul>
-        </nav>
-        <div class="h-icon">
-          <ul>
-            <li>
-              <a href="<c:url value='/search' />">
-                <!-- <img src="./images/icon/search02.png" alt="검색"> -->
-              </a>
-            </li>
-            <li>
-              <a href="<c:url value='/mypage' />">
-                <!-- <img src="./images/icon/user01.png" alt="내 정보"> -->
-              </a>
-            </li>
-          </ul>
-        </div>
-      </header>
+      
+      <%@ include file="../fix/header.jsp" %>
 
     <section class="sec01">
       <div class="main-left">
@@ -364,34 +326,35 @@
           <div id="review-popup" class="popup11">
             <form id="review-form">
               <label for="review-text" style="background-color: #202020;">리뷰를 작성해주세요</label>
-				<input type="hidden" name="user_no" value="${sessionScope.user_no}" >
+				<input type="text" name="user_no" value="${sessionScope.user_no}" >
 				<input type="hidden" name="review_no" value="${reviewDTO.review_no }"  />
+				<input type="text" name="content_no" value="${content_no }"> 
               <textarea id="review-text" name="review_content"></textarea>
               <div class="reveiw-star-footer">
                 <div class="review-star" >별점을 매겨주세요:
                   <div class="review-star" >별점을 매겨주세요:
                     <div class="starpoint_wrap">
                       <div class="starpoint_box">
-                        <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
-                        <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>
-                        <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>
-                        <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>
-                        <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>
-                        <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>
-                        <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>
-                        <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>
-                        <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>
-                        <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>
-                        <input type="radio" name="rating" id="starpoint_1" class="star_radio" value="0.5">
-                        <input type="radio" name="rating" id="starpoint_2" class="star_radio" value="1">
-                        <input type="radio" name="rating" id="starpoint_3" class="star_radio" value="1.5">
-                        <input type="radio" name="rating" id="starpoint_4" class="star_radio" value="2">
-                        <input type="radio" name="rating" id="starpoint_5" class="star_radio" value="2.5">
-                        <input type="radio" name="rating" id="starpoint_6" class="star_radio" value="3">
-                        <input type="radio" name="rating" id="starpoint_7" class="star_radio" value="3.5">
-                        <input type="radio" name="rating" id="starpoint_8" class="star_radio" value="4">
-                        <input type="radio" name="rating" id="starpoint_9" class="star_radio" value="4.5">
-                        <input type="radio" name="rating" id="starpoint_10" class="star_radio" value="5">
+                        <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">1점</span></label>
+                        <label for="starpoint_2" class="label_star" title="1"><span class="blind">2점</span></label>
+                        <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">3점</span></label>
+                        <label for="starpoint_4" class="label_star" title="2"><span class="blind">4점</span></label>
+                        <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">5점</span></label>
+                        <label for="starpoint_6" class="label_star" title="3"><span class="blind">6점</span></label>
+                        <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">7점</span></label>
+                        <label for="starpoint_8" class="label_star" title="4"><span class="blind">8점</span></label>
+                        <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">9점</span></label>
+                        <label for="starpoint_10" class="label_star" title="5"><span class="blind">10점</span></label>
+                        <input type="radio" name="rating" id="starpoint_1" class="star_radio" value="1">
+                        <input type="radio" name="rating" id="starpoint_2" class="star_radio" value="2">
+                        <input type="radio" name="rating" id="starpoint_3" class="star_radio" value="3">
+                        <input type="radio" name="rating" id="starpoint_4" class="star_radio" value="4">
+                        <input type="radio" name="rating" id="starpoint_5" class="star_radio" value="5">
+                        <input type="radio" name="rating" id="starpoint_6" class="star_radio" value="6">
+                        <input type="radio" name="rating" id="starpoint_7" class="star_radio" value="7">
+                        <input type="radio" name="rating" id="starpoint_8" class="star_radio" value="8">
+                        <input type="radio" name="rating" id="starpoint_9" class="star_radio" value="9">
+                        <input type="radio" name="rating" id="starpoint_10" class="star_radio" value="10">
                         <span class="starpoint_bg"></span>
                       </div>
                     </div>
@@ -501,7 +464,7 @@
                 <div class="heart1">        
                     <div>
 					   <button class="LikeBtn">
-                      	 <img id="myImage-${myReview.review_no}" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
+                      	 <img id="myImage-${myReview.review_no}" src="${path}/resources/images/img/heart_off.png" width="35" height="80%">
                       </button>					
                     </div>             
                 </div>
@@ -553,7 +516,8 @@
           <div class="popup12 mod-popup">     
               <label for="mod-text" style="background-color: #202020;">리뷰를 작성해주세요</label>
               <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
-              <input type="hidden" name="review_no" class="review_no" value="${myReview.review_no}">            
+              <input type="hidden" name="review_no" class="review_no" value="${myReview.review_no}">  
+              <input type="hidden" name="content_no" value="${myReview.content_no }">          
               <textarea id="review-text" name="review_content" >${ReviewDTO.review_content}</textarea>
               <div class="reveiw-star-footer">
                 <div class="review-star" >별점을 매겨주세요:
@@ -658,7 +622,7 @@
                 <div class="heart">        
                     <div>
 					  <button  class="LikeBtn">
-                      	<img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
+                      	<img id="myImage" src="${path}/resources/images/img/heart_off.png" width="35" height="80%">
                       </button>					
                     </div>             
                 </div>

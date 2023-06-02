@@ -19,42 +19,19 @@ import java.util.Objects;
 public class CommentDTO {
 	
 	private	Integer	cmt_no;
-	private Integer	user_no;
-	private Integer	article_no;
-	private Integer	review_no;
+	private int		user_no;
+	private int		article_no;
+	private int 	review_no;
 	private String	cmt_content;
 	private String	cmt_writer;
 	private Date	cmt_dt;
 	private Date	cmt_mod_dt;
-	private Integer	cmt_like_count;
-	private Integer	report_cnt;
+	private int		cmt_like_count;
+	private int		report_cnt;
 	
 	private String user_nicknm;
 	
-	private UserDTO userDTO;
 	
-	
-	
-	public UserDTO getUserDTO() {
-		return userDTO;
-	}
-
-
-	public void setUserDTO(UserDTO userDTO) {
-		this.userDTO = userDTO;
-	}
-
-
-	public String getUser_nicknm() {
-		return user_nicknm;
-	}
-
-
-	public void setUser_nicknm(String user_nicknm) {
-		this.user_nicknm = user_nicknm;
-	}
-
-
 	public CommentDTO() {}
 
 
@@ -68,32 +45,33 @@ public class CommentDTO {
 	}
 
 
-	public Integer getUser_no() {
+	public int getUser_no() {
 		return user_no;
 	}
 
 
-	public void setUser_no(Integer user_no) {
+	public void setUser_no(int user_no) {
 		this.user_no = user_no;
 	}
 
 
-	public Integer getArticle_no() {
+	public int getArticle_no() {
 		return article_no;
 	}
 
 
-	public void setArticle_no(Integer article_no) {
+	public void setArticle_no(int article_no) {
 		this.article_no = article_no;
 	}
 
-
-	public Integer getReview_no() {
+	
+	
+	public int getReview_no() {
 		return review_no;
 	}
 
 
-	public void setReview_no(Integer review_no) {
+	public void setReview_no(int review_no) {
 		this.review_no = review_no;
 	}
 
@@ -138,23 +116,53 @@ public class CommentDTO {
 	}
 
 
-	public Integer getCmt_like_count() {
+	public int getCmt_like_count() {
 		return cmt_like_count;
 	}
 
 
-	public void setCmt_like_count(Integer cmt_like_count) {
+	public void setCmt_like_count(int cmt_like_count) {
 		this.cmt_like_count = cmt_like_count;
 	}
 
 
-	public Integer getReport_cnt() {
+	public int getReport_cnt() {
 		return report_cnt;
 	}
 
 
-	public void setReport_cnt(Integer report_cnt) {
+	public void setReport_cnt(int report_cnt) {
 		this.report_cnt = report_cnt;
+	}
+	
+	public String getUser_nicknm() {
+		return user_nicknm;
+	}
+
+
+	public void setUser_nicknm(String user_nicknm) {
+		this.user_nicknm = user_nicknm;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(article_no, cmt_content, cmt_writer, cmt_no, user_no);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CommentDTO other = (CommentDTO) obj;
+		return article_no == other.article_no && Objects.equals(cmt_content, other.cmt_content)
+				&& Objects.equals(cmt_writer, other.cmt_writer) && Objects.equals(cmt_no, other.cmt_no)
+				&& user_no == other.user_no;
 	}
 
 
@@ -163,8 +171,7 @@ public class CommentDTO {
 		return "CommentDTO [cmt_no=" + cmt_no + ", user_no=" + user_no + ", article_no=" + article_no + ", review_no="
 				+ review_no + ", cmt_content=" + cmt_content + ", cmt_writer=" + cmt_writer + ", cmt_dt=" + cmt_dt
 				+ ", cmt_mod_dt=" + cmt_mod_dt + ", cmt_like_count=" + cmt_like_count + ", report_cnt=" + report_cnt
-				+ ", user_nicknm=" + user_nicknm + ", userDTO=" + userDTO + "]";
+				+ ", user_nicknm=" + user_nicknm + "]";
 	}
-	
-	
+
 }

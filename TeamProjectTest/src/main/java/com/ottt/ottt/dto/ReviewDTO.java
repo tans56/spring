@@ -1,7 +1,6 @@
 package com.ottt.ottt.dto;
 
 import java.util.Date;
-import java.util.Objects;
 /*
  * --리뷰번호
 	review_no			bigint 			generated always as identity primary key
@@ -19,11 +18,12 @@ import java.util.Objects;
 public class ReviewDTO {
 
 	private Integer review_no;
-	private int content_no;			//이건 작품 번호임
+	private Integer content_no;			//이건 작품 번호임
 	private double rating;
 	private Integer user_no;
 	private String review_content;
 	private Date review_create_dt;
+	private Date review_mod_dt;
 	private int comment_cnt;
 	
 	private String user_nicknm;
@@ -43,10 +43,10 @@ public class ReviewDTO {
 	public void setReview_no(Integer review_no) {
 		this.review_no = review_no;
 	}
-	public int getContent_no() {
+	public Integer getContent_no() {
 		return content_no;
 	}
-	public void setContent_no(int content_no) {
+	public void setContent_no(Integer content_no) {
 		this.content_no = content_no;
 	}
 	public double getRating() {
@@ -85,12 +85,19 @@ public class ReviewDTO {
 	public void setUserDTO(UserDTO userDTO) {
 		this.userDTO = userDTO;
 	}
+	public Date getReview_mod_dt() {
+		return review_mod_dt;
+	}
+	public void setReview_mod_dt(Date review_mod_dt) {
+		this.review_mod_dt = review_mod_dt;
+	}
+	
 	@Override
 	public String toString() {
 		return "ReviewDTO [review_no=" + review_no + ", content_no=" + content_no + ", rating=" + rating + ", user_no="
 				+ user_no + ", review_content=" + review_content + ", review_create_dt=" + review_create_dt
-				+ ", comment_cnt=" + comment_cnt + ", user_nicknm=" + user_nicknm + ", userDTO=" + userDTO + "]";
-	}
-	
+				+ ", review_mod_dt=" + review_mod_dt + ", comment_cnt=" + comment_cnt + ", user_nicknm=" + user_nicknm
+				+ ", userDTO=" + userDTO + "]";
+	}	
 	
 }
