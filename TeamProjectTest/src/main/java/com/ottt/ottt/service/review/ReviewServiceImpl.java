@@ -57,6 +57,12 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.ratingAvg();
 	}
 	
+	@Override
+	public int getDuplication(Integer content_no, int user_no) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.reviewDuplication(content_no, user_no);
+	}
+	
 	
 	//리플페이지
 	@Override
@@ -85,8 +91,11 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public int removeReply(Integer cmt_no, Integer user_no) throws Exception {
+	    CommentDTO commentDTO = reviewDao.selectReply(cmt_no); // cmt_no에 해당하는 CommentDTO를 가져옴
+	    int review_no = commentDTO.getReview_no(); 
 		
-		return reviewDao.deleteReply(cmt_no, user_no);
+	    reviewDao.deleteCommentCnt(review_no, 1);	//댓글 delete시 review테이블의 comment_cnt 1 감소
+	    return reviewDao.deleteReply(cmt_no, user_no); 
 	}
 
 	@Override
@@ -106,6 +115,8 @@ public class ReviewServiceImpl implements ReviewService {
 		// TODO Auto-generated method stub
 		return reviewDao.updateReplyReview(reviewDTO);
 	}
+
+
 
 	
 

@@ -109,7 +109,8 @@
           <div id="review-popup" class="popup11">         
               <label for="review-text" style="background-color: #202020;">리뷰를 작성해주세요</label>
               <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
-              <input type="hidden" name="content_no" value="${content_no }">            
+              <input type="hidden" name="content_no" value="${content_no }">
+                 
               <textarea id="review-text" name="review_content"></textarea>
               <div class="reveiw-star-footer">
                 <div class="review-star" >별점을 매겨주세요:
@@ -427,12 +428,11 @@
              form.attr("method", "post")
                  
          if(formCheck()){
-            form.submit()
+            form.submit()           
          }else{
         	 return false
          }
-         
-         alert("리뷰가 정상적으로 등록되었습니다.")
+         alert("리뷰가 등록되었습니다.")
       })
       
       let formCheck = function() {
@@ -451,10 +451,12 @@
         	 alert("별점을 입력해 주세요.")
         	 document.getElementById("review-text").focus();
         	 return false
-         }
+         }  
          return true;
       }
       
+   
+
       $(".removeBtn").on("click", function() {
           if (!confirm("리뷰를 삭제하시겠습니까?"))
           	return;
@@ -501,7 +503,7 @@
       }
       
       
-   })
+   });
    </script>
    
    <script>

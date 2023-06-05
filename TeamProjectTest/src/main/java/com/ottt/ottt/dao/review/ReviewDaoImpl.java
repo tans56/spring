@@ -75,6 +75,14 @@ public class ReviewDaoImpl implements ReviewDao {
 		return session.update(namespace + "deleteCommentCnt", map);
 	}
 	
+	@Override
+	public int reviewDuplication(Integer content_no, int user_no) throws Exception {
+		Map map = new HashMap();
+		map.put("content_no", content_no);
+		map.put("user_no", user_no);
+		return session.selectOne(namespace + "reviewDuplication", map);
+	}
+	
 	
 	//리플 페이지
 	@Override
@@ -129,5 +137,6 @@ public class ReviewDaoImpl implements ReviewDao {
 		// TODO Auto-generated method stub
 		return session.update(namespace + "updateReplyReview", reviewDTO);
 	}
+
 
 }

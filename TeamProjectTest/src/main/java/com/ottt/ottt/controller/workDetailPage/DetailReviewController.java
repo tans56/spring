@@ -5,7 +5,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,11 +69,11 @@ public class DetailReviewController {
          }
          attr.addFlashAttribute("msg", "fail");
          return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
-      } catch (Exception e) {
-         e.printStackTrace();
-         m.addAttribute("msg", "ok");
-         return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
-      }
+      }  catch (Exception e) {
+          e.printStackTrace();
+          
+          return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
+       }
       
    
    }

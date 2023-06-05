@@ -13,6 +13,7 @@ public interface ReviewDao {
 	double ratingAvg() throws Exception;
 	int updateCommentCnt(Integer review_no, int cnt)throws Exception;
 	int deleteCommentCnt(Integer review_no, int cnt)throws Exception;
+	int reviewDuplication(Integer content_no, int user_no) throws Exception;
 	
 	ReviewDTO selectReview(Integer content_no, Integer user_no)throws Exception;
 	

@@ -473,13 +473,46 @@
 	
 	  $("body").append(form);
 	  form.submit();
+	  alert("성공적으로 삭제되었습니다.")
 	});
 	
 	// URL에서 파라미터 값을 가져오는 함수
 	function getParameterValueFromURL(param) {
 	  let urlParams = new URLSearchParams(window.location.search);
 	  return urlParams.get(param);
-	}         
+	}  
+	
+ 	$(".replyremoveBtn").on("click", function() {
+		  if (!confirm("리뷰를 삭제하시겠습니까?"))
+		    return;
+		
+		  let form = $("<form>");
+		  form.attr("action", "<c:url value='/detailPage/reply/replyremove'/>");
+		  form.attr("method", "post");
+		
+		  let content_no = getParameterValueFromURL('content_no'); // 'content_no' 값을 가져옴
+		  let review_no = getParameterValueFromURL('review_no'); // 'review_no' 값을 가져옴
+		  let cmt_no = $("input[name='cmt_no']").val(); // cmt_no 값을 가져옴
+		  
+		  // hidden input 필드를 생성하여 'content_no'와 'review_no' 값을 폼 데이터에 추가
+		  let input1 = $("<input>").attr("type", "hidden").attr("name", "content_no").val(content_no);
+		  let input2 = $("<input>").attr("type", "hidden").attr("name", "review_no").val(review_no);		  
+		  let input3 = $("<input>").attr("type", "hidden").attr("name", "cmt_no").val(cmt_no);
+		  
+		  form.append(input1);
+		  form.append(input2);
+		  form.append(input3);
+		
+		  $("body").append(form);
+		  form.submit();
+		  alert("성공적으로 삭제되었습니다.")
+		});
+		
+		// URL에서 파라미터 값을 가져오는 함수
+		function getParameterValueFromURL(param) {
+		  let urlParams = new URLSearchParams(window.location.search);
+		  return urlParams.get(param);
+		}
       
    })
    </script>

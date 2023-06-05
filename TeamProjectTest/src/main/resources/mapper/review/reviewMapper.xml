@@ -52,12 +52,18 @@
     update tb_review 
 	set comment_cnt = comment_cnt - #{cnt}
 	where review_no = #{review_no}
-   </update>    
+   </update>  
+   
+   <select id="reviewDuplication" parameterType="map" resultType="int">
+    select count(*)
+	from tb_review
+	where content_no = #{content_no} and user_no = #{user_no}
+   </select>  
    
    
    <!-- 리플 페이지  -->     
    <select id="selectReply" parameterType="Integer" resultType="CommentDTO">
-   select cmt_no, user_no, review_no, cmt_content, cmt_writer, cmt_dt, cmt_mod_dt,
+   select cmt_no, user_no, review_no, cmt_content, cmt_writer, cmt_dt, cmt_mod_dt
    from tb_comment
    where cmt_no = #{cmt_no};
    </select>

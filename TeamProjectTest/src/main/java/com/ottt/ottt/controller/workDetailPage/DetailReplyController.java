@@ -82,7 +82,7 @@ public class DetailReplyController {
 	   }
 	   
 	   @PostMapping("/detailPage/reply/reviewremove")
-	   public String replyremove(RedirectAttributes rattr, HttpSession session, Model m,ReviewDTO reviewDTO,
+	   public String replyreviewremove(RedirectAttributes rattr, HttpSession session, Model m,ReviewDTO reviewDTO,
 			   @RequestParam("content_no") int content_no, @RequestParam("review_no") int review_no) {
 	      Integer user_no = (Integer) session.getAttribute("user_no");
 	      
@@ -103,6 +103,36 @@ public class DetailReplyController {
 	      
 	      
 	      return "redirect:/detailPage/review?content_no=" + content_no;
+	   }
+	   
+	   @PostMapping("/detailPage/reply/replyremove")
+	   public String replyremove(RedirectAttributes rattr, HttpSession session, Model m,ReviewDTO reviewDTO,
+			   @RequestParam("content_no") int content_no, @RequestParam("review_no") int review_no, @RequestParam("cmt_no") Integer cmt_no) {
+	      Integer user_no = (Integer) session.getAttribute("user_no");
+	      
+	      String msg = "DEL_OK";
+	      System.out.println("컨트롤러 진입");
+	      
+	      try {
+	    	
+	         if(reviewService.removeReply(cmt_no, user_no) !=1) {
+	        	 System.out.println("service문 실행");
+	        	 System.out.println("cmt_no + " + cmt_no + "===================================================================================");
+	        	 System.out.println("user_no + " + user_no + "===================================================================================");
+	        	 throw new Exception("Delete failed.");
+	         }
+	         
+	         
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	         msg = "DEL_ERR";
+	      }
+
+	      rattr.addFlashAttribute("msg", msg);
+	      
+	      
+	      
+	      return "redirect:/detailPage/reply?content_no="+ reviewDTO.getContent_no() + "&review_no=" + review_no;
 	   }
 	   
 	   @PostMapping("/detailPage/reply/modify")
