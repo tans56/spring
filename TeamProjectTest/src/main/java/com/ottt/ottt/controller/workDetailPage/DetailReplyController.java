@@ -1,6 +1,8 @@
 package com.ottt.ottt.controller.workDetailPage;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ottt.ottt.dao.login.LoginUserDao;
@@ -45,7 +48,7 @@ public class DetailReplyController {
 		m.addAttribute("content_no", content_no);
 		try {
 			ReviewDTO Review = reviewService.getReplyReview(content_no, review_no);
-			List<CommentDTO> list = reviewService.getreply(review_no);
+			List<CommentDTO> list = reviewService.getallreply(review_no);
 			int count = reviewService.getReplyCount(review_no);
 			System.out.println(review_no);
 			System.out.println(content_no);
@@ -135,8 +138,9 @@ public class DetailReplyController {
 	      return "redirect:/detailPage/reply?content_no="+ reviewDTO.getContent_no() + "&review_no=" + review_no;
 	   }
 	   
-	   @PostMapping("/detailPage/reply/modify")
-	   public String modifyReview(ReviewDTO reviewDTO, RedirectAttributes rattr, Model m, HttpSession session,@RequestParam("content_no") int content_no) {
+	   @PostMapping("/detailPage/reply/reviewmodify")
+	   public String modifyReview(ReviewDTO reviewDTO, RedirectAttributes rattr, Model m, HttpSession session,
+			   						@RequestParam("content_no") int content_no) {
 	      Integer user_no = (Integer) session.getAttribute("user_no");
 	      
 	      
@@ -162,4 +166,30 @@ public class DetailReplyController {
 	      }
 	   }
 	   
+	   
+	   @PostMapping("/detailPage/reply/replymodify")
+	   @ResponseBody
+	   public ResponseEntity<Map<String, Object>> modifyReply(CommentDTO commentDTO, RedirectAttributes rattr, Model m, HttpSession session,
+	                                                           @RequestParam("content_no") int content_no, @RequestParam("review_no") int review_no) {
+	       Integer user_no = (Integer) session.getAttribute("user_no");
+	       Map<String, Object> response = new HashMap<>();
+
+	       try {
+	           CommentDTO cmt_no = reviewService.getReply(commentDTO.getCmt_no());
+	           m.addAttribute("cmt_no", cmt_no);
+	           m.addAttribute("user_no", user_no);
+	           if (reviewService.modifyReply(commentDTO) != 1)
+	               throw new Exception("Modify failed");
+
+	           response.put("success", true);
+	           response.put("message", "수정이 정상적으로 완료되었습니다.");
+	       } catch (Exception e) {
+	           e.printStackTrace();
+	           m.addAttribute("commentDTO", commentDTO);
+	           response.put("success", false);
+	           response.put("message", "수정 중 오류가 발생했습니다.");
+	       }
+
+	       return ResponseEntity.ok(response);
+	   }
 }

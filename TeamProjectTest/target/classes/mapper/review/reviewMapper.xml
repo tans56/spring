@@ -37,9 +37,9 @@
    </select>
    
    <select id="selectReview" parameterType="map" resultType="ReviewDTO">
-      SELECT review_no, content_no, a.rating, review_content, review_create_dt, b.user_nicknm, b.user_no, comment_cnt  
-      FROM tb_review a, tb_user b
-      where a.user_no = b.user_no and a.content_no = #{content_no} and b.user_no = #{user_no}
+      SELECT review_no, c.content_no, a.rating, review_content, review_create_dt, b.user_nicknm, b.user_no, comment_cnt  
+      FROM tb_review a, tb_user b, tb_content c
+      where a.user_no = b.user_no and c.content_no = #{content_no} and b.user_no = #{user_no} and a.content_no = c.content_no
    </select>  
    
    <update id="updateCommentCnt" parameterType="map">
@@ -65,7 +65,7 @@
    <select id="selectReply" parameterType="Integer" resultType="CommentDTO">
    select cmt_no, user_no, review_no, cmt_content, cmt_writer, cmt_dt, cmt_mod_dt
    from tb_comment
-   where cmt_no = #{cmt_no};
+   where cmt_no = #{cmt_no}
    </select>
    
    <select id="replyReview" parameterType="map" resultType="ReviewDTO">
@@ -109,4 +109,10 @@
     delete from tb_comment 
     where cmt_no = #{cmt_no} and user_no = #{user_no}
     </delete>
+    
+    <update id="updateReply" parameterType="CommentDTO">
+    UPDATE tb_comment
+	SET cmt_content = #{cmt_content}, cmt_mod_dt= now()
+	WHERE cmt_no= #{cmt_no} and user_no = #{user_no};
+    </update>
 </mapper>

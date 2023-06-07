@@ -432,7 +432,7 @@
          }else{
         	 return false
          }
-         alert("리뷰가 등록되었습니다.")
+         
       })
       
       let formCheck = function() {
@@ -455,6 +455,18 @@
          return true;
       }
       
+   // 중복 메시지 표시
+      <c:if test="${not empty msg}">
+          <c:choose>
+              <c:when test="${msg eq 'success'}">
+                  alert("리뷰가 성공적으로 등록되었습니다.");
+              </c:when>
+              <c:when test="${msg eq 'fail'}">
+                  alert("이미 리뷰가 등록되어 있습니다.");
+              </c:when>
+          </c:choose>
+      </c:if>
+      
    
 
       $(".removeBtn").on("click", function() {
@@ -464,7 +476,8 @@
           let form = $("form")
           form.attr("action", "<c:url value='/detailPage/review/remove' />")
           form.attr("method", "post")
-          form.submit()   
+          form.submit() 
+          alert("성공적으로 삭제되었습니다.")
        })
       
       

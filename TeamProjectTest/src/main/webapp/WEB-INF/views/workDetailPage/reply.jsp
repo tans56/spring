@@ -21,7 +21,7 @@
     crossorigin="anonymous">
     <link rel="stylesheet" href="${path}/resources/css/workDetailPage/reply.css" >  
   </head>
-  <body style="background-color: #202020; color: #fff;">
+  <body style="background-color: #202020; color: #fff;" id="area">
     <div class="wrap">
     
       <%@ include file="../fix/header.jsp" %>
@@ -232,7 +232,7 @@
             	</c:if>
             	<c:if test="${Review.user_no == sessionScope.user_no}">
                <div class="modify" >
-                  <button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)"><img src="${path }/resources/images/img/review.png">수정</button>
+                  <button type="button" name="modBtn" id="modify" class="modOnBtn" ><img src="${path }/resources/images/img/review.png">수정</button>
                </div>
             
    			 <button class="removeBtn"><img src="${path}/resources/images/img/delete.png">삭제</button>
@@ -277,7 +277,7 @@
                 </div>
    
                 <div class="review-bottom">
-                  <div class="checkedblur"><input type="checkbox" id="checkbox-blur"/>스포일러 포함 여부</div>
+                  <div class="checkedblur1"><input type="checkbox" id="checkbox-blur"/>스포일러 포함 여부</div>
                 <button type="button" class="submitMod-review" id="submit-Mod">     
                   리뷰 수정
                 </button>
@@ -292,9 +292,11 @@
               </button>                        
           </div>
           </form>
+          
+          
    </section>
     <section class="sec02" id="sec02">
-      <div class="review">
+      <div class="review" id="11">
 
         <div class="review-count">
         <p>
@@ -315,7 +317,7 @@
               </a>
               <p class="reply-date-insert" name="cmt_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${CommentDTO.cmt_dt}"/></p>
              <input type="hidden" name="review_no" value="${CommentDTO.review_no }"> 
-             <input type="text" name="cmt_no" value ="${CommentDTO.cmt_no }">
+             <input type="hidden" name="cmt_no" value ="${CommentDTO.cmt_no }">
             </div>           
                 <div class="heart">        
                     <div>
@@ -349,7 +351,9 @@
                   </div>
                <c:if test="${CommentDTO.user_no == sessionScope.user_no}">
                <div class="replymodify" >
-                  <button type="button" name="modBtn" id="replymodify" class="modOnBtn" onclick="getReviewNo(this)"><img src="${path }/resources/images/img/review.png">수정</button>
+                  <button type="button" name="replymodBtn" id="replymodify" class="ReplymodOnBtn" data-cmt-no="${CommentDTO.cmt_no}" data-cmt-content="${CommentDTO.cmt_content}">
+                  	<img src="${path }/resources/images/img/review.png">수정
+                  </button>
                </div>
    			 <button  class="replyremoveBtn"><img src="${path}/resources/images/img/delete.png">삭제</button>
    			
@@ -360,7 +364,30 @@
         
         </c:forEach>
       </div>
-           
+         <form id="replymod-form" class="replymod-form">   
+          <div class="popup13 replymod-popup">     
+              <label for="replymod-text" style="background-color: #202020;">댓글를 작성해주세요</label>
+              <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
+              <input type="hidden" name="cmt_no" class="cmt_no" value="${cmt_no}">  
+              <input type="hidden" name="content_no" value="${content_no }">          
+              <textarea id="reply-text" name="cmt_content" class="text_reply" >${CommentDTO.cmt_content}</textarea>
+              <div class="review-star-footer">  
+                <div class="modreply-bottom">
+                  <div class="checkedblur"><input type="checkbox" id="checkbox-blur"/>스포일러 포함 여부</div>
+                <button type="button" class="submitMod-reply" id="submit-Modreply">     
+                  댓글 수정
+                </button>
+                </div>
+              </div>
+              <button type="button" class="replymodcancel-review">
+              
+                <ul>
+                  <li></li>
+                  <li></li>
+                </ul>
+              </button>                        
+          </div>
+          </form>  
     </section>
     
     <footer>
@@ -420,7 +447,7 @@
       $(".submitMod-review").on("click", function(){
           let form = $("#mod-form")
           
-          form.attr("action", "<c:url value='/detailPage/reply/modify'/>")
+          form.attr("action", "<c:url value='/detailPage/reply/reviewmodify'/>")
           form.attr("method", "post")
             if(modformCheck()){  
              form.submit()
@@ -482,27 +509,27 @@
 	  return urlParams.get(param);
 	}  
 	
- 	$(".replyremoveBtn").on("click", function() {
-		  if (!confirm("리뷰를 삭제하시겠습니까?"))
+	$(".replyremoveBtn").on("click", function() {
+		  if (!confirm("댓글을 삭제하시겠습니까?"))
 		    return;
-		
+
 		  let form = $("<form>");
 		  form.attr("action", "<c:url value='/detailPage/reply/replyremove'/>");
 		  form.attr("method", "post");
-		
+
 		  let content_no = getParameterValueFromURL('content_no'); // 'content_no' 값을 가져옴
 		  let review_no = getParameterValueFromURL('review_no'); // 'review_no' 값을 가져옴
 		  let cmt_no = $("input[name='cmt_no']").val(); // cmt_no 값을 가져옴
-		  
-		  // hidden input 필드를 생성하여 'content_no'와 'review_no' 값을 폼 데이터에 추가
+
+		  // hidden input 필드를 생성하여 'content_no', 'review_no', 'cmt_no' 값을 폼 데이터에 추가
 		  let input1 = $("<input>").attr("type", "hidden").attr("name", "content_no").val(content_no);
-		  let input2 = $("<input>").attr("type", "hidden").attr("name", "review_no").val(review_no);		  
+		  let input2 = $("<input>").attr("type", "hidden").attr("name", "review_no").val(review_no);
 		  let input3 = $("<input>").attr("type", "hidden").attr("name", "cmt_no").val(cmt_no);
-		  
+
 		  form.append(input1);
 		  form.append(input2);
 		  form.append(input3);
-		
+
 		  $("body").append(form);
 		  form.submit();
 		  alert("성공적으로 삭제되었습니다.")
@@ -513,16 +540,63 @@
 		  let urlParams = new URLSearchParams(window.location.search);
 		  return urlParams.get(param);
 		}
+		
+		$(".submitMod-reply").on("click", function() {
+			  let form = $("#replymod-form");
+			  let content_no = getParameterValueFromURL('content_no');
+			  let review_no = getParameterValueFromURL('review_no');
+			  let cmt_no = $("input[name='cmt_no']").val();
+
+			  // Create form data object
+			  let formData = new FormData(form[0]);
+			  formData.append("content_no", content_no);
+			  formData.append("review_no", review_no);
+			  formData.append("cmt_no", cmt_no);
+
+			  $.ajax({
+			    url: "<c:url value='/detailPage/reply/replymodify'/>",
+			    type: "POST",
+			    data: formData,
+			    processData: false,
+			    contentType: false,
+			    dataType: "json",
+			    success: function(response) {
+			      if (response.success) {
+			        alert(response.message);
+
+			        // Fetch updated data
+			        $.ajax({
+			          url: "<c:url value='/detailPage/reply'/>",
+			          type: "GET",
+			          data: {
+			            content_no: content_no,
+			            review_no: review_no
+			          },
+			          success: function(data) {
+			            // Update the relevant section of the page with the updated data
+			            $("#area").html(data);
+			          },
+			          error: function(xhr, status, error) {
+			            alert("데이터를 가져오는 중 오류가 발생했습니다.");
+			          }
+			        });
+
+			        // Clear the form fields
+			        form.find("textarea[name='cmt_content']").val("");
+			      } else {
+			        alert(response.message);
+			      }
+			    },
+			    error: function(xhr, status, error) {
+			      alert("수정 중 오류가 발생했습니다.");
+			    }
+			  });
+			});
       
    })
    </script>
    
-   <script>
-function getReviewNo(element) {
-  var reviewNo = element.parentNode.parentNode.querySelector('.review_no').val();
-  console.log(reviewNo); // reviewno 값을 출력하거나 원하는 처리를 수행합니다.
-}
-</script>
+
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -535,6 +609,11 @@ function getReviewNo(element) {
          const modPopup = $('.mod-popup');
          const submitModButton = $('.submitMod-review');
          const modCancelButton = $('.modcancel-review');
+         
+         const ReplymodButton = $('.ReplymodOnBtn');
+         const ReplymodPopup = $('.replymod-popup');
+         const ReplysubmitModButton = $('.submitMod-reply');
+         const ReplymodCancelButton = $('.replymodcancel-review');
          
          
          reviewButton.on('click', function() {
@@ -570,7 +649,29 @@ function getReviewNo(element) {
            modPopup.css('display', 'none');
            $('.reply-back').fadeOut();
          });
+         
+     	ReplymodButton.on('click', function() {   
+     		const cmt_no = $(this).data('cmt-no');
+     		const cmt_content = $(this).data('cmt-content'); // 수정 버튼의 data-cmt-content 값을 가져옴
+    		ReplymodPopup.css('display', 'block');    		
+            $('.reply-back').fadeIn();
+            $('.popup13').fadeIn();    
+            $('input[name="cmt_no"]').val(cmt_no);
+            $('textarea[name="cmt_content"]').val(cmt_content); // replymod-form의 cmt_content 필드에 설정
+          });
+    	
+    	ReplysubmitModButton.on('click', function() {
+    		ReplymodPopup.css('display', 'none');
+            $('.reply-back').fadeOut();
+          });
+    	
+    	ReplymodCancelButton.on('click', function() {           
+    		ReplymodPopup.css('display', 'none');
+            $('.reply-back').fadeOut();                      
+          });
        });
+    
+
     </script>
 
     <script

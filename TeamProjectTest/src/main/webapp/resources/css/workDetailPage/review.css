@@ -787,7 +787,7 @@ form label{
 
 .starpoint_box{
     position:relative;
-    background:url(https://ido-archive.github.io/svc/etc/element/img/sp_star.png) 0 0 no-repeat;
+    background:url(https://hsecode.github.io/images_codepen/codepen_sp_star.png) 0 0 no-repeat;
     font-size:0;
     width: 100px;
     height: 20px;
@@ -796,13 +796,14 @@ form label{
     bottom: 4px;
 }
 
+
 .starpoint_box .starpoint_bg{
     display:block;
     position:absolute;
     top:0;
     left:0;
     height:18px;
-    background:url(https://ido-archive.github.io/svc/etc/element/img/sp_star.png) 0 -20px no-repeat;
+    background:url(https://hsecode.github.io/images_codepen/codepen_sp_star.png) 0 -20px no-repeat;
     pointer-events:none;
 }
 
@@ -882,6 +883,7 @@ form label{
     position: absolute;
     right: 150px;
     top: 15px;
+    z-index:9999;
 }
 
 
@@ -892,7 +894,7 @@ form label{
     font-size:0;
     width: 100px;
     height: 20px;
-
+	z-index:9999;
     right: 410px;
     bottom: 4px;
 }

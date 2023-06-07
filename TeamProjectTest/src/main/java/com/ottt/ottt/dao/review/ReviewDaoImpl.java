@@ -137,6 +137,12 @@ public class ReviewDaoImpl implements ReviewDao {
 		// TODO Auto-generated method stub
 		return session.update(namespace + "updateReplyReview", reviewDTO);
 	}
+	
+	@Override
+	public int updateReply(CommentDTO CommentDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return session.update(namespace + "updateReply", CommentDTO);
+	}
 
 
 }

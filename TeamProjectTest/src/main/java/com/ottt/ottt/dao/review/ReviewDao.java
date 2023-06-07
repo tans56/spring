@@ -31,4 +31,5 @@ public interface ReviewDao {
 	int deleteReply(Integer cmt_no, int user_no)throws Exception;
 	int deleteReplyReview(Integer review_no, int user_no) throws Exception;
 	int updateReplyReview(ReviewDTO reviewDTO)throws Exception;
+	int updateReply(CommentDTO CommentDTO) throws Exception;
 }

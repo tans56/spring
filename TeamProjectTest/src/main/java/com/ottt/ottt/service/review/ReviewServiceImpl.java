@@ -72,7 +72,7 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<CommentDTO> getreply(Integer review_no) throws Exception {
+	public List<CommentDTO> getallreply(Integer review_no) throws Exception {
 		
 		return reviewDao.allreply(review_no);
 	}
@@ -114,6 +114,12 @@ public class ReviewServiceImpl implements ReviewService {
 	public int modifyReplyReview(ReviewDTO reviewDTO) throws Exception {
 		// TODO Auto-generated method stub
 		return reviewDao.updateReplyReview(reviewDTO);
+	}
+
+	@Override
+	public int modifyReply(CommentDTO CommentDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.updateReply(CommentDTO);
 	}
 
 

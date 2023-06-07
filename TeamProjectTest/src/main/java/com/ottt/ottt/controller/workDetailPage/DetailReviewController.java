@@ -51,7 +51,7 @@ public class DetailReviewController {
          m.addAttribute("rating", rating);
          request.setAttribute("rating", rating);
          System.out.println(rating);
-         ReviewDTO myReview = reviewService.getReviewNo(4, user_no);
+         ReviewDTO myReview = reviewService.getReviewNo(content_no, user_no);
 
          m.addAttribute("myReview", myReview);
       } catch (Exception e) {   e.printStackTrace();}
@@ -62,18 +62,21 @@ public class DetailReviewController {
    @PostMapping("/detailPage/review/write")
    public String writeReview(ReviewDTO reviewDTO, RedirectAttributes attr,
                      Model m, HttpSession session ) {      
-      try {
-         if(reviewService.writeReview(reviewDTO) != 1) {
-            throw new Exception("Write failed");
-            
-         }
-         attr.addFlashAttribute("msg", "fail");
-         return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
-      }  catch (Exception e) {
-          e.printStackTrace();
-          
-          return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
-       }
+	    try {
+	        int duplication = reviewService.getDuplication(reviewDTO.getContent_no(), reviewDTO.getUser_no());
+	        if (duplication == 0) {
+	            if (reviewService.writeReview(reviewDTO) != 1) {
+	                throw new Exception("Write failed");
+	            }
+	            attr.addFlashAttribute("msg", "success");
+	        } else {
+	            attr.addFlashAttribute("msg", "fail");
+	        }
+	        return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "redirect:/detailPage/review?content_no=" + reviewDTO.getContent_no();
+	    }
       
    
    }
