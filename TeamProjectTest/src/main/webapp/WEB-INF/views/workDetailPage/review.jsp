@@ -21,7 +21,7 @@
     crossorigin="anonymous">
     <link rel="stylesheet" href="${path}/resources/css/workDetailPage/review.css" >  
   </head>
-  <body style="background-color: #202020; color: #fff;">
+  <body style="background-color: #202020; color: #fff;" class="area">
     <div class="wrap">
     
       <%@ include file="../fix/header.jsp" %>
@@ -109,8 +109,7 @@
           <div id="review-popup" class="popup11">         
               <label for="review-text" style="background-color: #202020;">리뷰를 작성해주세요</label>
               <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
-              <input type="hidden" name="content_no" value="${content_no }">
-                 
+              <input type="hidden" name="content_no" value="${content_no }">                
               <textarea id="review-text" name="review_content"></textarea>
               <div class="reveiw-star-footer">
                 <div class="review-star" >별점을 매겨주세요:
@@ -271,7 +270,7 @@
               <input type="hidden" name="user_no" value="${sessionScope.user_no}" > 
               <input type="hidden" name="review_no" class="review_no" value="${myReview.review_no}">   
               <input type="hidden" name="content_no" value="${content_no }">          
-              <textarea id="review-text" name="review_content" >${ReviewDTO.review_content}</textarea>
+              <textarea id="review-text" name="review_content" >${myReview.review_content}</textarea>
               <div class="reveiw-star-footer">
                 <div class="review-star" >별점을 매겨주세요:
                   <div class="starpoint_wrap2">
@@ -309,7 +308,7 @@
                 </div>
               </div>
               <button type="button" class="modcancel-review">
-              
+
                 <ul>
                   <li></li>
                   <li></li>
@@ -398,7 +397,22 @@
         
         </c:forEach>
       </div>
-           
+                <!-- Modal -->
+           <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999;">
+             <div class="modal-dialog modal-dialog-centered">
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <h1 class="modal-title fs-5" id="exampleModalLabel">알림</h1>
+                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body body">
+                 </div>
+                 <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                 </div>
+               </div>
+             </div>
+           </div>      
     </section>
     
     <footer>
@@ -437,18 +451,21 @@
       
       let formCheck = function() {
          let form = document.getElementById("review-form")
-         if(form.user_no.value==""){
-            alert("로그인 후 리뷰를 등록해주세요.")
+         if(form.user_no.value==""){		
+              $(".body").html("로그인 후 리뷰를 등록해주세요.");
+              $('#Modal').modal('show');              
             document.getElementById("review-text").focus();
             return false;
          }         
          if(form.review_content.value=="") {
-            alert("내용을 입력해 주세요.")
+              $(".body").html("내용을 입력해 주세요.");
+              $('#Modal').modal('show');           
             document.getElementById("review-text").focus();
             return false;
          }
          if(form.rating.value==""){
-        	 alert("별점을 입력해 주세요.")
+    		  $(".body").html("별점을 입력해 주세요.");
+              $('#Modal').modal('show');
         	 document.getElementById("review-text").focus();
         	 return false
          }  
@@ -459,10 +476,12 @@
       <c:if test="${not empty msg}">
           <c:choose>
               <c:when test="${msg eq 'success'}">
-                  alert("리뷰가 성공적으로 등록되었습니다.");
+     		  $(".body").html("정상적으로 등록되었습니다.");
+              $('#Modal').modal('show');
               </c:when>
               <c:when test="${msg eq 'fail'}">
-                  alert("이미 리뷰가 등록되어 있습니다.");
+         		  $(".body").html("이미 리뷰가 등록되어 있습니다.");
+                  $('#Modal').modal('show');
               </c:when>
           </c:choose>
       </c:if>
@@ -470,17 +489,31 @@
    
 
       $(".removeBtn").on("click", function() {
-          if (!confirm("리뷰를 삭제하시겠습니까?"))
-          	return;
-          
-          let form = $("form")
-          form.attr("action", "<c:url value='/detailPage/review/remove' />")
-          form.attr("method", "post")
-          form.submit() 
-          alert("성공적으로 삭제되었습니다.")
-       })
+    	  let modalBody = $(".body");
+    	  modalBody.html("리뷰를 삭제하시겠습니까?");
+    	  $('#Modal').modal('show');
+
+    	  // 확인 버튼 클릭 시 리뷰 삭제 실행
+    	  $('.btn-secondary').on('click', function() {
+    	    let form = $("form");
+    	    form.attr("action", "<c:url value='/detailPage/review/remove' />");
+    	    form.attr("method", "post");
+    	    form.submit();
+    	  })
+    	})
       
-      
+      <c:if test="${not empty msg}">
+          <c:choose>
+              <c:when test="${msg eq 'DEL_OK'}">
+     		  $(".body").html("삭제가 완료되었습니다.");
+              $('#Modal').modal('show');
+              </c:when>
+              <c:when test="${msg eq 'DEL_ERR'}">
+         		  $(".body").html("다시 시도해 주세요.");
+                  $('#Modal').modal('show');
+              </c:when>
+          </c:choose>
+      </c:if>
       
       
       
@@ -491,40 +524,47 @@
          form.attr("method", "post")
            if(modformCheck())  
             form.submit()
-            
-            alert("수정이 정상적으로 완료되었습니다.")
+           
       })
-      
+
       let modformCheck = function() {
          let form = document.getElementById("mod-form")
          if(form.user_no.value==""){
-            alert("로그인 후 리뷰를 등록해주세요.")
+   		  $(".body").html("로그인 후 리뷰를 등록해주세요.");
+          $('#Modal').modal('show');
             form.content.focus()
             return false
          }         
          if(form.review_content.value=="") {
-            alert("내용을 입력해 주세요.")
+   		  $(".body").html("내용을 입력해 주세요.");
+          $('#Modal').modal('show');
             form.content.focus()
             return false
          }
          if(form.rating.value==""){
-        	 alert("별점을 입력해 주세요.")
+   		  $(".body").html("별점을 입력해 주세요.");
+          $('#Modal').modal('show');
         	 form.content.focus()
         	 return false
          }
          return true
       }
-      
+  <c:if test="${not empty msg}">
+      <c:choose>
+          <c:when test="${msg eq 'MOD_OK'}">
+ 		  $(".body").html("수정이 완료되었습니다.");
+          $('#Modal').modal('show');
+          </c:when>
+          <c:when test="${msg eq 'MOD_ERR'}">
+     		  $(".body").html("다시 시도해 주세요.");
+              $('#Modal').modal('show');
+          </c:when>
+      </c:choose>
+  </c:if> 
       
    });
    </script>
    
-   <script>
-function getReviewNo(element) {
-  var reviewNo = element.parentNode.parentNode.querySelector('.review_no').val();
-  console.log(reviewNo); // reviewno 값을 출력하거나 원하는 처리를 수행합니다.
-}
-</script>
 
 <script type="text/javascript">
     $(document).ready(function() {

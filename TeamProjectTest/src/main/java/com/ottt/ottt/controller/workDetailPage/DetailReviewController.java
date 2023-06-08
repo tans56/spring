@@ -50,7 +50,6 @@ public class DetailReviewController {
          m.addAttribute("count", count);
          m.addAttribute("rating", rating);
          request.setAttribute("rating", rating);
-         System.out.println(rating);
          ReviewDTO myReview = reviewService.getReviewNo(content_no, user_no);
 
          m.addAttribute("myReview", myReview);

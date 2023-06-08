@@ -75,11 +75,11 @@ public class DetailReplyController {
 	            throw new Exception("Write failed");
 	            
 	         }
-	         attr.addFlashAttribute("msg", "fail");
+	         attr.addFlashAttribute("msg", "ok");
 	         return "redirect:/detailPage/reply?content_no=" + reviewDTO.getContent_no() + "&review_no=" + commentDTO.getReview_no();
 	      } catch (Exception e) {
 	         e.printStackTrace();
-	         m.addAttribute("msg", "ok");
+	         m.addAttribute("msg", "fail");
 	         return "redirect:/detailPage/reply?content_no="+ reviewDTO.getContent_no() + "&review_no=" + commentDTO.getReview_no();
 	      }	   
 	   }
@@ -113,22 +113,19 @@ public class DetailReplyController {
 			   @RequestParam("content_no") int content_no, @RequestParam("review_no") int review_no, @RequestParam("cmt_no") Integer cmt_no) {
 	      Integer user_no = (Integer) session.getAttribute("user_no");
 	      
-	      String msg = "DEL_OK";
-	      System.out.println("컨트롤러 진입");
+	      String msg = "REPLYDEL_OK";	      
 	      
 	      try {
 	    	
 	         if(reviewService.removeReply(cmt_no, user_no) !=1) {
-	        	 System.out.println("service문 실행");
-	        	 System.out.println("cmt_no + " + cmt_no + "===================================================================================");
-	        	 System.out.println("user_no + " + user_no + "===================================================================================");
+	        	
 	        	 throw new Exception("Delete failed.");
 	         }
 	         
 	         
 	      } catch (Exception e) {
 	         e.printStackTrace();
-	         msg = "DEL_ERR";
+	         msg = "REPLYDEL_ERR";
 	      }
 
 	      rattr.addFlashAttribute("msg", msg);
@@ -183,11 +180,13 @@ public class DetailReplyController {
 
 	           response.put("success", true);
 	           response.put("message", "수정이 정상적으로 완료되었습니다.");
+	           rattr.addFlashAttribute("msg", "REPLYMOD_OK");
 	       } catch (Exception e) {
 	           e.printStackTrace();
 	           m.addAttribute("commentDTO", commentDTO);
 	           response.put("success", false);
 	           response.put("message", "수정 중 오류가 발생했습니다.");
+	           rattr.addFlashAttribute("msg", "REPLYMOD_ERR");
 	       }
 
 	       return ResponseEntity.ok(response);

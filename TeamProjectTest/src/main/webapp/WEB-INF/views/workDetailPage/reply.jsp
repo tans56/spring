@@ -101,7 +101,7 @@
      <div class="left-box">
             <button id="saw-button" ><img class="saw" src="${path}/resources/images/img/saw.png" alt="봣어요" ></button>
           <button id="mark-button"><img class="mark" src="${path}/resources/images/img/mark.png" alt="봣어요"></button>
-          <button id="reply-button"><img class="review-icon" src="${path}/resources/images/img/review.png" alt="봣어요"></button>
+          <button id="reply-button"><img class="review-icon" src="${path}/resources/images/img/addcomment.png" alt="봣어요"></button>
         <div class="smr">
 
           <div class="reply-back">1</div>
@@ -345,10 +345,12 @@
                 </li>
               </ul>
             </div>
-                  <div class="report">
-                  <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
+            	<c:if test="${CommentDTO.user_no != sessionScope.user_no}">
+                <div class="report">
+                  	  <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
                       <button>신고</button>
                   </div>
+               </c:if>   
                <c:if test="${CommentDTO.user_no == sessionScope.user_no}">
                <div class="replymodify" >
                   <button type="button" name="replymodBtn" id="replymodify" class="ReplymodOnBtn" data-cmt-no="${CommentDTO.cmt_no}" data-cmt-content="${CommentDTO.cmt_content}">
@@ -387,7 +389,23 @@
                 </ul>
               </button>                        
           </div>
-          </form>  
+          </form> 
+           <!-- Modal -->
+           <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999;">
+             <div class="modal-dialog modal-dialog-centered">
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <h1 class="modal-title fs-5" id="exampleModalLabel">알림</h1>
+                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body body">
+                 </div>
+                 <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal-confirm-button">확인</button>
+                 </div>
+               </div>
+             </div>
+           </div> 
     </section>
     
     <footer>
@@ -422,18 +440,19 @@
           }else{
          	 return false
           }
-         alert("댓글이 정상적으로 등록되었습니다.")
       })
       
             let formCheck = function() {
          let form = document.getElementById("reply-form")
          if(form.user_no.value==""){
-            alert("로그인 후 댓글을 등록해주세요.")
+              $(".body").html("로그인 후 댓글을 등록해주세요.");
+              $('#Modal').modal('show');
             document.getElementById("reply-text").focus();
             return false
          }         
          if(form.cmt_content.value=="") {
-            alert("내용을 입력해 주세요.")
+             $(".body").html("내용을 입력해 주세요.");
+             $('#Modal').modal('show');
             console.log("reply-text 포커스 설정 직전"); 
             document.getElementById("reply-text").focus();
             console.log("reply-text 포커스 설정 후");
@@ -441,7 +460,18 @@
          }
          return true
       }
-      
+  <c:if test="${not empty msg}">
+      <c:choose>
+          <c:when test="${msg eq 'ok'}">
+ 		  $(".body").html("정상적으로 등록되었습니다.");
+          $('#Modal').modal('show');
+          </c:when>
+          <c:when test="${msg eq 'fail'}">
+     		  $(".body").html("다시 시도해 주세요.");
+              $('#Modal').modal('show');
+          </c:when>
+      </c:choose>
+  </c:if>
       
       
       $(".submitMod-review").on("click", function(){
@@ -454,54 +484,69 @@
             }else{
             	 return false
             }
-             alert("수정이 정상적으로 완료되었습니다.")
        })
        
        let modformCheck = function() {    	  
           let form = document.getElementById("mod-form")
           if(form.user_no.value==""){
-             alert("로그인 후 리뷰를 등록해주세요.")
+          $(".body").html("로그인 후 리뷰를 등록해주세요.");
+          $('#Modal').modal('show');
              form.content.focus()
              return false
           }         
-          if(form.review_content.value=="") {
-             alert("내용을 입력해 주세요.")
+          if(form.review_content.value=="") {      
+          $(".body").html("내용을 입력해 주세요.");
+          $('#Modal').modal('show');
              console.log("reply-text 포커스 설정 직전"); 
              form.content.focus()
              console.log("reply-text 포커스 설정 후");
              return false
           }
           if(form.rating.value==""){
-         	 alert("별점을 입력해 주세요.")
+          $(".body").html("별점을 입력해 주세요.");
+          $('#Modal').modal('show');
          	 form.content.focus()
          	 return false
           }
           return true
        }
-
+	 <c:if test="${not empty msg}">
+	      <c:choose>
+	          <c:when test="${msg eq 'MOD_OK'}">
+	 		  $(".body").html("수정이 완료되었습니다.");
+	          $('#Modal').modal('show');
+	          </c:when>
+	          <c:when test="${msg eq 'MOD_ERR'}">
+	     		  $(".body").html("다시 시도해 주세요.");
+	              $('#Modal').modal('show');
+	          </c:when>
+	      </c:choose>
+	  </c:if>
       
-	$(".removeBtn").on("click", function() {
-	  if (!confirm("리뷰를 삭제하시겠습니까?"))
-	    return;
-	
-	  let form = $("<form>");
-	  form.attr("action", "<c:url value='/detailPage/reply/reviewremove'/>");
-	  form.attr("method", "post");
-	
-	  let content_no = getParameterValueFromURL('content_no'); // 'content_no' 값을 가져옴
-	  let review_no = getParameterValueFromURL('review_no'); // 'review_no' 값을 가져옴
-	
-	  // hidden input 필드를 생성하여 'content_no'와 'review_no' 값을 폼 데이터에 추가
-	  let input1 = $("<input>").attr("type", "hidden").attr("name", "content_no").val(content_no);
-	  let input2 = $("<input>").attr("type", "hidden").attr("name", "review_no").val(review_no);
-	
-	  form.append(input1);
-	  form.append(input2);
-	
-	  $("body").append(form);
-	  form.submit();
-	  alert("성공적으로 삭제되었습니다.")
-	});
+	  $(".removeBtn").on("click", function() {
+		  let modalBody = $(".body");
+		  modalBody.html("리뷰를 삭제하시겠습니까?");
+		  $('#Modal').modal('show');
+
+		  // 확인 버튼 클릭 시 리뷰 삭제 실행
+		  $('.btn-secondary').on('click', function() {
+		    let form = $("<form>");
+		    form.attr("action", "<c:url value='//detailPage/reply/reviewremove' />");
+		    form.attr("method", "post");
+
+		    let content_no = getParameterValueFromURL('content_no');
+		    let review_no = getParameterValueFromURL('review_no');
+
+		    let input1 = $("<input>").attr("type", "hidden").attr("name", "content_no").val(content_no);
+		    let input2 = $("<input>").attr("type", "hidden").attr("name", "review_no").val(review_no);
+
+		    form.append(input1);
+		    form.append(input2);
+
+		    $("body").append(form);
+		    form.submit();
+		  });
+		});
 	
 	// URL에서 파라미터 값을 가져오는 함수
 	function getParameterValueFromURL(param) {
@@ -510,30 +555,45 @@
 	}  
 	
 	$(".replyremoveBtn").on("click", function() {
-		  if (!confirm("댓글을 삭제하시겠습니까?"))
-		    return;
+		  let modalBody = $(".body");
+		  modalBody.html("댓글을 삭제하시겠습니까?");
+		  $('#Modal').modal('show');
 
-		  let form = $("<form>");
-		  form.attr("action", "<c:url value='/detailPage/reply/replyremove'/>");
-		  form.attr("method", "post");
+		  // 확인 버튼 클릭 시 댓글 삭제 실행
+		  $('.btn-secondary').on('click', function() {
+		    let form = $("<form>");
+		    form.attr("action", "<c:url value='/detailPage/reply/replyremove'/>");
+		    form.attr("method", "post");
 
-		  let content_no = getParameterValueFromURL('content_no'); // 'content_no' 값을 가져옴
-		  let review_no = getParameterValueFromURL('review_no'); // 'review_no' 값을 가져옴
-		  let cmt_no = $("input[name='cmt_no']").val(); // cmt_no 값을 가져옴
+		    let content_no = getParameterValueFromURL('content_no');
+		    let review_no = getParameterValueFromURL('review_no');
+		    let cmt_no = $("input[name='cmt_no']").val();
 
-		  // hidden input 필드를 생성하여 'content_no', 'review_no', 'cmt_no' 값을 폼 데이터에 추가
-		  let input1 = $("<input>").attr("type", "hidden").attr("name", "content_no").val(content_no);
-		  let input2 = $("<input>").attr("type", "hidden").attr("name", "review_no").val(review_no);
-		  let input3 = $("<input>").attr("type", "hidden").attr("name", "cmt_no").val(cmt_no);
+		    let input1 = $("<input>").attr("type", "hidden").attr("name", "content_no").val(content_no);
+		    let input2 = $("<input>").attr("type", "hidden").attr("name", "review_no").val(review_no);
+		    let input3 = $("<input>").attr("type", "hidden").attr("name", "cmt_no").val(cmt_no);
 
-		  form.append(input1);
-		  form.append(input2);
-		  form.append(input3);
+		    form.append(input1);
+		    form.append(input2);
+		    form.append(input3);
 
-		  $("body").append(form);
-		  form.submit();
-		  alert("성공적으로 삭제되었습니다.")
+		    $("body").append(form);
+		    form.submit();
+		  });
 		});
+	
+	 <c:if test="${not empty msg}">
+	     <c:choose>
+	         <c:when test="${msg eq 'REPLYDEL_OK'}">
+			  $(".body").html("삭제가 완료되었습니다.");
+	         $('#Modal').modal('show');
+	         </c:when>
+	         <c:when test="${msg eq 'REPLYDEL_ERR'}">
+	    		  $(".body").html("다시 시도해 주세요.");
+	             $('#Modal').modal('show');
+	         </c:when>
+	     </c:choose>
+	 </c:if>
 		
 		// URL에서 파라미터 값을 가져오는 함수
 		function getParameterValueFromURL(param) {
@@ -562,29 +622,44 @@
 			    dataType: "json",
 			    success: function(response) {
 			      if (response.success) {
-			        alert(response.message);
+			        // Display success message using modal
+			        $(".body").html("수정이 완료되었습니다.");
+			        $('#Modal').modal('show');
 
-			        // Fetch updated data
-			        $.ajax({
-			          url: "<c:url value='/detailPage/reply'/>",
-			          type: "GET",
-			          data: {
-			            content_no: content_no,
-			            review_no: review_no
-			          },
-			          success: function(data) {
-			            // Update the relevant section of the page with the updated data
-			            $("#area").html(data);
-			          },
-			          error: function(xhr, status, error) {
-			            alert("데이터를 가져오는 중 오류가 발생했습니다.");
-			          }
+			        // Disable backdrop click and ESC key close events
+			        $('#Modal').on('hide.bs.modal', function(e) {
+			          return false;
 			        });
 
-			        // Clear the form fields
-			        form.find("textarea[name='cmt_content']").val("");
+			        // Bind click event to modal button
+			        $("#modal-confirm-button").on("click", function() {
+			          // Fetch updated data and update the relevant section of the page
+			          $.ajax({
+			            url: "<c:url value='/detailPage/reply'/>",
+			            type: "GET",
+			            data: {
+			              content_no: content_no,
+			              review_no: review_no
+			            },
+			            success: function(data) {
+			              // Update the relevant section of the page with the updated data
+			              $("#area").html(data);
+
+			              // Clear the form fields
+			              form.find("textarea[name='cmt_content']").val("");
+			            },
+			            error: function(xhr, status, error) {
+			              alert("데이터를 가져오는 중 오류가 발생했습니다.");
+			            }
+			          });
+
+			          // Close the modal
+			          $('#Modal').modal('hide');
+			        });
 			      } else {
-			        alert(response.message);
+			        // Display error message using modal
+			        $(".body").html("다시 시도해 주세요.");
+			        $('#Modal').modal('show');
 			      }
 			    },
 			    error: function(xhr, status, error) {
