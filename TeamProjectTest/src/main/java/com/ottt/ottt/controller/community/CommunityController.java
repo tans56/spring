@@ -40,38 +40,30 @@ public class CommunityController {
 	
 	//freecommunity 메인호출
 	@GetMapping("/freecommunity")
-	public String freecommunity(@RequestParam(value = "category", required = false) String category, Model m, HttpServletRequest request, HttpSession session, String toURL) throws Exception {
+	public String freecommunity(@RequestParam(value = "schText", required = false) String schText,@RequestParam(value = "category", required = false) String category,
+									Model m, HttpServletRequest request, HttpSession session, String toURL) throws Exception {
 		
 		logger.info(">>>>>>>>>>>>>>>>>>>>> @GetMapping /freecommunity freecommunity 진입 ");
 		logger.info(">>>>>>>>>>>>>>>>>>>>> category 선택한 카테고리 : "+category);
 		
 		UserDTO userDTO = loginUserDao.select((String)session.getAttribute("id"));
-		
-		System.out.println("=============================session.getAttribute() : " + session.getAttribute("id"));
-		System.out.println("=============================userDTO : " + userDTO);
-						
-		
+				
 		if(userDTO != null) {
 			logger.info(">>>>>>>>>>>>>>> 로그인 아이디 정보 >>>>>>>>>>>>>>>>>>>> "+userDTO.getUser_id());
 		}else {
 			logger.info(">>>>>>>>>>>>>>> 로그인상태가 아닙니다. ");
 		}
 
-		/*
-		if(!loginCheck(request)) {
-			return "redirect:/login/login?toURL="+request.getRequestURL();		
-		}
-		*/
-		//UserDTO userDTO = loginUserDao.select((String)session.getAttribute("id"));
-
+		logger.info(">>>>>>>>>>>>>>>>>>>>> schText 검색어 : "+schText);
+		
 		m.addAttribute("category",category);
-		m.addAttribute(userDTO);
+		m.addAttribute("schText",schText);;
 		
 		return "/community/freecommunity/communityMain";		
 
 	}
 	
-	//community 저장
+	//게시글 community 저장
 	@PostMapping("/freecommunity")
 	public String freecommunity_post(ArticleDTO articleDTO, HttpServletRequest request, Model m) {
 		
@@ -82,7 +74,7 @@ public class CommunityController {
 			HttpSession session = request.getSession();
 
 			UserDTO userDTO = loginUserDao.select((String)session.getAttribute("id"));
-			m.addAttribute(userDTO);
+			
         	if (userDTO == null) {	   
         		logger.info("!!!! 로그인이 필요합니다. !!!!");
         		return "redirect:/login";
@@ -123,16 +115,19 @@ public class CommunityController {
 			HttpSession session = request.getSession();
 			
 			UserDTO userDTO = loginUserDao.select((String)session.getAttribute("id"));
-			m.addAttribute(userDTO);
+			
 
 			if(userDTO != null) {
 				dto.setUser_no(userDTO.getUser_no());
 			}
 			
 			ArticleDTO articleDTO = communityService.select(dto);
+			//UserDTO writer = loginUserDao.selectNo(articleDTO.getUser_no());
 
 			m.addAttribute("articleDTO", articleDTO);
 			m.addAttribute("mode", "view");
+			m.addAttribute("userDTO", userDTO);
+
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -226,12 +221,6 @@ public class CommunityController {
 
 	}
 	
-	public boolean loginCheck(HttpServletRequest request) {
-		 //1. 세션을 얻어 (false는 session이 없어도 새로 생성하지 않음, 반환값은 null)
-		HttpSession session = request.getSession(false);
-		 //2. 세션에 id가 있는지 확인, 있으면 true를 반환 
-		return session != null && session.getAttribute("id")!=null;
-	}
 	
 	//메인 new 목록
 	@PostMapping("/ajax/getArticleList")
@@ -243,22 +232,10 @@ public class CommunityController {
 
 		Map<String, Object> result = new HashMap<String,Object>();
 		
-		//왼쪽 카테고리가 "내가쓴글","내가 좋아요한 글", "내가 댓글단 글" 일때 회원번호를 ArticleSearchDTO에 담는다.
-		if( "myPost".equals(dto.getCategory()) 
-				|| "myLike".equals(dto.getCategory()) 
-					|| "myComment".equals(dto.getCategory())) {
-
-			UserDTO userDTO = loginUserDao.select((String)session.getAttribute("id"));
-			
-        	if (userDTO == null) {	   
-        		result.put("message", "로그인이 필요합니다.");
-        		return result;
-	        }
-			
+		UserDTO userDTO = loginUserDao.select((String)session.getAttribute("id"));
+		if(userDTO != null) {
 			dto.setUser_no(userDTO.getUser_no());
-
 		}
-
 		result.put("message", "success");
 		result.put("list", communityService.getArticleList(dto));
 		result.put("totalCount", communityService.getArticleTotalCount(dto));
@@ -309,6 +286,7 @@ public class CommunityController {
         }
 		dto.setUser_no(userDTO.getUser_no());
 
+		
 		result.put("message", "success");
 		result.put("success", communityService.insertLike(dto) );
 		
@@ -331,7 +309,8 @@ public class CommunityController {
     		result.put("message", "로그인이 필요합니다.");
     		return result;
         }
-		dto.setUser_no(userDTO.getUser_no());
+
+    	dto.setUser_no(userDTO.getUser_no());
 
 		result.put("message", "success");
 		result.put("success", communityService.deleteLike(dto) );

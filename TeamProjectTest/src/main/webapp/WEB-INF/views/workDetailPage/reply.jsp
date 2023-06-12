@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="loginId" value="${sessionScope.id }"/>
+<c:set var="user_no" value="${sessionScope.user_no}" />
 <c:set var="loginout" value="${sessionScope.id == null ? 'logout' : 'login'}" />
 <c:set var="loginoutlink" value="${sessionScope.id==null ? '/login' : '/mypage'}" />
 <!doctype html>
@@ -35,12 +36,48 @@
             </p>
         </div>
         <div class="banner-body">
-          <!-- <a href="#">
-            <img class="netfilx" src="./images/icon/넷플릭스.png" alt="넷플릭스아이콘">
-          </a> -->
-          <a href="https://www.netflix.com/watch/81260280?trackId=255824129&tctx=0%2C0%2CNAPA%40%40%7Cfe45a776-cd54-4ea6-a3bc-f0f6ce3da1e0-30173404_titles%2F1%2F%2F%EC%84%9C%EB%B6%80%EC%A0%84%EC%84%A0%2F0%2F0%2CNAPA%40%40%7Cfe45a776-cd54-4ea6-a3bc-f0f6ce3da1e0-30173404_titles%2F1%2F%2F%EC%84%9C%EB%B6%80%EC%A0%84%EC%84%A0%2F0%2F0%2Cunknown%2C%2Cfe45a776-cd54-4ea6-a3bc-f0f6ce3da1e0-30173404%7C1%2CtitlesResults%2C81260280%2CVideo%3A81260280%2CdetailsPagePlayButton">
-            <img class="watcha" src="${path}/resources/images/icon/netplix.png" alt="넷플릭스아이콘">
-          </a>
+         <div class="net-logo">
+
+				<c:forEach var="ContentOTTDTO" items="${contentOTTlist}" >
+				  <c:set var="ottImage" value="" />
+				  <c:set var="ottLink" value="#" />
+				
+				  <c:choose>
+				    <c:when test="${ContentOTTDTO.ott_no == 1}">
+				      <c:set var="ottImage" value="${ContentOTTDTO.ott_img}"  />
+				      <c:set var="ottLink" value="https://www.tving.com" />
+				    </c:when>
+				    <c:when test="${ContentOTTDTO.ott_no == 2}">
+				      <c:set var="ottImage" value="${ContentOTTDTO.ott_img}" />
+				      <c:set var="ottLink" value="https://www.netflix.com/" />
+				    </c:when>
+				        <c:when test="${ContentOTTDTO.ott_no == 3}">
+				      <c:set var="ottImage" value="${ContentOTTDTO.ott_img}"  />
+				      <c:set var="ottLink" value="https://www.wavve.com/" />
+				    </c:when>
+				        <c:when test="${ContentOTTDTO.ott_no == 4}">
+				      <c:set var="ottImage" value="${ContentOTTDTO.ott_img}"  />
+				      <c:set var="ottLink" value="https://www.coupangplay.com/" />
+				    </c:when>
+				        <c:when test="${ContentOTTDTO.ott_no == 5}">
+				      <c:set var="ottImage" value="${ContentOTTDTO.ott_img}"  />
+				      <c:set var="ottLink" value="https://watcha.com/" />
+				    </c:when>
+				        <c:when test="${ContentOTTDTO.ott_no == 6}">
+				      <c:set var="ottImage" value="${ContentOTTDTO.ott_img}"  />
+				      <c:set var="ottLink" value="https://www.disneyplus.com/ko-kr" />
+				    </c:when>
+				  </c:choose>
+				
+				  <a href="${ottLink}"><img src="${ottImage}" alt="OTT 로고"></a>
+				
+				  
+				</c:forEach>
+
+            	
+                </div>
+          
+
         </div>
       </div>      
       
@@ -51,16 +88,20 @@
       <div class="info">
         <ul>
           <li class="info-title">
-            <h1>서부 전선 이상 없다.</h1>
-            <h4>Im Westen nichts Neues</h4>
+         <h1>${contentDTO.content_nm }</h1>
+ 
           </li>
           <br>
           <li class="info-detail">
-            <span>2023·&nbsp;</span>
-            <span>미국·&nbsp;</span>
-            <span class="a1"><a href="#">전쟁·&nbsp;</a></span>
-            <span>148분·&nbsp;</span>
-            <span>청불</span>
+           
+            <span>${contentDTO.country }&nbsp;·&nbsp;</span>
+            <c:forEach var="GenreDTO" items="${genrenmlist}" varStatus="loop">
+            	<span class="a1"><a href="#">${GenreDTO.genre_nm}</a></span>
+            	<c:if test="${!loop.last}">&nbsp;·&nbsp;</c:if>
+            	
+            </c:forEach>
+            <span>&nbsp;·&nbsp;${contentDTO.content_runtime }분&nbsp;·&nbsp;</span>
+            <span>${contentDTO.age }세</span>
           </li>
           <br>
           <li class="info-director">
@@ -89,7 +130,7 @@
           </li>
         </ul>
       </div>
-    </section>
+      </section>
    <section class="myReview" id="myReview">
    
            <div class="left-score">
@@ -170,7 +211,7 @@
                <div class="review-box1">      
           <div class="review-box-header">
             <div class="user-icon"> 
-              <img src="${path}/resources/images/icon/user.png" alt="유저 이미지파일">
+              <img src="${Review.image}" >
             </div>
             <div class="user-name">
               <a href="../ottt박소율/mypageshow.html">
@@ -182,15 +223,20 @@
             </div>
             <ul>
               <li class="rating">
-                 <img src="${path}/resources/images/img/starone.PNG" alt="별점">
+                 <img src="${path}/resources/images/img/starone.png" alt="별점">
                 ${Review.rating}
               </li>
               <li>
                 <div class="heart">        
                     <div>
-                 <button onclick="changeImage()">
-                         <img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
-                      </button>               
+                    <c:choose>
+						<c:when test="${Review.check_like_count == 1}">
+	                      	<input class="LikeBtn" id="heart-on" type="image" src="${path}/resources/images/img/heart_on.png" width="35" height="80%"  data-review-no="${Review.review_no}" >
+	                    </c:when>
+					<c:otherwise>
+						<input class="LikeBtn" id="heart-off" type="image" src="${path}/resources/images/img/heart_off.png" width="35" height="80%"  data-review-no="${Review.review_no}" >
+					</c:otherwise>
+					</c:choose>		
                     </div>             
                 </div>
               </li>
@@ -207,9 +253,11 @@
                     <img src="${path}/resources/images/img/좋아요.png" alt="좋아요아이콘">
                   </div>
                   <div class="like-count">
-                    <p>
-                      9999개
+                    <p id="likeCount">
+                      ${Review.like_count}개
                     </p>
+                   
+                 
                   </div>
                 </li>
                 <li>
@@ -309,7 +357,7 @@
          <div class="reply-box">      
           <div class="reply-box-header">
             <div class="user-icon"> 
-              <img src="${path}/resources/images/icon/user.png" alt="유저 이미지파일">
+              <img src="${CommentDTO.image }">
             </div>
             <div class="user-name">
               <a href="../ottt박소율/mypageshow.html">
@@ -322,7 +370,7 @@
                 <div class="heart">        
                     <div>
                  <button onclick="changeImage()">
-                         <img id="myImage" src="${path}/resources/images/img/likeoff.png" width="35" height="80%">
+                         <img id="myImage" src="${path}/resources/images/img/heart_off.png" width="35" height="80%">
                       </button>               
                     </div>             
                 </div>                       
@@ -345,12 +393,10 @@
                 </li>
               </ul>
             </div>
-            	<c:if test="${CommentDTO.user_no != sessionScope.user_no}">
-                <div class="report">
-                  	  <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
+                  <div class="report">
+                  <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
                       <button>신고</button>
                   </div>
-               </c:if>   
                <c:if test="${CommentDTO.user_no == sessionScope.user_no}">
                <div class="replymodify" >
                   <button type="button" name="replymodBtn" id="replymodify" class="ReplymodOnBtn" data-cmt-no="${CommentDTO.cmt_no}" data-cmt-content="${CommentDTO.cmt_content}">
@@ -748,6 +794,89 @@
     
 
     </script>
+    
+    
+    	<script type="text/javascript">
+	let LOGIN_YN = '${sessionScope.user_no}';
+	let PATH = "<c:out value='${path}'/>";
+
+	$(document).ready(function() {
+	    // 좋아요 상태 확인 및 버튼 이미지 설정
+	    $('.LikeBtn').each(function() {
+	        const review_no = $(this).data('review-no');
+	        const btn = $(this);
+	        var likeCount = btn.closest('.review-box1').find('.review-box-footer #likeCount');
+
+	        $.post(
+	            '/ottt/reply/selectLikeCount',
+	            { 'user_no': '${user_no}', 'review_no': review_no },
+	            function(data) {
+	                let result = data.result;
+
+	                if (result == 0) {
+	                    // 좋아요 상태인 경우
+	                    btn.attr('src', PATH + '/resources/images/img/heart_off.png');
+	                } else {
+	                    // 좋아요 상태가 아닌 경우
+	                    btn.attr('src', PATH + '/resources/images/img/heart_on.png');
+	                }
+	            }
+	        );
+	    });
+
+	    $(".LikeBtn").click(function() {
+	        let btn = $(this);
+	        const review_no = $(this).data('review-no');
+	        $('input[name="review_no"]').val(review_no);
+	        var likeCount = btn.closest('.review-box1').find(".review-box-footer #likeCount");
+
+	        if (LOGIN_YN == null || LOGIN_YN == "") {
+	            alert("로그인 후 이용가능합니다.", "로그인을 해주세요.", "warning");
+
+	            location.href = "/ottt/login";
+
+	            return;
+	        }
+
+	        $.post(
+	            "/ottt/reply/selectLikeCount",
+	            { "user_no": "${user_no}", "review_no": review_no },
+	            function(data) {
+	                let result = data.result;
+
+	                if (result == 0) {
+	                    // 저장하는 post ajax
+	                    $.post(
+	                        "/ottt/reply/insertLike",
+	                        { "user_no": "${user_no}", "review_no": review_no },
+	                        function(data) {
+	                            btn.attr("src", PATH + "/resources/images/img/heart_on.png");
+	                            likeCount.text(parseInt(likeCount.text()) + 1 + '개');
+	                            
+	                            console.log(likeCount);
+	                        }
+	                    );
+	                } else {
+	                    // 삭제하는 post ajax
+	                    $.post(
+	                        "/ottt/reply/deleteLike",
+	                        { "user_no": "${user_no}", "review_no": review_no },
+	                        function(data) {
+	                            btn.attr("src", PATH + "/resources/images/img/heart_off.png");
+	                            likeCount.text(parseInt(likeCount.text()) - 1 + '개');
+	                            
+	                            console.log(likeCount);
+	                        }
+	                    );
+	                }
+	            }
+	        );
+	    });
+	});
+	</script>
+    
+    
+    
 
     <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ottt.ottt.dao.review.ReviewDao;
+import com.ottt.ottt.domain.SearchItem;
 import com.ottt.ottt.dto.CommentDTO;
 import com.ottt.ottt.dto.ReviewDTO;
+import com.ottt.ottt.dto.ReviewLikeDTO;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -34,15 +36,15 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public int getCount() throws Exception {
+	public int getCount(int content_no) throws Exception {
 		
-		return reviewDao.count();
+		return reviewDao.count(content_no);
 	}
 
 	@Override
-	public List<ReviewDTO> getReview() throws Exception {
+	public List<ReviewDTO> getReview(int content_no) throws Exception {
 		
-		return reviewDao.selectAll();
+		return reviewDao.selectAll(content_no);
 	}
 
 	@Override
@@ -52,15 +54,9 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public double getRatingAvg() throws Exception {
+	public double getRatingAvg(Integer content_no) throws Exception {
 		
-		return reviewDao.ratingAvg();
-	}
-	
-	@Override
-	public int getDuplication(Integer content_no, int user_no) throws Exception {
-		// TODO Auto-generated method stub
-		return reviewDao.reviewDuplication(content_no, user_no);
+		return reviewDao.ratingAvg(content_no);
 	}
 	
 	
@@ -91,17 +87,48 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public int removeReply(Integer cmt_no, Integer user_no) throws Exception {
-	    CommentDTO commentDTO = reviewDao.selectReply(cmt_no); // cmt_no에 해당하는 CommentDTO를 가져옴
-	    int review_no = commentDTO.getReview_no(); 
 		
-	    reviewDao.deleteCommentCnt(review_no, 1);	//댓글 delete시 review테이블의 comment_cnt 1 감소
-	    return reviewDao.deleteReply(cmt_no, user_no); 
+		return reviewDao.deleteReply(cmt_no, user_no);
 	}
 
 	@Override
 	public CommentDTO getReply(Integer cmt_no) throws Exception {
 		// TODO Auto-generated method stub
 		return reviewDao.selectReply(cmt_no);
+	}
+
+	@Override
+	public List<ReviewDTO> getMyReview(SearchItem sc) throws Exception {
+		return reviewDao.myReviewAll(sc);
+	}
+
+	@Override
+	public int myReviewCnt(SearchItem sc) throws Exception {
+		return reviewDao.myReviewCnt(sc);
+	}
+
+	@Override
+	public int getDuplication(Integer content_no, int user_no) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.reviewDuplication(content_no, user_no);
+	}
+
+	@Override
+	public int selectLikeCount(ReviewLikeDTO dto) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.selectLikeCount(dto);
+	}
+
+	@Override
+	public int insertLike(ReviewLikeDTO dto) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.insertLike(dto);
+	}
+
+	@Override
+	public int deleteLike(ReviewLikeDTO dto) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.deleteLike(dto);
 	}
 
 	@Override
@@ -121,12 +148,6 @@ public class ReviewServiceImpl implements ReviewService {
 		// TODO Auto-generated method stub
 		return reviewDao.updateReply(CommentDTO);
 	}
-
-
-
-	
-
-	
-    
+ 
 
 }
