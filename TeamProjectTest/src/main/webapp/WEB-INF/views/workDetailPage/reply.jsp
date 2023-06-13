@@ -243,7 +243,7 @@
             </ul>
           </div>         
           <div class="review-box-body">            
-            <p class="review-box-text review_content">${Review.review_content }</p>
+            <p id="review_content" class="review-box-text review_content">${Review.review_content }</p>
           </div>
           <div class="review-box-footer">
             <div>
@@ -875,7 +875,13 @@
 	});
 	</script>
     
-    
+<script>
+// 텍스트 글자수에 맞춰 리뷰박스 크기 동적으로 조절
+  window.addEventListener('DOMContentLoaded', function() {
+    var reviewContent = document.querySelector('.review-box-body');
+    reviewContent.style.height = reviewContent.scrollHeight + 'px';
+  });
+</script>
     
 
     <script

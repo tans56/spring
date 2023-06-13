@@ -24,7 +24,7 @@ public class ReportDTO {
 	private int		report_cnt;
 	private char	report_type;
 	private Date	report_date;
-	
+	private int		review_no;
 	
 	
 	public ReportDTO() {}
@@ -110,6 +110,14 @@ public class ReportDTO {
 		this.report_date = report_date;
 	}
 
+	public int getReview_no() {
+		return review_no;
+	}
+
+	public void setReview_no(int review_no) {
+		this.review_no = review_no;
+	}
+
 
 
 
@@ -142,9 +150,9 @@ public class ReportDTO {
 
 	@Override
 	public String toString() {
-		return "ReportDTO [report_no=" + report_no + ", profile_no=" + user_no + ", target_profile_no="
-				+ target_user_no + ", article_no=" + article_no + ", cmt_no=" + cmt_no + ", report_cnt=" + report_cnt
-				+ ", report_type=" + report_type + ", report_date=" + report_date + "]";
+		return "ReportDTO [report_no=" + report_no + ", user_no=" + user_no + ", target_user_no=" + target_user_no
+				+ ", article_no=" + article_no + ", cmt_no=" + cmt_no + ", report_cnt=" + report_cnt + ", report_type="
+				+ report_type + ", report_date=" + report_date + ", review_no=" + review_no + "]";
 	}
 	
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ottt.ottt.dao.review.ReviewDao;
 import com.ottt.ottt.domain.SearchItem;
 import com.ottt.ottt.dto.CommentDTO;
+import com.ottt.ottt.dto.ReportDTO;
 import com.ottt.ottt.dto.ReviewDTO;
 import com.ottt.ottt.dto.ReviewLikeDTO;
 
@@ -57,6 +58,12 @@ public class ReviewServiceImpl implements ReviewService {
 	public double getRatingAvg(Integer content_no) throws Exception {
 		
 		return reviewDao.ratingAvg(content_no);
+	}
+	
+	@Override
+	public int reviewReport(ReportDTO reportDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.reviewReport(reportDTO);
 	}
 	
 	
@@ -148,6 +155,8 @@ public class ReviewServiceImpl implements ReviewService {
 		// TODO Auto-generated method stub
 		return reviewDao.updateReply(CommentDTO);
 	}
+
+
  
 
 }

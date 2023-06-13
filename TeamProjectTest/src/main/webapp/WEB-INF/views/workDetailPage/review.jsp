@@ -441,10 +441,16 @@
                 </li>
               </ul>
             </div>
-                  <div class="report">
-                  <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
-                      <button>신고</button>
-                  </div>
+			<div class="report">
+			  <img src="${path}/resources/images/img/신고하기.png" alt="신고" class="reportBtn">
+			  <button class="report-text" >신고</button>
+			  <div class="dropdown-menu">
+			    <button class="dropdown-item" type="button">욕설/비방</button>
+			    <button class="dropdown-item" type="button">광고/도배</button>
+			    <button class="dropdown-item" type="button">악의적인 스포</button>
+			    <button class="dropdown-item" type="button">선정성</button>
+			  </div>
+			</div>
           </div>
         </div>
        
@@ -737,7 +743,26 @@
 	});
 	</script>
 
-
+	<script type="text/javascript">
+	// 신고 메뉴 고정
+		document.addEventListener("DOMContentLoaded", function() {
+		  var reportButtons = document.querySelectorAll(".reportBtn");
+		  var reportTexts = document.querySelectorAll(".report-text");
+		  
+		  reportButtons.forEach(function(button) {
+		    button.addEventListener("click", toggleDropdownMenu);
+		  });
+		  
+		  reportTexts.forEach(function(text) {
+		    text.addEventListener("click", toggleDropdownMenu);
+		  });
+		  
+		  function toggleDropdownMenu(event) {
+		    var dropdownMenu = event.currentTarget.parentNode.querySelector(".dropdown-menu");
+		    dropdownMenu.classList.toggle("active");
+		  }
+		});
+	</script>
 
 
     <script

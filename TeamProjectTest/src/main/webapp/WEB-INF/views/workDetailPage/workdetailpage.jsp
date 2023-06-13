@@ -521,7 +521,7 @@
           </div>
           <a href="<c:url value='/detailPage/reply' />?content_no=${myReview.content_no}&review_no=${myReview.review_no}">
           <div class="review-box-body">				
-            <p class="review-box-text review_content">${myReview.review_content }</p>
+            <p class="myreview-box-text review_content">${myReview.review_content }</p>
           </div>
         </a>
           <div class="review-box-footer">

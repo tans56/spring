@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ottt.ottt.domain.SearchItem;
 import com.ottt.ottt.dto.CommentDTO;
+import com.ottt.ottt.dto.ReportDTO;
 import com.ottt.ottt.dto.ReviewDTO;
 import com.ottt.ottt.dto.ReviewLikeDTO;
 
@@ -16,6 +17,7 @@ public interface ReviewDao {
 	int updateCommentCnt(Integer review_no, int cnt)throws Exception;
 	int deleteCommentCnt(Integer review_no, int cnt)throws Exception;
 	int reviewDuplication(Integer content_no, int user_no) throws Exception;
+	int reviewReport(ReportDTO reportDTO) throws Exception;
 	
 	ReviewDTO selectReview(Integer content_no, Integer user_no)throws Exception;
 	

@@ -1320,7 +1320,7 @@ form label{
     border-top: 1px solid rgba(255, 255, 255, 0.493);
     display: flex;
   flex-wrap: wrap;
-   height: 100px;
+   height: 100px;  
    padding: 10px;
    
 }
@@ -1338,8 +1338,8 @@ form label{
     color: white;
     background-color: #3F3B3B;
     height: auto;
-	 width: 796px;
-	 
+	width: 796px;
+	overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */ 
 
 }
 

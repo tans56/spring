@@ -1009,7 +1009,18 @@ form label{
 
 }
 
-.review-box-body p {
+.myreview-box-text {
+	  font-size: 15px;
+  color: white;
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	line-break: anywhere;
+	line-height:30px;
+}
+
+.review-box-text {
   font-size: 15px;
   color: white;
 	display: -webkit-box;

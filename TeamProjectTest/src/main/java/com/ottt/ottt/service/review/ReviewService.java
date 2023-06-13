@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ottt.ottt.domain.SearchItem;
 import com.ottt.ottt.dto.CommentDTO;
+import com.ottt.ottt.dto.ReportDTO;
 import com.ottt.ottt.dto.ReviewDTO;
 import com.ottt.ottt.dto.ReviewLikeDTO;
 
@@ -24,6 +25,7 @@ public interface ReviewService {
     int insertLike(ReviewLikeDTO dto) throws Exception;
     
     int deleteLike(ReviewLikeDTO dto) throws Exception;
+    int reviewReport(ReportDTO reportDTO) throws Exception;
     
     
     //리플 페이지
