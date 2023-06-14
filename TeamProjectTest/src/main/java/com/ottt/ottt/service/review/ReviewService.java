@@ -38,6 +38,7 @@ public interface ReviewService {
     int removeReplyReview(Integer review_no, Integer user_no) throws Exception;
     int modifyReplyReview(ReviewDTO reviewDTO)throws Exception;
     int modifyReply(CommentDTO CommentDTO) throws Exception;
+    int replyReport(ReportDTO reportDTO) throws Exception;
     
     //나의 리뷰
     List<ReviewDTO> getMyReview(SearchItem sc) throws Exception;

@@ -172,6 +172,11 @@ public class ReviewDaoImpl implements ReviewDao {
 		// TODO Auto-generated method stub
 		return session.update(namespace + "updateReply", CommentDTO);
 	}
+	@Override
+	public int replyReport(ReportDTO reportDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return session.insert(namespace + "replyReport", reportDTO);
+	}
 
 
 }

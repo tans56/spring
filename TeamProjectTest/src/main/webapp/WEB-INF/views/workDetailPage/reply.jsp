@@ -354,7 +354,10 @@
         <br>
         
         <c:forEach var="CommentDTO" items="${list}">
-         <div class="reply-box">      
+         <div class="reply-box">   
+             <input type="hidden" name="review_no" value="${CommentDTO.review_no }"> 
+             <input type="hidden" name="cmt_no" value ="${CommentDTO.cmt_no }">
+             <input type="hidden" name="target_user_no" value="${CommentDTO.user_no }">  
           <div class="reply-box-header">
             <div class="user-icon"> 
               <img src="${CommentDTO.image }">
@@ -363,9 +366,7 @@
               <a href="../ottt박소율/mypageshow.html">
                 <p class="user_nicknm"> ${CommentDTO.user_nicknm} </p>
               </a>
-              <p class="reply-date-insert" name="cmt_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${CommentDTO.cmt_dt}"/></p>
-             <input type="hidden" name="review_no" value="${CommentDTO.review_no }"> 
-             <input type="hidden" name="cmt_no" value ="${CommentDTO.cmt_no }">
+              <p class="reply-date-insert" name="cmt_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${CommentDTO.cmt_dt}"/></p> 
             </div>           
                 <div class="heart">        
                     <div>
@@ -393,10 +394,16 @@
                 </li>
               </ul>
             </div>
-                  <div class="report">
-                  <button><img src="${path}/resources/images/img/신고하기.png" alt="신고"></button>
-                      <button>신고</button>
-                  </div>
+			<div class="report">
+			  <img src="${path}/resources/images/img/신고하기.png" alt="신고" class="reportBtn">
+			  <button class="report-text" >신고</button>
+			  <div class="dropdown-menu">
+			    <button class="dropdown-item" type="button" value="1" name="report_type">욕설/비방</button>
+			    <button class="dropdown-item" type="button" value="2" name="report_type">광고/도배</button>
+			    <button class="dropdown-item" type="button" value="3" name="report_type">악의적인 스포</button>
+			    <button class="dropdown-item" type="button" value="4" name="report_type">선정성</button>
+			  </div>
+			</div>
                <c:if test="${CommentDTO.user_no == sessionScope.user_no}">
                <div class="replymodify" >
                   <button type="button" name="replymodBtn" id="replymodify" class="ReplymodOnBtn" data-cmt-no="${CommentDTO.cmt_no}" data-cmt-content="${CommentDTO.cmt_content}">
@@ -713,6 +720,42 @@
 			    }
 			  });
 			});
+	    $('.dropdown-item').on('click', function() {
+		  	  event.stopPropagation();
+		  	  var report_type = $(this).val(); // 선택한 신고 유형을 가져옵니다.
+		  	  var user_no = "${user_no}"; // 세션에 저장된 user_no 값을 가져옵니다.
+		  	  var target_user_no = $(this).closest('.reply-box').find('input[name="target_user_no"]').val(); // target_user_no 값을 가져옵니다.
+		  	  var cmt_no = $(this).closest('.reply-box').find('input[name="cmt_no"]').val(); 
+		  	  
+		  	  //url
+		  	  var urlParams = new URLSearchParams(window.location.search);
+		  	  var content_no = urlParams.get('content_no');
+		  	  var review_no = urlParams.get('review_no');
+		  	  // Ajax 요청을 통해 신고 데이터를 서버로 전송합니다.
+		  	  $.ajax({
+		  	    url: '<c:url value="/detailPage/reply/report"/>', // 신고 처리를 수행할 컨트롤러 경로
+		  	    method: 'POST',
+		  	    data: {
+		  	    	report_type: report_type, // 선택한 신고 유형을 reportType 파라미터로 전달합니다.
+		  	    	user_no: user_no, // user_no 값을 userNo 파라미터로 전달합니다.
+		  	    	target_user_no: target_user_no, // target_user_no 값을 targetUserNo 파라미터로 전달합니다.
+		  	    	cmt_no: cmt_no, // review_no 값을 reviewNo 파라미터로 전달합니다.
+		  	    	content_no: content_no,
+		  	    	review_no: review_no
+		  	    },
+		  	    success: function(response) {
+		  	      // 신고 처리 성공 시에 대한 처리를 수행합니다.
+		  	      $(".body").html("정상적으로 신고되었습니다.");
+		  	      $('#Modal').modal('show');
+		  	      $('.dropdown-menu').removeClass('show');
+		  	    },
+		  	    error: function(xhr, status, error) {
+		  	      // 신고 처리 실패 시에 대한 처리를 수행합니다.
+		  	      $(".body").html("신고 처리 중 오류가 발생했습니다.");
+		  	      $('#Modal').modal('show');
+		  	    }
+		  	  });
+		  	});
       
    })
    </script>
@@ -883,6 +926,26 @@
   });
 </script>
     
+    	<script type="text/javascript">
+	// 신고 메뉴 고정
+		document.addEventListener("DOMContentLoaded", function() {
+		  var reportButtons = document.querySelectorAll(".reportBtn");
+		  var reportTexts = document.querySelectorAll(".report-text");
+		  
+		  reportButtons.forEach(function(button) {
+		    button.addEventListener("click", toggleDropdownMenu);
+		  });
+		  
+		  reportTexts.forEach(function(text) {
+		    text.addEventListener("click", toggleDropdownMenu);
+		  });
+		  
+		  function toggleDropdownMenu(event) {
+		    var dropdownMenu = event.currentTarget.parentNode.querySelector(".dropdown-menu");
+		    dropdownMenu.classList.toggle("active");
+		  }
+		});
+	</script>
 
     <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

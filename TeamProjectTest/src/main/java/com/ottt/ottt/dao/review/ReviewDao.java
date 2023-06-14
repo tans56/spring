@@ -42,6 +42,7 @@ public interface ReviewDao {
 	int deleteReplyReview(Integer review_no, int user_no) throws Exception;
 	int updateReplyReview(ReviewDTO reviewDTO)throws Exception;
 	int updateReply(CommentDTO CommentDTO) throws Exception;
+	int replyReport(ReportDTO reportDTO) throws Exception;
 	
 	//나의 리뷰
 	List<ReviewDTO> myReviewAll(SearchItem sc) throws Exception;

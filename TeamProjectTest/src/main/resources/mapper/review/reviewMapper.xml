@@ -71,7 +71,7 @@
 	</select>  
 	
 	<insert id="reviewReport" parameterType="ReportDTO">
-		insert into tb_report (user_no, target_user_no , review_no, report_type, report_date)
+		insert into tb_report (user_no, target_user_no , review_no, report_type)
 		values (#{user_no}, #{target_user_no} ,#{review_no}, #{report_type})
 	</insert>
 	
@@ -166,4 +166,8 @@
 		where c.user_no = #{user_no}
 	</select>
 	
+	<insert id="replyReport" parameterType="ReportDTO">
+		insert into tb_report (user_no, target_user_no , cmt_no, report_type)
+		values (#{user_no}, #{target_user_no} ,#{cmt_no}, #{report_type})
+	</insert>
 </mapper>

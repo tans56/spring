@@ -27,6 +27,7 @@ import com.ottt.ottt.dto.CommentDTO;
 import com.ottt.ottt.dto.ContentDTO;
 import com.ottt.ottt.dto.ContentOTTDTO;
 import com.ottt.ottt.dto.GenreDTO;
+import com.ottt.ottt.dto.ReportDTO;
 import com.ottt.ottt.dto.ReviewDTO;
 import com.ottt.ottt.dto.ReviewLikeDTO;
 import com.ottt.ottt.dto.UserDTO;
@@ -281,6 +282,22 @@ public class DetailReplyController {
 				return result;
 
 			}
-	   
+			// 신고하기
+			@PostMapping("/detailPage/reply/report")
+				public String ReplyReport(ReviewDTO reviewDTO, ReportDTO reportDTO, RedirectAttributes attr, 
+						HttpSession session, @RequestParam("content_no") int content_no, @RequestParam("review_no") int review_no) {
+					try {					
+						 if (reviewService.replyReport(reportDTO) != 1) {
+				                throw new Exception("Write failed");
+				            }
+						 attr.addFlashAttribute("msg", "success");
+						 return "redirect:/detailPage/reply?content_no=" + content_no+ "&review_no=" + review_no;
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						attr.addFlashAttribute("msg", "fail");
+						return "redirect:/detailPage/reply?content_no=" + content_no+ "&review_no=" + review_no;
+					}				
+				}
 	   
 }

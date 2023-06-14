@@ -1090,11 +1090,6 @@ form label{
     margin: 0 10px;
 }
 
-.report button:last-child {
-    position: absolute;
-    right: 20px;
-    bottom: 0px;
-}
 
 .report button img{
     position: absolute;
@@ -1614,6 +1609,59 @@ form label{
     background-color: transparent;
     border-style: solid;
     color: #33FF33; 
+}
+
+/*신고 드롭다운 버튼*/
+
+
+.report {
+    position: absolute;
+    overflow: visible;
+    right: 10px;
+    bottom: 8px;
+}
+
+.report-text{
+	position: absolute;
+    right: 10px;
+    top: 8px;
+	width: 30px;
+}
+
+.report .dropdown-menu {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 12px 16px;
+  right: 70px;
+  bottom: 3px;
+}
+
+.report img.reportBtn {
+	position: absolute;
+    right: 45px;
+    bottom: 4px;
+  	cursor: pointer;
+}
+
+.report .dropdown-menu.active {
+  display: block;
+}
+
+
+.report img.reportBtn:focus + .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 150px;
 }
 
 

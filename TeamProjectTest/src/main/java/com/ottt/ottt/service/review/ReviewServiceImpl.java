@@ -156,6 +156,12 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.updateReply(CommentDTO);
 	}
 
+	@Override
+	public int replyReport(ReportDTO reportDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.replyReport(reportDTO);
+	}
+
 
  
 

@@ -387,6 +387,7 @@
               <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${ReviewDTO.review_create_dt}"/></p>
              <input type="hidden" name="review_no" value="${ReviewDTO.review_no }">
              <input type="hidden" name="content_no" value="${myReview.content_no }"> 
+             <input type="hidden" name="target_user_no" value="${ReviewDTO.user_no }">
             </div>
             <ul>
               <li class="rating">
@@ -445,10 +446,10 @@
 			  <img src="${path}/resources/images/img/신고하기.png" alt="신고" class="reportBtn">
 			  <button class="report-text" >신고</button>
 			  <div class="dropdown-menu">
-			    <button class="dropdown-item" type="button">욕설/비방</button>
-			    <button class="dropdown-item" type="button">광고/도배</button>
-			    <button class="dropdown-item" type="button">악의적인 스포</button>
-			    <button class="dropdown-item" type="button">선정성</button>
+			    <button class="dropdown-item" type="button" value="1" name="report_type">욕설/비방</button>
+			    <button class="dropdown-item" type="button" value="2" name="report_type">광고/도배</button>
+			    <button class="dropdown-item" type="button" value="3" name="report_type">악의적인 스포</button>
+			    <button class="dropdown-item" type="button" value="4" name="report_type">선정성</button>
 			  </div>
 			</div>
           </div>
@@ -608,6 +609,40 @@
       </c:choose>
   </c:if> 
       
+  $('.dropdown-item').on('click', function() {
+	  event.stopPropagation();
+	  var report_type = $(this).val(); // 선택한 신고 유형을 가져옵니다.
+	  var user_no = "${user_no}"; // 세션에 저장된 user_no 값을 가져옵니다.
+	  var target_user_no = $(this).closest('.review-box').find('input[name="target_user_no"]').val(); // target_user_no 값을 가져옵니다.
+	  var review_no = $(this).closest('.review-box').find('input[name="review_no"]').val(); // review_no 값을 가져옵니다.
+	  
+	  //url
+	  var urlParams = new URLSearchParams(window.location.search);
+	  var content_no = urlParams.get('content_no');
+	  // Ajax 요청을 통해 신고 데이터를 서버로 전송합니다.
+	  $.ajax({
+	    url: '<c:url value="/detailPage/review/report"/>', // 신고 처리를 수행할 컨트롤러 경로
+	    method: 'POST',
+	    data: {
+	    	report_type: report_type, // 선택한 신고 유형을 reportType 파라미터로 전달합니다.
+	    	user_no: user_no, // user_no 값을 userNo 파라미터로 전달합니다.
+	    	target_user_no: target_user_no, // target_user_no 값을 targetUserNo 파라미터로 전달합니다.
+	    	review_no: review_no, // review_no 값을 reviewNo 파라미터로 전달합니다.
+	    	content_no: content_no
+	    },
+	    success: function(response) {
+	      // 신고 처리 성공 시에 대한 처리를 수행합니다.
+	      $(".body").html("정상적으로 신고되었습니다.");
+	      $('#Modal').modal('show');
+	      $('.dropdown-menu').removeClass('show');
+	    },
+	    error: function(xhr, status, error) {
+	      // 신고 처리 실패 시에 대한 처리를 수행합니다.
+	      $(".body").html("신고 처리 중 오류가 발생했습니다.");
+	      $('#Modal').modal('show');
+	    }
+	  });
+	});
    });
    </script>
    
