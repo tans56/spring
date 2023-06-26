@@ -59,7 +59,6 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		return reviewDao.ratingAvg(content_no);
 	}
-	
 	@Override
 	public int reviewReport(ReportDTO reportDTO) throws Exception {
 		// TODO Auto-generated method stub
@@ -160,9 +159,6 @@ public class ReviewServiceImpl implements ReviewService {
 	public int replyReport(ReportDTO reportDTO) throws Exception {
 		// TODO Auto-generated method stub
 		return reviewDao.replyReport(reportDTO);
-	}
-
-
- 
+	} 
 
 }

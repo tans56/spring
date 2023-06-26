@@ -232,7 +232,7 @@ header{
  
 }
 
-.info-title > h1 {
+.info-title > a > h1 {
     color: #33ff33;
 }
 
@@ -307,12 +307,32 @@ header{
 .left-box{
     width: 300px;
     height: 500px;
-	margin-left: 0px;
+
     position: absolute;
   
   
 }
 
+.left-box button:nth-child(4) img{
+	width: 70px;
+	height: 70px;
+	margin-right: 0;
+	transform: translateX(-20%);
+
+}
+.left-box button:nth-child(3) img{
+	width: 63px;
+	height: 100px;
+}
+.left-box button:nth-child(2) img{
+	width: 63px;
+	height: 100px;
+}
+.left-box button:nth-child(1) img{
+	width: 70px;
+	height: 70px;
+	margin-left: 0;
+}
 
 
 .star1{
@@ -774,18 +794,14 @@ form label{
 }
 
 .user-icon img{
-    width: 45px; 
+    width: 45px;
+    height: 45px; 
 }
 
 .user-name {
     margin-top: 10px;
     margin-left: 15px;
 }
-
-
-
-
-
 
  .point > img{
     position: absolute;
@@ -1121,6 +1137,16 @@ form label{
     left: 140px;
 }
 
+.report button img{
+    position: absolute;
+    right: 55px;
+    bottom: 13px;
+}
+
+
+
+
+
 .add-comment > a > img {
     position: absolute;
     top: 14px;
@@ -1245,10 +1271,6 @@ form label{
     border-style: solid;
     color: #33FF33; 
 }
-
-/*신고 드롭다운 버튼*/
-
-
 .report {
     position: absolute;
     right: 10px;
@@ -1298,3 +1320,20 @@ form label{
   width: 150px;
 }
 
+.spoiler{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 800px;    
+    height: 190px;
+    background-color: rgba(112, 112, 112, 0.99);
+    border-radius: 10px;
+    z-index: 5;
+    line-height: 200px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.spoiler span{
+	color: red;
+}

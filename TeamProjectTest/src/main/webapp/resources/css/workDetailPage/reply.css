@@ -242,7 +242,7 @@ header{
  
 }
 
-.info-title > h1 {
+.info-title > a > h1 {
     color: #33ff33;
 }
 
@@ -317,10 +317,31 @@ header{
 .left-box{
     width: 300px;
     height: 500px;
-	margin-left: 0px;
+
     position: absolute;
   
   
+}
+
+.left-box button:nth-child(4) img{
+	width: 70px;
+	height: 70px;
+	margin-right: 0;
+	transform: translateX(-20%);
+
+}
+.left-box button:nth-child(3) img{
+	width: 63px;
+	height: 100px;
+}
+.left-box button:nth-child(2) img{
+	width: 63px;
+	height: 100px;
+}
+.left-box button:nth-child(1) img{
+	width: 70px;
+	height: 70px;
+	margin-left: 0;
 }
 
 
@@ -1011,18 +1032,14 @@ form label{
 }
 
 .user-icon img{
-    width: 45px; 
+    width: 45px;
+    height: 45px; 
 }
 
 .user-name {
     margin-top: 10px;
     margin-left: 15px;
 }
-
-
-
-
-
 
  .point > img{
     position: absolute;
@@ -1320,7 +1337,7 @@ form label{
     border-top: 1px solid rgba(255, 255, 255, 0.493);
     display: flex;
   flex-wrap: wrap;
-   height: 100px;  
+   height: 100px;
    padding: 10px;
    
 }
@@ -1337,9 +1354,9 @@ form label{
     font-size: 15px;
     color: white;
     background-color: #3F3B3B;
-    height: auto;
+    
 	width: 796px;
-	overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */ 
+	 
 
 }
 
@@ -1392,6 +1409,9 @@ form label{
     right: 55px;
     bottom: 13px;
 }
+
+
+
 
 .add-comment > a > img {
     position: absolute;
@@ -1537,6 +1557,7 @@ form label{
     border-style: solid;
     color: #33FF33; 
 }
+
 /*신고 드롭다운 버튼*/
 
 

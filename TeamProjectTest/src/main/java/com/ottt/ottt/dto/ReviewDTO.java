@@ -35,7 +35,14 @@ public class ReviewDTO {
 	private Integer like_count;
 	
 	private String image;
-	
+	private boolean spoiler;
+
+	public boolean isSpoiler() {
+		return spoiler;
+	}
+	public void setSpoiler(boolean spoiler) {
+		this.spoiler = spoiler;
+	}	
 	public String getImage() {
 		return image;
 	}
@@ -142,7 +149,8 @@ public class ReviewDTO {
 				+ user_no + ", review_content=" + review_content + ", review_create_dt=" + review_create_dt
 				+ ", review_mod_dt=" + review_mod_dt + ", comment_cnt=" + comment_cnt + ", user_nicknm=" + user_nicknm
 				+ ", content_nm=" + content_nm + ", thumbnail=" + thumbnail + ", check_like_count=" + check_like_count
-				+ ", like_count=" + like_count + ", image=" + image + ", userDTO=" + userDTO + "]";
+				+ ", like_count=" + like_count + ", image=" + image + ", spoiler=" + spoiler + ", userDTO=" + userDTO
+				+ "]";
 	}
 	
 	@Override

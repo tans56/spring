@@ -12,7 +12,61 @@
     <link rel="stylesheet" href="${path}/resources/css/login/loginform.css" >
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>로그인</title>
+    
+    	<style type="text/css">
+		/* 모달 */
+.modal-content{
+    background-color: #202020;
+}
+
+.modal-body{
+    font-size: 26px;
+    text-align: center;
+    border: 1px solid #fff;
+}
+
+.modal-header{
+    border: 1px solid #fff;
+}
+
+.modal-footer{
+    border: 1px solid #fff;
+    display: flex;
+    justify-content: flex-end;
+}
+ 
+.modi-del{
+	display: flex;
+    justify-content: flex-end;
+}
+
+
+.qa-main p{
+    display: flex;
+    justify-content: flex-end;
+    font-weight: bold;
+}
+
+.btn{
+	width: 70px;
+    color: #fff;
+    background-color: transparent;
+    border-style: none;
+    border-color: #fff; 
+    font-size: 23px; 
+    text-decoration: none;
+}
+
+
+.btn:hover{
+    border-color: #33FF33;
+    background-color: transparent;
+    border-style: solid;
+    color: #33FF33; 
+}
+</style>
 </head>
 <body style="background-color: #202020;">
 	<div class="wrap">
@@ -95,8 +149,20 @@
 	</div>
 	
 	<script type="text/javascript">
-		
+	$(document).ready(function() {
+        let pwdMsg = "<%= request.getParameter("pwdMsg") %>";
+        if (pwdMsg == "MOD_PWD") {
+            $(".body").html("비밀번호가 변경되었습니다.<br>다시 로그인해주세요.");
+            $('#Modal').modal('show');
+        }
+        if (pwdMsg == "ERR_PWD") {
+            $(".body").html("비밀번호 변경에 실패했습니다.<br>다시 시도해주세요.");
+            $('#Modal').modal('show');
+        }
+    });
+
 		function frmCheck(frm) {
+	
 			let msg = ''
 			
 			if (frm.user_id.value.length == 0){
@@ -122,6 +188,23 @@
 		}
 		
 	</script>
+	
+	<!-- Modal -->
+	        <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	          <div class="modal-dialog modal-dialog-centered">
+	            <div class="modal-content">
+	              <div class="modal-header">
+	                <h1 class="modal-title fs-5" id="exampleModalLabel">알림</h1>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	              </div>
+	              <div class="modal-body body">
+	              </div>
+	              <div class="modal-footer">
+	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
 
   </body>
 </html>

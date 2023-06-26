@@ -74,5 +74,19 @@ public class ContentDaoImpl implements ContentDao {
 		return session.selectList(namespace+"selectOTT", content_no);
 	}
 
+	@Override
+	public List<ContentDTO> jjimSelect() throws Exception {
+		return session.selectList(namespace+"jjimSelect");
+	}
+
+	@Override
+	public List<ContentDTO> watchedSelect() throws Exception {
+		return session.selectList(namespace+"watchedSelect");
+	}
+
+	@Override
+	public List<ContentDTO> recomSelect(Integer user_no) throws Exception {
+		return session.selectList(namespace+"recomSelect", user_no);
+	}
 	
 }

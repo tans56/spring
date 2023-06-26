@@ -11,37 +11,144 @@
     <title>쪽지알림</title>
     <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
     <script src="${path}/resources/js/mypage/message.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="${path}/resources/css/mypage/message.css" >
     
+    
+    <style type="text/css">
+		.modal-content{
+		    background-color: #202020;
+		}
+		
+		.modal-body{
+		    font-size: 26px;
+		    text-align: center;
+		    border: 1px solid #fff;
+		}
+		
+		.modal-header{
+		    border: 1px solid #fff;
+		}
+		
+		.modal-footer{
+		    border: 1px solid #fff;
+		    display: flex;
+		    justify-content: flex-end;
+		}
+		 
+		.modi-del{
+			display: flex;
+		    justify-content: flex-end;
+		}
+
+		.btn{
+		    color: #fff;
+		    background-color: transparent;
+		    border-style: none;
+		    border-color: #fff; 
+		    font-size: 23px; 
+		    text-decoration: none;
+		}
+		
+		.btn:hover{
+		    border-color: #33FF33;
+		    background-color: transparent;
+		    border-style: solid;
+		    color: #33FF33; 
+		}
+    </style>
+    
+    
   </head>
 
-  <body>
-     
+  <body>     
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('button[name="deleteBtn"]').on('click', function(event) {
+			// 모달 열기
+			$('#confirmModal').modal('show');
+		
+			// Yes 버튼 클릭 시 삭제 동작 실행
+			$('#removeBtn').on('click', function() {
+				$('#confirmModal').modal('hide');
+				deletemsg(event);
+			});
+		});
+		  
+		function deletemsg(event) {
+			//버튼 테이블에 있는 메세지 넘버 받아오기
+		    var messageNo = $(event.target).closest("tr").find("input[name='message_no']").val();
+		    
+		    //폼태그 생성하기
+		    let form = document.createElement('form');
+		    //인풋태그 생성하기
+		    let input = document.createElement('input');
+		    //인풋 속성
+		    input.setAttribute('type', 'hidden');
+		    input.setAttribute('name', 'message_no');
+		    input.setAttribute('value', messageNo);
+		    form.appendChild(input);
+		    
+		    if($('button[name="deleteBtn"]').attr("class") == 'delrecvBtn')
+		    	form.setAttribute("action", '/ottt/mypage/message/remove');
+		    if($('button[name="deleteBtn"]').attr("class") == 'delsendBtn')
+		    	form.setAttribute("action", '/ottt/mypage/message/send/remove');
+		    
+		    form.setAttribute("method", "post");
+		    
+		    document.body.appendChild(form);
+		    form.submit();
+		  }
+		  
+		})
+		
+		function goProfile(user_no, user_nicknm) {
+			let form = document.createElement('form');				
+			
+			let data = {
+					user_no : user_no,
+					toURL : path
+		    };
+			
+			for (let key in data) {
+		        if (data.hasOwnProperty(key)) {
+		            let obj = document.createElement('input');
+		            obj.setAttribute('type', 'hidden');
+		            obj.setAttribute('name', key);
+		            obj.setAttribute('value', data[key]);
+		            form.appendChild(obj);
+		        }
+		    }
+			
+			form.setAttribute('method','post')
+			form.setAttribute('action','/ottt/profile?user=' +user_nicknm)
+							
+			document.body.appendChild(form)
+			form.submit()
+		}	
+		
+	</script>
     <div class="warp">
-        <header >
-        <div class="logo">
-			<a href="<c:url value="/" />">
-				  <img src="${path}/resources/images/logo/OTTT.png" alt="로고">
-				</a>
-		</div>
-		<nav class="gnb">
-			<ul>
-                <li><a href="<c:url value="/genre/movie" />">영화</a></li>
-                <li><a href="<c:url value="/genre/drama" />">드라마</a></li>
-                <li><a href="<c:url value="/genre/interest" />">예능</a></li>
-                <li><a href="<c:url value="/genre/animation" />">애니</a></li>
-                <li><a href="<c:url value="/community" />">게시판</a></li>
-          </ul>
-        </nav>
-        <div class="h-icon">
-          <ul>
-            <li><a href="<c:url value='/search' />"></a></li>
-            <li><a href="<c:url value='/mypage' />"></a></li>
-          </ul>
-        </div>
-      </header>
+    <%@ include file="../../fix/header.jsp" %>
+    
+    <!-- 삭제 모달 -->
+    <div class="modal fade" id="exampleModa2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog modal-dialog-centered">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h1 class="modal-title fs-5" id="exampleModalLabe2">알림</h1>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">쪽지가 삭제됩니다.</div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-primary"  data-toggle="modal" id="removeBtn">Yes</button>
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+         </div>
+       </div>
+     </div>
+   </div>
 
       <nav class="mnb">
         <ul>
@@ -63,41 +170,69 @@
       <div class="sec01">
         
         <div class="sec-left">
-            <table>
-                <tr>
-                    <th class="msg-img">프로필</th>
-                    <th class="msg-name">이름</th>
-                    <th class="msg-time">시간</th>
-                    <th class="msg-del">삭제</th>
-                </tr>
-                
-<%-- 	            <c:forEach var="messageDTO"> --%>
-<!-- 	              <tr> -->
-<!-- 	                <td class="msg-img">픞</td> -->
-<!-- 	                <td class="msg-name">이름</td> -->
-<%-- 	                <td class="msg-time"><fmt:formatDate value="${messageDTO.send_date}" pattern="yyyy-MM-dd HH24:MI" type="date" /></td> --%>
-<!-- 	                <td class="msg-del">X</td> -->
-<!-- 	              </tr> -->
-<%-- 	            </c:forEach> --%>
-            
-            </table>
+        	
+        	<div class="left-top">
+	            <table>
+	                <tr>
+	                    <th class="msg-img">프로필</th>
+	                    <th class="msg-sort" style="width: 188px; padding-right: 20px;">이름</th>
+	                    <th class="msg-content">내용</th>
+	                    <th class="msg-time">시간</th>
+	                    <th class="msg-del">삭제</th>
+	                </tr>
+	            </table>
+            </div>
+            <div class="left-bottom">
+
+		            <table>
+						<c:if test="${totalCnt == null || totalCnt == 0}">
+							<div style="display: flex; margin-top: 20px; justify-content: center; color: #8f8f8f;">보관된 쪽지가 없습니다.</div>
+						</c:if>
+			            <c:forEach var="messageDTO" items="${list }">
+			            <!-- 폼태그를 사용하면 아이디를 쓰든 클래스를 사용하든 맨 위에 잇는 애만 된다 그러니 버튼 누를 때 폼태그 생성 -->
+							<tr class="title-line" style="font-weight: 200">
+								<td class="msg-no" style="display: none; ">${messageDTO.message_no}</td>
+								<input name="message_no" type="hidden" value="${messageDTO.message_no}" />
+								<td class="msg-img">
+									<a href="javascript:goProfile('${(messageDTO.send_user_no != sessionScope.user_no) ? messageDTO.send_user_no : messageDTO.receive_user_no}', '${messageDTO.user_nicknm}')">
+										<img src="${messageDTO.image }" class="user-image" alt="프로필사진" />
+									</a>
+								</td>
+								<td class="msg-nicknm">${messageDTO.user_nicknm }</td>
+								<td class="msg-sort" style="display: none; ">${(messageDTO.send_user_no != sessionScope.user_no) ? messageDTO.send_user_no : messageDTO.receive_user_no}</td>
+								<td class="msg-content" style="cursor: pointer;"><c:out value="${messageDTO.content }"></c:out></td>
+								<td class="msg-time"><fmt:formatDate value="${messageDTO.send_date}" pattern="yyyy-MM-dd HH:mm" type="date" /></td>
+								<td class="msg-del"><button class="delBtn" name="deleteBtn" style="border: none; color: red;" id="del" data-bs-toggle="modal" data-bs-target="#exampleModa2"><i class="fas fa-times"></i></button></td>
+							</tr>			            
+			            </c:forEach>			           
+					</table>
+				</div>
+			<br />
+			<div class="paging-container">
+				<div class="paging">
+						<c:if test="${totalCnt != null || totalCnt != 0 }">
+							<c:if test="${mpr.showPrev }">
+								<a class="page" href="<c:url value="${mpr.msc.getQueryString(mpr.beginPage-1) }" />">&lt;</a>
+							</c:if>
+							<c:forEach var="i" begin="${mpr.beginPage }" end="${mpr.endPage }">
+								<a class="page" href="<c:url value="${mpr.msc.getQueryString(i) }" />">${i }</a>
+							</c:forEach>
+							<c:if test="${mpr.showNext }">
+								<a class="page" href="<c:url value="${mpr.msc.getQueryString(mpr.endPage+1) }" />">&gt;</a>
+							</c:if>
+						</c:if>
+				</div>
+			</div>
         </div>
 
         <div class="sec-right">
-            <div class="msg-nick">닉네임</div>
-	        <div class="msg-view-content">
-	        	의사가 환자를 직접 만나지 않고 전화나 화상을 통해 상담하고 약을 처방하는 비대면진료는 코로나19 확산이 시작된 지난 2020년부터 의료기관 내 감염 방지를 위해 한시 허용됐다. 4월 말까지 3년여 간 1천419만 명 대상으로 3천786건의 비대면진료가 이뤄졌다.<br /><br />
-
-				6월 1일부터 코로나19 위기단계가 '심각'에서 '경계'로 하향되면 비대면진료 한시 허용도 종료되기 때문에 정부는 제도화까지의 입법 공백을 메우기 위해 시범사업을 진행하기로 했다.<br /><br />
-				
-				내달부터 시행되는 비대면진료 시범사업은 지난 3년여 간의 한시 허용 비대면진료와 달리 대상 환자가 제한적이다.<br /><br />
-				
-				지금까진 초진·재진 구분 없이 비대면진료를 이용할 수 있었으나 다음달부터는 해당 의료기관에서 해당 질환에 대해 1회 이상 대면 진료한 경험이 있는 경우로 한정된다.<br /><br />
-				
-				고혈압, 당뇨병 등 만성질환자의 경우 1년 이내, 기타 질환자는 30일 이내에 진료를 받은 경험이 있어야 한다.
-	        
-	        </div>
-	        <button type="button" id="msg-write" class="msg-write-btn" >답장</button>
+        	<input name="msgno" type="hidden" value="" />
+        	<input name="sendno" type="hidden" value="${messageDTO.send_user_no}" />
+            <div class="msg-nick" id="msgNick">${messageDTO.user_nicknm }</div>
+	        <div class="msg-view-content" style="white-space: pre-wrap;">${messageDTO.content }</div>
+	        <c:if test="${messageDTO.send_user_no != sessionScope.user_no }">
+	        	<button type="button" id="msg-write" class="msg-write-btn" >답장</button>
+        	</c:if>
         </div>
 
       </div>

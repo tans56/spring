@@ -45,6 +45,11 @@ public class ReviewDaoImpl implements ReviewDao {
 		return session.selectOne(namespace+"count",content_no);
 	}
 	@Override
+	public int reviewReport(ReportDTO reportDTO) throws Exception {
+		// TODO Auto-generated method stub
+		return session.insert(namespace + "reviewReport", reportDTO);
+	}
+	@Override
 	public List<ReviewDTO> selectAll(int content_no) throws Exception {
 		
 		return session.selectList(namespace+"selectAll",content_no);
@@ -58,8 +63,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 	@Override
 	public double ratingAvg(Integer content_no) throws Exception {
-		Double average = session.selectOne(namespace + "ratingAvg", content_no);
-		return (average != null) ? average : 0.0;
+		return session.selectOne(namespace + "ratingAvg", content_no);
 	}
 	
 	@Override
@@ -76,12 +80,6 @@ public class ReviewDaoImpl implements ReviewDao {
 		map.put("review_no", review_no);
 		map.put("cnt", cnt);
 		return session.update(namespace + "deleteCommentCnt", map);
-	}
-	
-	@Override
-	public int reviewReport(ReportDTO reportDTO) throws Exception {
-		// TODO Auto-generated method stub
-		return session.insert(namespace + "reviewReport", reportDTO);
 	}
 	
 	
@@ -177,6 +175,5 @@ public class ReviewDaoImpl implements ReviewDao {
 		// TODO Auto-generated method stub
 		return session.insert(namespace + "replyReport", reportDTO);
 	}
-
 
 }

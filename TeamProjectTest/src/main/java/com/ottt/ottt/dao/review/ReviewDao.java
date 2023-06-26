@@ -18,7 +18,6 @@ public interface ReviewDao {
 	int deleteCommentCnt(Integer review_no, int cnt)throws Exception;
 	int reviewDuplication(Integer content_no, int user_no) throws Exception;
 	int reviewReport(ReportDTO reportDTO) throws Exception;
-	
 	ReviewDTO selectReview(Integer content_no, Integer user_no)throws Exception;
 	
 	int count(int content_no) throws Exception;

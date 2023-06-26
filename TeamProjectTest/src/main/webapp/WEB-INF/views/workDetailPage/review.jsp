@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OTTT</title>     
     <script src="${path}/resources/js/workDetailPage/script/jquery-3.6.1.min.js"></script>
+    <script src="${path}/resources/js/workDetailPage/script/review.js"></script>
     <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
     rel="stylesheet"
@@ -87,7 +88,8 @@
       <div class="info">
         <ul>
           <li class="info-title">
-            <h1>${contentDTO.content_nm }</h1>
+          <a href="<c:url value="/detailPage?content_no=${contentDTO.content_no }" />">
+            <h1>${contentDTO.content_nm }</h1></a>
          
           </li>
           <br>
@@ -139,9 +141,18 @@
         <div class="asdasd" style="border-top: 3px solid #33ff33;">
         </div>
      <div class="left-box">
-            <button id="saw-button" ><img class="saw" src="${path}/resources/images/img/saw.png" alt="봣어요" ></button>
-          <button id="mark-button"><img class="mark" src="${path}/resources/images/img/mark.png" alt="봣어요"></button>
-          <button id="review-button"><img class="review-icon" src="${path}/resources/images/img/review.png" alt="봣어요"></button>
+          <button id="saw-button">
+            <img class="saw" id="saw-image" src="${path }/resources/images/img/saw.png" alt="봣어요">
+          </button>
+			<button id="wishlist-button">
+			  <img id="wishlist-image" class="mark" src="${path}/resources/images/img/mark.png" alt="찜하기">
+			</button>
+          <button id="diary-button">
+			  <img id="diary-image" class="mark" src="${path}/resources/images/img/diary1.png" alt="찜하기">
+			</button>
+          <button id="review-button">
+            <img class="review-icon" src="${path }/resources/images/img/review.png" alt="봣어요">
+          </button>
         <div class="smr">
 
           <div class="review-back">1</div>
@@ -181,7 +192,7 @@
                 </div>
    
                 <div class="review-bottom">
-                  <div class="checkedblur"><input type="checkbox" id="checkbox-blur"/>스포일러 포함 여부</div>
+                  <div class="checkedblur"><input type="checkbox" id="checkbox-blur" name="spoiler">스포일러 포함 여부</div>
                 <button type="submit" class="submit-review">             
                   리뷰 등록
                 </button>
@@ -202,7 +213,7 @@
   		<%double ratingAvg = (double) request.getAttribute("rating");  // Mapper에서 전달받은 평균 별점 값		
 		// 별점의 평균을 0.5 단위로 반올림
 
-		double roundedRating = (double) (Math.round(ratingAvg * 2)) / 2;%>
+		double roundedRating = (double) (ratingAvg / 2);%>
     <% for (double i = 0.5; i <= 5; i += 0.5) {
         String label = String.valueOf(i);
         String radioId = "starpoint_" + (int) (i * 2);
@@ -239,11 +250,12 @@
 			<c:if test="${myReview != null || myReview.user_nicknm != null}">
                <div class="review-box1">      
           <div class="review-box-header">
-            <div class="user-icon"> 
-              <img src="${myReview.image}" >
+            <div class="user-icon">
+            	<a href="javascript:goProfile('${myReview.user_no }', '${myReview.user_nicknm}')">
+              	<img src="${myReview.image}" ></a>
             </div>
             <div class="user-name">
-              <a href="../ottt박소율/mypageshow.html">
+              <a href="javascript:goProfile('${myReview.user_no }', '${myReview.user_nicknm}')">
                 <p class="user_nicknm"> ${myReview.user_nicknm} </p>
               </a>
               <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${myReview.review_create_dt}"/></p>
@@ -253,7 +265,7 @@
             <ul>
               <li class="rating">
                  <img src="${path}/resources/images/img/starone.png" alt="별점">
-                ${myReview.rating}
+                ${myReview.rating / 2}
               </li>
               <li>
                 <div class="heart">        
@@ -332,23 +344,23 @@
                       <label for="starpoint_18" class="label_star2" title="4"><span class="blind">4점</span></label>
                       <label for="starpoint_19" class="label_star2" title="4.5"><span class="blind">4.5점</span></label>
                       <label for="starpoint_20" class="label_star2" title="5"><span class="blind">5점</span></label>
-                      <input type="radio" name="rating" id="starpoint_11" class="star_radio2" value="0.5" >
-                      <input type="radio" name="rating" id="starpoint_12" class="star_radio2" value="1">
-                      <input type="radio" name="rating" id="starpoint_13" class="star_radio2" value="1.5">
-                      <input type="radio" name="rating" id="starpoint_14" class="star_radio2" value="2">
-                      <input type="radio" name="rating" id="starpoint_15" class="star_radio2" value="2.5">
-                      <input type="radio" name="rating" id="starpoint_16" class="star_radio2" value="3">
-                      <input type="radio" name="rating" id="starpoint_17" class="star_radio2" value="3.5">
-                      <input type="radio" name="rating" id="starpoint_18" class="star_radio2" value="4">
-                      <input type="radio" name="rating" id="starpoint_19" class="star_radio2" value="4.5">
-                      <input type="radio" name="rating" id="starpoint_20" class="star_radio2" value="5">
+                      <input type="radio" name="rating" id="starpoint_11" class="star_radio2" value="1" >
+                      <input type="radio" name="rating" id="starpoint_12" class="star_radio2" value="2">
+                      <input type="radio" name="rating" id="starpoint_13" class="star_radio2" value="3">
+                      <input type="radio" name="rating" id="starpoint_14" class="star_radio2" value="4">
+                      <input type="radio" name="rating" id="starpoint_15" class="star_radio2" value="5">
+                      <input type="radio" name="rating" id="starpoint_16" class="star_radio2" value="6">
+                      <input type="radio" name="rating" id="starpoint_17" class="star_radio2" value="7">
+                      <input type="radio" name="rating" id="starpoint_18" class="star_radio2" value="8">
+                      <input type="radio" name="rating" id="starpoint_19" class="star_radio2" value="9">
+                      <input type="radio" name="rating" id="starpoint_20" class="star_radio2" value="10">
                       <span class="starpoint_bg2"></span>
                     </div>
                   </div>
                 </div>
    
                 <div class="review-bottom">
-                  <div class="checkedblur"><input type="checkbox" id="checkbox-blur"/>스포일러 포함 여부</div>
+                  <div class="checkedblur"><input type="checkbox" id="checkbox-blur" name="spoiler">스포일러 포함 여부</div>
                 <button type="button" class="submitMod-review" id="submit-Mod">     
                   리뷰 수정
                 </button>
@@ -377,22 +389,22 @@
         <c:forEach var="ReviewDTO" items="${list}">
          <div class="review-box">      
           <div class="review-box-header">
-            <div class="user-icon"> 
-              <img src="${ReviewDTO.image}">
+            <div class="user-icon">
+            	<a href="javascript:goProfile('${ReviewDTO.user_no }', '${ReviewDTO.user_nicknm}')"> 
+              	<img src="${ReviewDTO.image}"></a>
             </div>
             <div class="user-name">
-              <a href="../ottt박소율/mypageshow.html">
+              	<a href="javascript:goProfile('${ReviewDTO.user_no }', '${ReviewDTO.user_nicknm}')">
                 <p class="user_nicknm"> ${ReviewDTO.user_nicknm} </p>
               </a>
               <p class="date-insert" name="review_create_dt"><fmt:formatDate pattern="yy-MM-dd hh:mm" value="${ReviewDTO.review_create_dt}"/></p>
              <input type="hidden" name="review_no" value="${ReviewDTO.review_no }">
              <input type="hidden" name="content_no" value="${myReview.content_no }"> 
-             <input type="hidden" name="target_user_no" value="${ReviewDTO.user_no }">
             </div>
             <ul>
               <li class="rating">
                  <img src="${path}/resources/images/img/starone.png" alt="별점">
-                ${ReviewDTO.rating}
+                ${ReviewDTO.rating / 2}
               </li>
               <li>
                 <div class="heart">        
@@ -415,6 +427,11 @@
             <p class="review-box-text review_content">${ReviewDTO.review_content }</p>
           </div>
         </a>
+               <c:if test="${ReviewDTO.spoiler}">
+		        <p class="spoiler">
+		            <span class="red">스포일러</span>가 포함된 리뷰입니다. 보시려면 <span class="red">여기</span>를 클릭해주세요.
+		        </p>
+		    </c:if>
           <div class="review-box-footer">
             <div>
               <ul>
@@ -487,6 +504,8 @@
          let form = $("#review-form")
              form.attr("action", "<c:url value='/detailPage/review/write'/>")
              form.attr("method", "post")
+             let spoiler = $("#checkbox-blur").is(":checked");
+      form.append("<input type='hidden' name='spoiler' value='" + spoiler + "'>");
                  
          if(formCheck()){
             form.submit()           
@@ -518,6 +537,11 @@
          }  
          return true;
       }
+      $(document).ready(function() {
+  	    $(document).on('click', '.spoiler', function() {
+  	        $(this).fadeToggle();
+  	    });
+  	});
       
    // 중복 메시지 표시
       <c:if test="${not empty msg}">
@@ -608,8 +632,7 @@
           </c:when>
       </c:choose>
   </c:if> 
-      
-  $('.dropdown-item').on('click', function() {
+  $('.dropdown-item').on('click', function(event) {
 	  event.stopPropagation();
 	  var report_type = $(this).val(); // 선택한 신고 유형을 가져옵니다.
 	  var user_no = "${user_no}"; // 세션에 저장된 user_no 값을 가져옵니다.
@@ -619,29 +642,36 @@
 	  //url
 	  var urlParams = new URLSearchParams(window.location.search);
 	  var content_no = urlParams.get('content_no');
-	  // Ajax 요청을 통해 신고 데이터를 서버로 전송합니다.
-	  $.ajax({
-	    url: '<c:url value="/detailPage/review/report"/>', // 신고 처리를 수행할 컨트롤러 경로
-	    method: 'POST',
-	    data: {
-	    	report_type: report_type, // 선택한 신고 유형을 reportType 파라미터로 전달합니다.
-	    	user_no: user_no, // user_no 값을 userNo 파라미터로 전달합니다.
-	    	target_user_no: target_user_no, // target_user_no 값을 targetUserNo 파라미터로 전달합니다.
-	    	review_no: review_no, // review_no 값을 reviewNo 파라미터로 전달합니다.
-	    	content_no: content_no
-	    },
-	    success: function(response) {
-	      // 신고 처리 성공 시에 대한 처리를 수행합니다.
-	      $(".body").html("정상적으로 신고되었습니다.");
-	      $('#Modal').modal('show');
-	      $('.dropdown-menu').removeClass('show');
-	    },
-	    error: function(xhr, status, error) {
-	      // 신고 처리 실패 시에 대한 처리를 수행합니다.
-	      $(".body").html("신고 처리 중 오류가 발생했습니다.");
-	      $('#Modal').modal('show');
-	    }
-	  });
+	  
+	  if (user_no === "") {
+	    // user_no가 null인 경우 로그인이 필요하다는 모달을 띄웁니다.
+	    $(".body").html("로그인이 필요합니다.");
+	    $('#Modal').modal('show');
+	  } else {
+	    // user_no가 null이 아닌 경우에만 Ajax 요청을 보냅니다.
+	    $.ajax({
+	      url: '<c:url value="/detailPage/review/report"/>', // 신고 처리를 수행할 컨트롤러 경로
+	      method: 'POST',
+	      data: {
+	        report_type: report_type, // 선택한 신고 유형을 reportType 파라미터로 전달합니다.
+	        user_no: user_no, // user_no 값을 userNo 파라미터로 전달합니다.
+	        target_user_no: target_user_no, // target_user_no 값을 targetUserNo 파라미터로 전달합니다.
+	        review_no: review_no, // review_no 값을 reviewNo 파라미터로 전달합니다.
+	        content_no: content_no
+	      },
+	      success: function(response) {
+	        // 신고 처리 성공 시에 대한 처리를 수행합니다.
+	        $(".body").html("정상적으로 신고되었습니다.");
+	        $('#Modal').modal('show');
+	        $('.dropdown-menu').removeClass('show');
+	      },
+	      error: function(xhr, status, error) {
+	        // 신고 처리 실패 시에 대한 처리를 수행합니다.
+	        $(".body").html("신고 처리 중 오류가 발생했습니다.");
+	        $('#Modal').modal('show');
+	      }
+	    });
+	  }
 	});
    });
    </script>
@@ -799,6 +829,217 @@
 		});
 	</script>
 
+<script type="text/javascript">
+  let user_no = '${sessionScope.user_no}';
+  let pathValue = "<c:out value='${path}'/>";
+  let content_no = ${content_no};
+  var wishlistButton = $('#wishlist-button');
+  var wishlistImage = $('#wishlist-image');
+
+
+  $(document).ready(function() {
+    getWishlistStatus(user_no, content_no);
+  });
+
+  wishlistButton.click(function() {
+	    if (wishlistButton.hasClass('marked')) {
+	      removeFromWishlist(user_no, content_no);
+	    } else {
+	    
+	      if (user_no === undefined || user_no === '') {
+	  
+	        $(".body").html("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+	        $('#Modal').modal('show').on('hidden.bs.modal', function() {
+	            window.location.href = "/ottt/login";
+	          });
+	      } else {
+	    	  
+	        addToWishlist(user_no, content_no);
+	        
+	      }
+	    }
+	  });
+
+  function getWishlistStatus(user_no, content_no) {
+	  // AJAX 요청을 통해 서버에서 찜 상태 가져오기
+	  $.ajax({
+	    url: '/ottt/review/getWishStatus', // 적절한 URL로 변경해야 합니다.
+	    type: 'POST',
+	    data: {
+	      user_no: user_no,
+	      content_no: content_no
+	    },
+	    success: function(response) {
+	      // 서버에서 true/false 값을 반환하므로 response 자체를 사용합니다.
+	      if (response) {
+	        wishlistButton.addClass('marked');
+	        wishlistImage.attr('src', pathValue + '/resources/images/img/markoff.png');
+	        wishlistImage.attr('alt', '찜취소하기');
+	      } else {
+	        wishlistButton.removeClass('marked');
+	        wishlistImage.attr('src', pathValue + '/resources/images/img/mark.png');
+	        wishlistImage.attr('alt', '찜하기');
+	      }
+	    },
+	    error: function() {
+	      console.error('찜 상태 가져오기 실패');
+	      
+	    }
+	  });
+	}
+
+  function addToWishlist(user_no, content_no) {
+    
+    $.ajax({
+      url: '/ottt/review/addWish',
+      type: 'POST',
+      data: {
+        user_no: user_no,
+        content_no: content_no
+      },
+      success: function(response) {
+   		  $(".body").html("찜 목록에 추가되었습니다.");
+          $('#Modal').modal('show');
+        wishlistButton.addClass('marked');
+        wishlistImage.attr('src', pathValue + '/resources/images/img/markoff.png');
+        
+        console.log('찜하기 처리 완료');
+      },
+      error: function() {
+        console.error('찜하기 처리 실패');
+      }
+    });
+  }
+
+  function removeFromWishlist(user_no, content_no) {
+  
+    $.ajax({
+      url: '/ottt/review/removeWish',
+      type: 'POST',
+      data: {
+        user_no: user_no,
+        content_no: content_no
+      },
+      success: function(response) {
+   		  $(".body").html("찜 목록에서 제거되었습니다.");
+          $('#Modal').modal('show');
+        wishlistButton.removeClass('marked');
+        wishlistImage.attr('src', pathValue + '/resources/images/img/mark.png');
+  
+        console.log('찜하기 취소 처리 완료');
+      },
+      error: function() {
+        console.error('찜하기 취소 처리 실패');
+      }
+    });
+  }
+	</script>
+
+<script type="text/javascript">
+
+
+
+  var watchedButton = $('#saw-button');
+  var watchedImage = $('#saw-image');
+
+
+  $(document).ready(function() {
+    getWatchedStatus(user_no, content_no);
+  });
+
+  watchedButton.click(function() {
+	    if (watchedButton.hasClass('saw')) {
+	      removeFromWatched(user_no, content_no);
+	    } else {
+	    
+	      if (user_no === undefined || user_no === '') {
+	  
+	        $(".body").html("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+	        $('#Modal').modal('show').on('hidden.bs.modal', function() {
+	            window.location.href = "/ottt/login";
+	          });
+	      } else {
+	    	  
+	        addToWatched(user_no, content_no);
+	        
+	      }
+	    }
+	  });
+
+  function getWatchedStatus(user_no, content_no) {
+	  // AJAX 요청을 통해 서버에서 찜 상태 가져오기
+	  $.ajax({
+	    url: '/ottt/review/getWatchedStatus', // 적절한 URL로 변경해야 합니다.
+	    type: 'POST',
+	    data: {
+	      user_no: user_no,
+	      content_no: content_no
+	    },
+	    success: function(response) {
+	      
+	      if (response) {
+	    	  watchedButton.addClass('saw');
+	    	  watchedImage.attr('src', pathValue + '/resources/images/img/sawoff.png');
+	    	  watchedImage.attr('alt', '봤어요취소하기');
+	      } else {
+	    	  watchedButton.removeClass('saw');
+	    	  watchedImage.attr('src', pathValue + '/resources/images/img/saw.png');
+	    	  watchedImage.attr('alt', '봤어요');
+	      }
+	    },
+	    error: function() {
+	      console.error('봤어요 상태 가져오기 실패');
+	      
+	    }
+	  });
+	}
+
+  function addToWatched(user_no, content_no) {
+    
+    $.ajax({
+      url: '/ottt/review/addWatched',
+      type: 'POST',
+      data: {
+        user_no: user_no,
+        content_no: content_no
+      },
+      success: function(response) {
+   		  $(".body").html("봤어요 목록에 추가되었습니다.");
+          $('#Modal').modal('show');
+          watchedButton.addClass('saw');
+          watchedImage.attr('src', pathValue + '/resources/images/img/sawoff.png');
+        
+        console.log('봤어요 처리 완료');
+      },
+      error: function() {
+        console.error('봤어요 처리 실패');
+      }
+    });
+  }
+
+  function removeFromWatched(user_no, content_no) {
+  
+    $.ajax({
+      url: '/ottt/review/removeWatched',
+      type: 'POST',
+      data: {
+        user_no: user_no,
+        content_no: content_no
+      },
+      success: function(response) {
+   		  $(".body").html("봤어요 목록에서 제거되었습니다.");
+          $('#Modal').modal('show');
+          watchedButton.removeClass('saw');
+          watchedImage.attr('src', pathValue + '/resources/images/img/saw.png');
+  
+        console.log('봤어요 취소 처리 완료');
+      },
+      error: function() {
+        console.error('봤어요 취소 처리 실패');
+      }
+    });
+  }
+</script>
 
     <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

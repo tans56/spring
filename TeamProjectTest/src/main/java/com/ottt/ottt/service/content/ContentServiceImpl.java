@@ -68,5 +68,19 @@ public class ContentServiceImpl implements ContentService {
 		return contentDao.selectOTT(content_no);
 	}
 
+	@Override
+	public List<ContentDTO> getJjim() throws Exception {
+		return contentDao.jjimSelect();
+	}
+
+	@Override
+	public List<ContentDTO> getWatchedSelect() throws Exception {
+		return contentDao.watchedSelect();
+	}
+
+	@Override
+	public List<ContentDTO> getrecomSelect(Integer user_no) throws Exception {
+		return contentDao.recomSelect(user_no);
+	}
 	
 }

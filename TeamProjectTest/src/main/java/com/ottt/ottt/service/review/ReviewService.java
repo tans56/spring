@@ -16,7 +16,7 @@ public interface ReviewService {
     double getRatingAvg(Integer content_no)throws Exception; 
     int getCount(int content_no)throws Exception;
     int getDuplication(Integer content_no, int user_no) throws Exception; 
-    
+    int reviewReport(ReportDTO reportDTO) throws Exception;
     ReviewDTO getReviewNo(Integer content_no,Integer user_no ) throws Exception; 
     
     List<ReviewDTO> getReview(int content_no) throws Exception;
@@ -25,7 +25,6 @@ public interface ReviewService {
     int insertLike(ReviewLikeDTO dto) throws Exception;
     
     int deleteLike(ReviewLikeDTO dto) throws Exception;
-    int reviewReport(ReportDTO reportDTO) throws Exception;
     
     
     //리플 페이지

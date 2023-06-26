@@ -8,15 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,6 +29,8 @@ import com.ottt.ottt.dto.ReviewDTO;
 import com.ottt.ottt.dto.ReviewLikeDTO;
 import com.ottt.ottt.dto.UserDTO;
 import com.ottt.ottt.service.content.ContentService;
+import com.ottt.ottt.service.mypage.WatchedService;
+import com.ottt.ottt.service.mypage.WishlistService;
 import com.ottt.ottt.service.review.ReviewService;
 
 @Controller
@@ -49,10 +48,15 @@ public class DetailReplyController {
 	@Autowired
 	ContentService contentService;
 	
+	@Autowired
+	WatchedService watchedService;
+	
+	@Autowired
+	WishlistService wishlistService;
+	
 	@GetMapping(value = "/detailPage/reply")
 	public String reviewReply(Model m, HttpServletRequest request, HttpSession session,
 			@RequestParam("content_no") int content_no, @RequestParam("review_no") int review_no) {
-		Integer user_no = (Integer) session.getAttribute("user_no");
 		UserDTO userDTO = loginUserDao.select((String)session.getAttribute("id"));
 		m.addAttribute("content_no", content_no);
 		try {
@@ -75,7 +79,6 @@ public class DetailReplyController {
 			m.addAttribute(userDTO);
 			request.setAttribute("rating", rating);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 			return "/workDetailPage/reply";		
@@ -282,6 +285,90 @@ public class DetailReplyController {
 				return result;
 
 			}
+			 @PostMapping("/reply/addWish")
+			    @ResponseBody
+			    public String addToWish(HttpSession session, @RequestParam("content_no") int content_no) {
+			        Integer user_no = (Integer) session.getAttribute("user_no");
+			        try {
+			            wishlistService.wishCheck(user_no, content_no);
+			            return "success";
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			            return "failure";
+			        }
+			    }
+
+			    @PostMapping("/reply/removeWish")
+			    @ResponseBody
+			    public String removeFromWish(HttpSession session, @RequestParam("content_no") int content_no) {
+			        Integer user_no = (Integer) session.getAttribute("user_no");
+			        try {
+			            wishlistService.wishCancel(user_no, content_no);
+			            return "success";
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			            return "failure";
+			        }
+			    }
+			
+			    @RequestMapping(value = "/reply/getWishStatus")
+			    @ResponseBody
+			    public boolean getWishStatus(@RequestParam(value = "user_no", required = false) Integer user_no, @RequestParam("content_no") int content_no) {
+			        if (user_no == null) {
+			            return false;
+			        }
+			        
+			        try {
+			            return wishlistService.wishSelectOne(user_no, content_no);
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			            return false;
+			        }
+			    }
+			    
+			    
+			    
+				 @PostMapping("/reply/addWatched")
+				    @ResponseBody
+				    public String addToWatched(HttpSession session, @RequestParam("content_no") int content_no) {
+				        Integer user_no = (Integer) session.getAttribute("user_no");
+				        try {
+				            watchedService.watchedCheck(user_no, content_no);
+				            return "success";
+				        } catch (Exception e) {
+				            e.printStackTrace();
+				            return "failure";
+				        }
+				    }
+
+				    @PostMapping("/reply/removeWatched")
+				    @ResponseBody
+				    public String removeFromWatched(HttpSession session, @RequestParam("content_no") int content_no) {
+				        Integer user_no = (Integer) session.getAttribute("user_no");
+				        try {
+				            watchedService.watchedCancel(user_no, content_no);
+				            return "success";
+				        } catch (Exception e) {
+				            e.printStackTrace();
+				            return "failure";
+				        }
+				    }
+				
+				    @RequestMapping(value = "/reply/getWatchedStatus")
+				    @ResponseBody
+				    public boolean getWatchedStatus(@RequestParam(value = "user_no", required = false) Integer user_no, @RequestParam("content_no") int content_no) {
+				        if (user_no == null) {
+				            return false;
+				        }
+				        
+				        try {
+				            return watchedService.watchedSelectOne(user_no, content_no);
+				        } catch (Exception e) {
+				            e.printStackTrace();
+				            return false;
+				        }
+				    }
+			
 			// 신고하기
 			@PostMapping("/detailPage/reply/report")
 				public String ReplyReport(ReviewDTO reviewDTO, ReportDTO reportDTO, RedirectAttributes attr, 
@@ -293,11 +380,11 @@ public class DetailReplyController {
 						 attr.addFlashAttribute("msg", "success");
 						 return "redirect:/detailPage/reply?content_no=" + content_no+ "&review_no=" + review_no;
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 						attr.addFlashAttribute("msg", "fail");
 						return "redirect:/detailPage/reply?content_no=" + content_no+ "&review_no=" + review_no;
 					}				
 				}
+	   
 	   
 }

@@ -20,6 +20,9 @@ public interface ContentDao {
 	ContentDTO selectContent(Integer content_no) throws Exception;
 	List<GenreDTO> selectGenrenm(Integer content_no) throws Exception;
 	List<ContentOTTDTO> selectOTT(Integer content_no) throws Exception;
+	List<ContentDTO> jjimSelect() throws Exception;
+	List<ContentDTO> watchedSelect() throws Exception;
+	List<ContentDTO> recomSelect(Integer user_no) throws Exception;
 	
 	
 	ContentDTO select(Integer content_no) throws Exception;
