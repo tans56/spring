@@ -97,11 +97,10 @@ public class MypageController {
 		// 내 프로필인지 아닌지 확인
 		if((my_no != null)) {
 			if((my_no.equals(user_no))) {
-				UserDTO userDTO;
 				try {
-					userDTO = us.getUser(my_no);
-					m.addAttribute(userDTO);
-					return "redirect:/mypage";
+					UserDTO userDTO = us.getUser(my_no);
+					String user = URLEncoder.encode(userDTO.getUser_nicknm(), "UTF-8");
+					return "redirect:/mypage?user="+user;
 					
 				} catch (Exception e) { e.printStackTrace(); }
 			}

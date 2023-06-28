@@ -26,6 +26,7 @@ import com.ottt.ottt.dto.ArticleSearchDTO;
 import com.ottt.ottt.dto.ReportDTO;
 import com.ottt.ottt.dto.UserDTO;
 import com.ottt.ottt.service.community.freecomuity.CommunityService;
+import com.ottt.ottt.service.user.UserService;
 
 
 @Controller
@@ -36,6 +37,8 @@ public class CommunityController {
 	CommunityService communityService;
 	@Autowired
 	LoginUserDao loginUserDao;
+	@Autowired
+	UserService us;
 
 	private static final Logger logger = LoggerFactory.getLogger(CommunityController.class);
 	
@@ -70,14 +73,18 @@ public class CommunityController {
 	//메인 new 목록 *************************************************************************************************
 	@PostMapping("/ajax/getArticleList")
 	@ResponseBody
-	public Map<String,Object> getArticleList(ArticleSearchDTO dto, HttpSession session) throws Exception {
+	public Map<String,Object> getArticleList(ArticleSearchDTO dto, String user, HttpSession session) throws Exception {
 		
 		logger.info(">>>>>>>>>>>>>>>>>>>>> @PostMapping /ajax/getArticleList getArticleList 진입 ");
 		logger.info(">>>>>>>>>>>>>>>>>>>>> ArticleSearchDTO >>>> "+dto.toString());
+		logger.info(">>>>>>>>>>>>>>>>>>>>> user >>>> "+ user);
+		
 
 		Map<String, Object> result = new HashMap<String,Object>();
 		
-		UserDTO userDTO = loginUserDao.select((String)session.getAttribute("id"));
+		UserDTO userDTO = (user.equals(null) || user.equals("")) ? 				
+				loginUserDao.select((String)session.getAttribute("id")) : us.getUser(us.getUserNoId(user));
+					
 		if(userDTO != null) {
 			dto.setUser_no(userDTO.getUser_no());
 		}

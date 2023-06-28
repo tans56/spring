@@ -238,11 +238,9 @@
               </ul>
             </div>
             <div class="net-logo">
-
 				<c:forEach var="ContentOTTDTO" items="${contentOTTlist}" >
 				  <c:set var="ottImage" value="" />
-				  <c:set var="ottLink" value="#" />
-				
+				  <c:set var="ottLink" value="#" />				
 				  <c:choose>
 				    <c:when test="${ContentOTTDTO.ott_no == 1}">
 				      <c:set var="ottImage" value="${ContentOTTDTO.ott_img}"  />
@@ -268,19 +266,11 @@
 				      <c:set var="ottImage" value="${ContentOTTDTO.ott_img}"  />
 				      <c:set var="ottLink" value="https://www.disneyplus.com/ko-kr" />
 				    </c:when>
-				  </c:choose>
-				
-				  <a href="${ottLink}"><img src="${ottImage}" alt="OTT 로고"></a>
-				
-				  
-				</c:forEach>
-
-            	
-                </div>
-                
-
+				  </c:choose>				
+				  <a href="${ottLink}"><img src="${ottImage}" alt="OTT 로고"></a>			  
+				</c:forEach>         	
               </div>
-            
+             </div>         
         </div>
                 <div class="left-score">
           
@@ -341,8 +331,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                
+                </div>             
                 <div class="review-bottom">
                   <div class="checkedblur"><input type="checkbox" id="checkbox-blur" name="spoiler">스포일러 포함 여부</div>
                 <button type="submit" id="submit-review">
@@ -350,8 +339,7 @@
                 </button>
                 </div>
               </div>
-              <button type="button" id="cancel-review">
-              
+              <button type="button" id="cancel-review">            
                 <ul>
                   <li></li>
                   <li></li>
@@ -495,8 +483,11 @@
                 </li>
               </ul>
             </div>
-                           <div class="modify" >
-                  <button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)"><img src="${path }/resources/images/img/review.png">수정</button>
+               <div class="modify" >
+                  <button type="button" name="modBtn" id="modify" class="modOnBtn" onclick="getReviewNo(this)">
+                  <img src="${path }/resources/images/img/review.png">
+                  수정
+                  </button>
                </div>
                <div>                    
    			 <button  class="removeBtn"><img src="${path}/resources/images/img/delete.png">삭제</button>
@@ -513,7 +504,7 @@
               <input type="hidden" name="review_no" class="review_no" value="${myReview.review_no}">
               <input type="hidden" name="review_no" class="review_no" value="${myReview.review_no}">
               <input type="hidden" name="content_no" value="${content_no}" />              
-              <textarea id="review-text2" name="review_content" >${ReviewDTO.review_content}</textarea>
+              <textarea id="review-text2" name="review_content" >${myReview.review_content}</textarea>
               <div class="reveiw-star-footer2">
                 <div class="review-star2" >별점을 매겨주세요:
                   <div class="starpoint_wrap2">
@@ -761,10 +752,8 @@
             form.submit()           
          }else{
         	 return false
-         }
-         
-      })
-      
+         }        
+      })     
       let formCheck = function() {
          let form = document.getElementById("review-form")
          if(form.user_no.value==""){		
@@ -839,23 +828,14 @@
       
       
       $(".submitMod-review").on("click", function(){
-         let form = $("#mod-form")
-         
+         let form = $("#mod-form")        
          form.attr("action", "<c:url value='/modify'/>")
          form.attr("method", "post")
            if(modformCheck())  
-            form.submit()
-           
+            form.submit()          
       })
-
       let modformCheck = function() {
-         let form = document.getElementById("mod-form")
-         if(form.user_no.value==""){
-   		  $(".body").html("로그인 후 리뷰를 등록해주세요.");
-          $('#Modal').modal('show');
-          document.getElementById("review-text").focus();
-            return false
-         }         
+         let form = document.getElementById("mod-form")    
          if(form.review_content.value=="") {
    		  $(".body").html("내용을 입력해 주세요.");
           $('#Modal').modal('show');

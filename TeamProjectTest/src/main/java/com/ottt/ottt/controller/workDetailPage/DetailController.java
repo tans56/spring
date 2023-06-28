@@ -110,25 +110,14 @@ public class DetailController {
 			}
 			attr.addFlashAttribute("msg", "success");
 			} else {
-				attr.addFlashAttribute("msg", "fail");
-				
-				
+				attr.addFlashAttribute("msg", "fail");	
 			}
 			
-			return "redirect:/detailPage?content_no="+ reviewDTO.getContent_no(); 
-			
+			return "redirect:/detailPage?content_no="+ reviewDTO.getContent_no(); 		
 		} catch (Exception e) {
 			e.printStackTrace();
-		
-			
-			
-			return "redirect:/detailPage?content_no="+ reviewDTO.getContent_no(); 
-			
-			
-		}
-		
-		
-		
+			return "redirect:/detailPage?content_no="+ reviewDTO.getContent_no(); 						
+		}						
 	}
 	
 	
@@ -159,9 +148,6 @@ public class DetailController {
 	   public String modifyReview(ReviewDTO reviewDTO, RedirectAttributes rattr, Model m, HttpSession session) {
 	      Integer user_no = (Integer) session.getAttribute("user_no");
 	      
-	      
-	      
-	      
 	      try {
 				boolean spoiler = reviewDTO.isSpoiler(); 
 				reviewDTO.setSpoiler(spoiler);
@@ -172,8 +158,7 @@ public class DetailController {
 	         m.addAttribute("user_no",user_no);
 	         if(reviewService.modifyReview(reviewDTO) != 1)
 	            throw new Exception("Modify failed");
-	         
-	         
+         
 	         rattr.addFlashAttribute("msg", "MOD_OK");
 	         return "redirect:/detailPage?content_no="+reviewDTO.getContent_no();
 	      } catch (Exception e) {

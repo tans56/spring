@@ -13,10 +13,10 @@ public interface ReviewDao {
 	int delete(Integer review_no, int user_no) throws Exception;			//삭제
 	int update(ReviewDTO reviewDTO) throws Exception;						//수정
 	int insert(ReviewDTO dto) throws Exception ;							//작성
+	int reviewDuplication(Integer content_no, int user_no) throws Exception;
 	double ratingAvg(Integer content_no) throws Exception;
 	int updateCommentCnt(Integer review_no, int cnt)throws Exception;
 	int deleteCommentCnt(Integer review_no, int cnt)throws Exception;
-	int reviewDuplication(Integer content_no, int user_no) throws Exception;
 	int reviewReport(ReportDTO reportDTO) throws Exception;
 	ReviewDTO selectReview(Integer content_no, Integer user_no)throws Exception;
 	

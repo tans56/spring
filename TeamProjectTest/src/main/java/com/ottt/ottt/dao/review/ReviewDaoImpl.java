@@ -40,6 +40,13 @@ public class ReviewDaoImpl implements ReviewDao {
 		return session.insert(namespace+"insert", dto);
 	}
 	@Override
+	public int reviewDuplication(Integer content_no, int user_no) throws Exception {
+		Map map = new HashMap();
+		map.put("content_no", content_no);
+		map.put("user_no", user_no);
+		return session.selectOne(namespace + "reviewDuplication", map);
+	}
+	@Override
 	public int count(int content_no) throws Exception {
 		
 		return session.selectOne(namespace+"count",content_no);
@@ -131,13 +138,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	public int myReviewCnt(SearchItem sc) throws Exception {
 		return session.selectOne(namespace + "myReviewCnt", sc);
 	}
-	@Override
-	public int reviewDuplication(Integer content_no, int user_no) throws Exception {
-		Map map = new HashMap();
-		map.put("content_no", content_no);
-		map.put("user_no", user_no);
-		return session.selectOne(namespace + "reviewDuplication", map);
-	}
+
 	@Override
 	public int selectLikeCount(ReviewLikeDTO dto) throws Exception {
 		// TODO Auto-generated method stub

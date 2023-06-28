@@ -13,15 +13,15 @@ public interface ReviewService {
     int removeReview(Integer review_no, Integer user_no) throws Exception;
     int modifyReview(ReviewDTO reviewDTO) throws Exception;
     int writeReview(ReviewDTO dto) throws Exception;
+    int getDuplication(Integer content_no, int user_no) throws Exception; 
     double getRatingAvg(Integer content_no)throws Exception; 
     int getCount(int content_no)throws Exception;
-    int getDuplication(Integer content_no, int user_no) throws Exception; 
     int reviewReport(ReportDTO reportDTO) throws Exception;
     ReviewDTO getReviewNo(Integer content_no,Integer user_no ) throws Exception; 
     
     List<ReviewDTO> getReview(int content_no) throws Exception;
     int selectLikeCount(ReviewLikeDTO dto) throws Exception;
-    
+   
     int insertLike(ReviewLikeDTO dto) throws Exception;
     
     int deleteLike(ReviewLikeDTO dto) throws Exception;

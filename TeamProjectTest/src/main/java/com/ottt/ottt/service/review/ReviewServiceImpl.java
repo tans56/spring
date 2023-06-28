@@ -35,6 +35,12 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		return reviewDao.insert(dto);
 	}
+	
+	@Override
+	public int getDuplication(Integer content_no, int user_no) throws Exception {
+		// TODO Auto-generated method stub
+		return reviewDao.reviewDuplication(content_no, user_no);
+	}
 
 	@Override
 	public int getCount(int content_no) throws Exception {
@@ -111,12 +117,6 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public int myReviewCnt(SearchItem sc) throws Exception {
 		return reviewDao.myReviewCnt(sc);
-	}
-
-	@Override
-	public int getDuplication(Integer content_no, int user_no) throws Exception {
-		// TODO Auto-generated method stub
-		return reviewDao.reviewDuplication(content_no, user_no);
 	}
 
 	@Override

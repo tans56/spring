@@ -80,7 +80,7 @@
 		        	<ul>
 		        		<li class="mywrite">
 		                	<img class="mimg" src="${path}/resources/images/img/KakaoTalk_20230411_161709664.png" alt="게시글">
-		                	<a href="<c:url value="/community/freecommunity?category=myPost" />">내가 쓴 게시글</a>
+		                	<a href="<c:url value="/community/freecommunity?user=${userDTO.user_nicknm }&category=myPost" />">내가 쓴 게시글</a>
 		                </li>
 		              	<li class="mylike">
 		                	<img class="mimg" src="${path}/resources/images/img/heart_on.png" alt="좋아요">
